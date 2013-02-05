@@ -1,0 +1,82 @@
+/* a quick reset list class. */
+ul.reset, ul.reset li
+{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.poster
+{
+	float: left;
+	width: 15em;
+}
+.postarea, .moderatorbar
+{
+	margin: 0 0 0 16em;
+}
+.postarea div.flow_hidden
+{
+	width: 100%;
+}
+
+.moderatorbar
+{
+	clear: right;
+}
+/* poster details and list of items */
+.poster h4, .poster ul
+{
+	padding: 0;
+	margin: 0 1em 0 1.5em;
+}
+.poster h4
+{
+	margin: 0.2em 0 0.4em 1.1em;
+	font-size: 120%;
+}
+.poster h4, .poster h4 a
+{
+	color: #c06002;
+}
+.poster ul ul
+{
+	margin: 0.3em 1em 0 0;
+	padding: 0;
+}
+.poster ul ul li
+{
+	display: inline;
+}
+.poster li.stars, .poster li.avatar, .poster li.blurb, li.postcount, li.im_icons ul
+{
+	margin-top: 0.5em;
+}
+.poster li.avatar
+{
+	overflow: hidden;
+}
+.poster li.warning
+{
+	line-height: 1.2em;
+	padding-top: 1em;
+}
+.poster li.warning a img
+{
+	vertical-align: bottom;
+	padding: 0 0.2em;
+}
+.messageicon
+{
+	float: left;
+	margin: 0 0.5em 0 0;
+}
+.messageicon img
+{
+	padding: 6px 3px;
+}
+.inner
+{
+	padding: 1em 1em 2px 0;
+	margin: 0 1em 0 0;
+	border-top: 1px solid #99a;
+}

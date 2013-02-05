@@ -185,3 +185,7 @@ node_modules
 log
 *.log
 database.php
+
+/rails/*.lock
+
+/rails/db/development.sqlite3
