@@ -10,6 +10,8 @@ class XMLController extends AppController {
         // CORS
         $allowed = array(
             "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://0.0.0.0:3000",
             "http://api.equestrianwars.com", 
             "http://node1.equestrianwars.com",
             "http://api2.equestrianwars.com",
