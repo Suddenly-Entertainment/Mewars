@@ -40,10 +40,10 @@ Crafty.c("Network", {
                 headers: {
                     'X-Transaction': headers[1] + ' ' + type,
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
+                }
             });
         }
-        if (headers[0] == ''){
+        if (headers[0] === ''){
             var error = new Error("Unspesified end point for network call '" + type + "'");
             console.log(error.message, error.stack );
         }
