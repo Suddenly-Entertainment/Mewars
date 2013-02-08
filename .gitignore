@@ -189,3 +189,4 @@ database.php
 /rails/*.lock
 
 /rails/db/development.sqlite3
+*.sublime-workspace
