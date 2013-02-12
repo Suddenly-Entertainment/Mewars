@@ -24,7 +24,7 @@ function XMLInterfaceNode (xml) {
 
 function XMLInterface (xml) {
     this.name = "";
-    this.delayNodes = ['css', 'html', 'init'];
+    this.delayNodes = ['css', 'html', 'init', 'attr'];
     this.ent = null;
     this.entities = [];
     this.xml = xml;
@@ -110,6 +110,14 @@ function XMLInterface (xml) {
                     ent.css(JSON.parse(node.childNodes[0].nodeValue));
                 } else if (node.nodeName === 'init') {
                     ent[node.childNodes[0].nodeValue]();
+                } else if (node.nodeName === 'attr') {
+                    _(node.childNodes).each( function( attr, index, attributes) {
+                        var val = attr.childNodes[0].nodeValue;
+                        if(!isNaN(val)) {
+                            val = parseFloat(val);
+                        }
+                        ent[attr.nodeName.toLowerCase()] = val;
+                    });
                 }
             } catch (e) {
                 errortxt = "Error Phrasing Interface " + this.name + "on node: " + ent.name + ":" + node.nodeName;

@@ -31,7 +31,7 @@
      *
      * ~~~
      *   Crafty(1)
-     * ~~~
+     * ~~~ 
      * Passing an integer will select the entity with that `ID`.
      *
      * Finding out the `ID` of an entity can be done by returning the property `0`.
