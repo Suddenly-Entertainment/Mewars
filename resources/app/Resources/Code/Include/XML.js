@@ -105,11 +105,11 @@ function XMLInterface (xml) {
         _(delay_nodes).each( function( node, index, delay_nodes ) {
             try {
                 if (node.nodeName === 'html') {
-                    ent.replace(node.nodeValue);
+                    ent.replace(node.childNodes[0].nodeValue);
                 } else if (node.nodeName === 'css') {
-                    ent.css(JSON.parse(node.nodeValue));
+                    ent.css(JSON.parse(node.childNodes[0].nodeValue));
                 } else if (node.nodeName === 'init') {
-                    ent[node.nodeValue]();
+                    ent[node.childNodes[0].nodeValue]();
                 }
             } catch (e) {
                 errortxt = "Error Phrasing Interface " + this.name + "on node: " + ent.name + ":" + node.nodeName;

@@ -2,16 +2,19 @@
 var $MEW = {};
 // Set up URLs
 if (document.location.hostname === "localhost") {
-    $MEW.URL = "http://localhost:3000";
+    $MEW.API_URL = "http://localhost:3000";
     $MEW.NODE_URL = "http://localhost:5000";
+    $MEW.RESOURCE_URL = "http://localhost/resources";
 } else if (document.location.hostname === "api2.equestrianwars.com") {
-    $MEW.URL = "http://api2.equestrianwars.com";
+    $MEW.API_URL = "http://api2.equestrianwars.com";
     $MEW.NODE_URL = "http://node2.equestrianwars.com";
+    $MEW.RESOURCE_URL = "http://re.equestrianwars.com";
 } else  {
-    $MEW.URL = "http://api.equestrianwars.com";
+    $MEW.API_URL = "http://api.equestrianwars.com";
     $MEW.NODE_URL = "http://node.equestrianwars.com";
+    $MEW.RESOURCE_URL = "http://re.equestrianwars.com";
 }
-$MEW.RESOURCE_URL = "http://re.equestrianwars.com";
+
 // get our canvas
 var c = document.getElementById("MEWGame");
 $MEW.Canvas = c;
@@ -107,37 +110,39 @@ $MEW.clear = function() {
     $MEW.CTX.clearRect(0, 0, $MEW.WIDTH, $MEW.HEIGHT);
 };
 
+$MEW.DrawErrorText = function (text) {
+    $MEW.clear();
+    $MEW.CTX.fillStyle="#000000";
+    $MEW.CTX.font="14px sans-serif";
+    var lines = text.split('\n');
+    var textHeight = 14;
+    var totalTextHeight = textHeight * lines.length;
+    _(lines).each( function( line, index, lines ) {
+        var textWidth = $MEW.CTX.measureText(line).width;
+        var x = ($MEW.WIDTH - textWidth) / 2;
+        var y = ($MEW.HEIGHT - totalTextHeight) / 2 - textHeight + textHeight * index;
+        $MEW.CTX.fillText(line, x, y, textWidth);
+    });
+};
+
 // when we have an error loading the game code
 $MEW.GameLoadErrorFunc = function(retryCB, extra_text) {
     return function(xhr, status, error){
-        $MEW.clear();
-        $MEW.CTX.fillStyle="#000000";
-        $MEW.CTX.font="14px sans-serif";
         var text = "";
         if (error == "Forbidden") {
-            text = "Failed to load game (403 Forbiddenn): Are you logged in?";
+            text = "Failed to load game (403 Forbiddenn): Are you logged in?" + "\n" + extra_text;
         } else if (error == "Not Found") {
-            text = "Failed to load game (404 Not Found): Files are missing on the webserver, contact the admin immediately";
+            text = "Failed to load game (404 Not Found): Files are missing on the webserver, contact the admin immediately" + "\n" + extra_text;
         } else {
             if ($MEW.ScriptsRetryCounter >= 3) {
-                text = "Failed to load game (" + status + " : " + error + "): Contact the admin to report this error";
+                text = "Failed to load game (" + status + " : " + error + "): Contact the admin to report this error" + "\n" + extra_text;
             } else {
                 $MEW.ScriptsRetryCounter += 1;
                 retryCB();
             }
         }
-        
-        var textWidth = $MEW.CTX.measureText(text).width;
-        var x = ($MEW.WIDTH - textWidth) / 2;
-        var y = ($MEW.HEIGHT - 14) / 2 - 14;
-        $MEW.CTX.fillText(text, x, y, textWidth);
-        if (extra_text) {
-            textWidth = $MEW.CTX.measureText(extra_text).width;
-            x = ($MEW.WIDTH - textWidth) / 2;
-            y = (($MEW.HEIGHT - 14) / 2 - 14) + 20;
-            $MEW.CTX.fillText(extra_text, x, y, textWidth);
-        }
-    console.log(error.message, error.stack);
+        $MEW.DrawErrorText(text);
+        console.log(error.message, error.stack);
     };
 };
 
@@ -211,6 +216,10 @@ $MEW.onDocLoad = function() {
     function dialogNo () {
         loadGameflag = false;
         $( this ).dialog( "close" );
+        var text = 
+            "WARNING: You have selected not to load Mock Equestrian Wars. \n" +
+            "If you want to load the game, reload the page and chouse 'yes'.";
+        $MEW.DrawErrorText(text);
     }
 
     function dialogClose () {

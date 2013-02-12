@@ -50,7 +50,7 @@ $MEW.LOADINGFUNCTIONS.getNextScript = function (script_index) {
                 $MEW.LOADINGFUNCTIONS.getNextScript($MEW.CurrentLoadingScript);
             }
         };
-    $.post($MEW.URL + '/game/action/', {
+    $.post($MEW.API_URL + '/game/action/', {
             controller: 'code',
             action: 'file',
             pass: JSON.stringify([$MEW.scripts[script_index]]),
@@ -308,7 +308,7 @@ Crafty.c("LoadingDots", {
         this.bind("Remove", function () {
             if (this.dots) {
                 for (var i = 0; i < this.dots.length; i++) {
-                    this.dots[i].destroy()
+                    this.dots[i].destroy();
                 }
             }
         });

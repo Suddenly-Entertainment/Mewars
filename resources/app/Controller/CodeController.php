@@ -32,7 +32,10 @@ class CodeController extends AppController {
     }
     
     public function index() {
-        throw new NotFoundException();
+        $this->autoRender = false;
+        //throw new NotFoundException();
+        //$this->redirect('http://www.equestrianwars.com');
+        return("test");
     }
     
     public function file($name){

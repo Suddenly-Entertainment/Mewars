@@ -31,10 +31,10 @@ Crafty.c("Network", {
     
     getAjax: function (type, data) {
         var headers = $MEW.Routes[type] || ['', '', ''];
-        if (headers[0] == 'API'){
+        if (headers[0] === 'API'){
             return $.ajax({
                 type: headers[1],
-                url: $MEW.URL + headers[2],
+                url: $MEW.API_URL + headers[2],
                 data: data,
                 context: this,
                 headers: {
@@ -42,8 +42,10 @@ Crafty.c("Network", {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-        }
-        if (headers[0] === ''){
+        } else if (headers[0] === 'NODE') {
+            var error = new Error("Unspesified end point for network call '" + type + "'");
+            console.log(error.message, error.stack );
+        } else if (headers[0] === ''){
             var error = new Error("Unspesified end point for network call '" + type + "'");
             console.log(error.message, error.stack );
         }

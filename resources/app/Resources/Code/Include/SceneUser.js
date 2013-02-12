@@ -136,7 +136,7 @@ Crafty.c("MEWLoginForm", {
         this.username.replace(userHTMLText);
         $("#_MEW_login_username").css({
             background: 'rgba(0, 0, 0, 0.0)', 
-            color: 'rgb(153, 153, 153)',
+            color: 'rgb(196, 183, 135)',
             border: 'none',
             outline: 'none',
             'font-family': 'Arial',
@@ -155,7 +155,7 @@ Crafty.c("MEWLoginForm", {
         
         this.password.replace(passHTMLText).css({
             background: 'rgba(0, 0, 0, 0.0)',
-            color: 'rgb(153, 153, 153)',
+            color: 'rgb(196, 183, 135)',
             border: 'none',
             outline: 'none',
             'font-family': 'Arial',
@@ -350,7 +350,7 @@ Crafty.scene("User", function() {
         
         $MEW.Scene.loginForm.set_successCB(LoginUpdate);
         
-        LoginUpdate();
+        //LoginUpdate();
         
     
         //$MEW.Login.elemid = loginHTML.getDomId();

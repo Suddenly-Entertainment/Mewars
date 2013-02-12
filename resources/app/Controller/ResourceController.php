@@ -7,8 +7,10 @@ class ResourceController extends AppController {
 	public $uses = array();
 	
 	public function index() {
+		$this->autoRender = false;
 		//throw new NotFoundException();
-		$this->redirect('http://www.equestrianwars.com');
+		//$this->redirect('http://www.equestrianwars.com');
+		return("test");
 	}
 	
 	public function image($type, $name){
