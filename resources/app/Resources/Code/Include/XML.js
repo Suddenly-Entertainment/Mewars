@@ -1,14 +1,18 @@
 function XMLInterfaceNode (xml) {
-    this.minwidth = 0;
-    this.minhight = 0;
+    this.minWidth = 0;
+    this.minHeight = 0;
     this.x = 0;
     this.y = 0;
     this.z = 0;
-    this.portionwidth = 0;
-    this.portionhight = 0;
+    this.portionWidth = 0;
+    this.portionHeight = 0;
     this.width = 0;
     this.height = 0;
     this.xml = xml;
+    this.paddingTop = 0;
+    this.paddingBottom = 0;
+    this.paddingLeft = 0;
+    this.paddingRight = 0;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
@@ -29,11 +33,11 @@ function XMLInterface (xml) {
 
         var entities = [],
             delay_nodes = [],
-            parse_nodes = [],
-            minwidth = 0,
-            minhight = 0,
+            parse_interfaces = [],
+            minWidth = 0,
+            minHeight = 0,
             widthportions = 0,
-            hightportions = 0,
+            heightportions = 0,
             children = xml.childNodes,
             attributes = xml.attributes,
             ent = Crafty.e("2D");
@@ -42,11 +46,11 @@ function XMLInterface (xml) {
         _(children).each( function( node, index, children ) {
             if (node.nodeName === 'e') {
                 var inter = new XMLInterfaceNode(node);
-                minwidth += inter.minwidth;
-                minhight += inter.minhight;
-                widthportions += inter.portionwidth;
-                hightportions += inter.portionhight;
-                parse_nodes.push(inter);
+                minWidth += inter.minWidth + inter.paddingRight + inter.paddingLeft;
+                minHeight += inter.minHeight + inter.paddingTop + inter.paddingBottom;
+                widthportions += inter.portionWidth;
+                heightportions += inter.portionHeight;
+                parse_interfaces.push(inter);
             } else if (_(this.delayNodes).contains(node.nodeName)) {
                 delay_nodes.push(node);
             }
@@ -69,27 +73,32 @@ function XMLInterface (xml) {
         });
 
         // set position relative to parent node
-        ent.x = ent.x + baseX || baseX;
-        ent.y = ent.y + baseY || baseY;
-        ent.z = ent.z + baseZ || baseZ;
+        ent.x = ent.x + basex || basex;
+        ent.y = ent.y + basey || basey;
+        ent.z = ent.z + basez || basez;
 
         // figure out the size of each node and parse it
-        var lessminwidth = width - minwidth,
-            lessminhight = hight - minhight,
+        var lessminWidth = width - minWidth,
+            lessminHeight = height - minHeight,
             widthportion = 0,
-            hightportion = 0;
+            heightportion = 0;
 
-        if (lessminwidth > 0) {
-            widthportion = Math.round(lessminwidth / widthportions);
+        if (lessminWidth > 0) {
+            widthportion = Math.round(lessminWidth / widthportions);
         }
-        if (lessminhight > 0) {
-            hightportion = Math.round(lessminhight / hightportions);
+        if (lessminHeight > 0) {
+            heightportion = Math.round(lessminHeight / heightportions);
         }
 
-        _(parse_nodes).each( function( node, index, parse_nodes ) {
-            var subwidth = widthportion * node.portionwidth,
-                subhight = hightportion * node.portionhight;
-            entities.push(this.parseInterface(node.node, basex, basey, basez, subwidth, subheight));
+        var x = 0, y = 0;
+        _(parse_interfaces).each( function( inter, index, parse_interfaces ) {
+            var subwidth = widthportion * inter.portionWidth + inter.minWidth,
+                subheight = heightportion * inter.portionHeight + inter.minHeight;
+            x += subwidth + inter.paddingLeft;
+            y += subheight + inter.paddingTop;
+            entities.push(this.parseInterface(inter.node, basex + x, basey + y, basez, subwidth, subheight));
+            x += inter.paddingRight;
+            y += inter.paddingBottom;
         });
 
         // set attributes in sub nodes
@@ -103,7 +112,8 @@ function XMLInterface (xml) {
                     ent[node.nodeValue]();
                 }
             } catch (e) {
-                console.log("Error Phrasing Interface " + this.name + "on node: " + node.nodeName, e.message, e);
+                errortxt = "Error Phrasing Interface " + this.name + "on node: " + ent.name + ":" + node.nodeName;
+                console.log(errortxt, e.message, e);
             }
         });
 

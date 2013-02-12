@@ -190,3 +190,5 @@ database.php
 
 /rails/db/development.sqlite3
 *.sublime-workspace
+/rails/vendor
+*~
