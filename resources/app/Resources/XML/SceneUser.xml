@@ -3,46 +3,49 @@
     <!-- Login form interface -->
     <interface name="LoginForm">
 
-        <e name="MEWLoginFormInterface" class="MEWLoginForm" >
+        <e name="MEWLoginFormInterface" component="MEWLoginForm" >
             
             <init><![CDATA[MEWLoginForm]]></init>
 
             <!-- children -->
-            <e name="LoginUsernameInput" class="HTML_INPUT">
-                <attr>
-                    <minWidth>50</minWidth>
-                    <minHeight>20</minHeight>
-                    <x>0</x>
-                    <y>0</y>
-                    <z>1</z>
-                </attr>
-                <html><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></html>
-                <css><![CDATA[{background: "rgb(196, 183, 135)"}]]></css>
-            </e>
+            <sizer type="verticle">
+                <e name="GreetingText" component="DOM, Text">
+                    <text>
+                        <value>Welcome Guest!</value>
+                    </text>
+                </e>
 
-            <e name="LoginPasswordInput" class="HTML_INPUT">
-                <attr>
-                    <minWidth>50</minWidth>
-                    <minHeight>20</minHeight>
-                    <x>0</x>
-                    <y>24</y>
-                    <z>1</z>
-                </attr>
-                <html><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></html>
-                <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
-            </e>
 
-            <e name="LoginResultHTML" class="HTML">
-                <attr>
-                    <minWidth>50</minWidth>
-                    <minHeight>20</minHeight>
-                    <x>0</x>
-                    <y>48</y>
-                    <z>1</z>
-                </attr>
-                <html><![CDATA[]]></html>
-                <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
-            </e>
+                <e name="LoginUsernameInput" component="HTML_INPUT">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <html><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></html>
+                    <css><![CDATA[{background: "rgb(196, 183, 135)"}]]></css>
+                </e>
+
+                <e name="LoginPasswordInput" component="HTML_INPUT">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <html><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></html>
+                    <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
+                </e>
+
+                <e name="LoginResultHTML" component="HTML">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <html><![CDATA[]]></html>
+                    <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
+                </e>
+            </sizer>
 
         </e>
 
