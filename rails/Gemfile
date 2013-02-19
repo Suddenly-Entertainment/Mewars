@@ -4,6 +4,7 @@ gem 'rails', '3.2.5'
 gem 'mysql2'
 gem 'pg'
 gem 'thin'
+gem 'carrot'
 
 gem 'rack-cors', :require => 'rack/cors'
 
