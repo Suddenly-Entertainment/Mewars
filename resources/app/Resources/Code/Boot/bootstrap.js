@@ -50,17 +50,17 @@ $MEW.ScriptsRetryCounter = 0;
         this.setDisplayHiddenCanvas = function (value) {
             DISPLAY_HIDDEN_CANVAS = value;
         };
-        
+
         this.HIDDEN_CANVAS_COUNTER = 0;
 
         this.HIDDEN_CANVAS_OUT = 0;
-        
+
         //Used for displaying hidden canvas objects to the Debug Div
         this.AddDebugCanvas = function (canvas) {
             var hiddenCanvas = $(canvas);
             hiddenCanvas.css("background-color", "#FFFFFF");
             var addDiv = $(document.createElement('div')).attr("id", '_MEW_HIDDEN_CANVAS_C_' + this.HIDDEN_CANVAS_COUNTER + '_H3');
-            var addh3 = $(document.createElement('h3')).attr("id", '_MEW_HIDDEN_CANVAS_C_' + this.HIDDEN_CANVAS_COUNTER + '_DIV');  
+            var addh3 = $(document.createElement('h3')).attr("id", '_MEW_HIDDEN_CANVAS_C_' + this.HIDDEN_CANVAS_COUNTER + '_DIV');
             addDiv.append('<a href="" id="_MEW_HIDDEN_CANVAS_CLOSE_' + this.HIDDEN_CANVAS_COUNTER + '">Close</a><br />');
             addh3.append('Canvas #' + this.HIDDEN_CANVAS_COUNTER);
             addDiv.append(hiddenCanvas);
@@ -77,13 +77,13 @@ $MEW.ScriptsRetryCounter = 0;
                     return false;
                 };
             }
-            $("#_MEW_HIDDEN_CANVAS_CLOSE_" + this.HIDDEN_CANVAS_COUNTER).click(removedivfunc(this.HIDDEN_CANVAS_COUNTER));  
+            $("#_MEW_HIDDEN_CANVAS_CLOSE_" + this.HIDDEN_CANVAS_COUNTER).click(removedivfunc(this.HIDDEN_CANVAS_COUNTER));
             if (this.HIDDEN_CANVAS_OUT > 0) {$('#DebugCanvasDiv').accordion("destroy");}
             $('#DebugCanvasDiv').accordion();
             this.HIDDEN_CANVAS_COUNTER ++;
             this.HIDDEN_CANVAS_OUT ++;
         };
-    
+
         this.EnableDebugCanvas = function () {
             var canvas_debug_div = $(document.createElement('div'));
             var canvas_div = $(document.createElement('div')).attr("id", 'DebugCanvasDiv');
@@ -148,7 +148,7 @@ $MEW.GameLoadErrorFunc = function(retryCB, extra_text) {
 
 // to load a script for the game into the locla namespace
 $MEW.EvalScript = function(script, name){
-    if ($MEW.DEBUG.SCRIPT_INCLUDE_MODE == "EVAL") {
+    if ($MEW.DEBUG.getIncludMode() === "EVAL") {
         //runs eval '//@ sourceURL=name.js' gives the script a name
         //remember that eval doesn't give a proper message in case of a syntax error
         source = '\n //@ sourceURL=' + $MEW.RESOURCE_URL + '/code/include/' + name;
@@ -158,7 +158,7 @@ $MEW.EvalScript = function(script, name){
         } catch (e) {
             console.log("Error Phrasing Game Code: " + $MEW.scripts[$MEW.CurrentLoadingScript], e.message, e);
         }
-    } else if ($MEW.DEBUG.SCRIPT_INCLUDE_MODE == "DIV") {
+    } else if ($MEW.DEBUG.getIncludMode() === "DIV") {
         //adds code block
         var codeDiv = document.getElementById('CodeDiv');
         var scriptBlock = document.createElement("script");
@@ -216,7 +216,7 @@ $MEW.onDocLoad = function() {
     function dialogNo () {
         loadGameflag = false;
         $( this ).dialog( "close" );
-        var text = 
+        var text = "" +
             "WARNING: You have selected not to load Mock Equestrian Wars. \n" +
             "If you want to load the game, reload the page and chouse 'yes'.";
         $MEW.DrawErrorText(text);
