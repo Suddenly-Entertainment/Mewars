@@ -28,7 +28,7 @@ $MEW.LoadResources = function(progress_cb) {
 	var SpriteImageNames = ['ARMOROPT.PNG', 'COLOURS.PNG', 'COLOURSBLACK.png', 'EYES.png', 'HAIRFEM.png', 'HAIRMALE.png', 'HATS.PNG', 'HORNS.PNG', 'TAILSFEM.png', 'TAILSMALE.png', 'WEAPONS.PNG', 'Wingsback.png', 'Wingsfront.png', "Chessfix.png", "snow_block3.png", "snow_block2.png"];
 
 	// Interface image names
-	var InterfaceImageNames = ['world_map_concept_mysticalpha-800.jpg', 'silouhetteavatar.png', 'anonavatar.png', 'anonavatar1.png', 'ParchmentWSV.png'];
+	var InterfaceImageNames = ['world_map_concept_mysticalpha-800.jpg', 'silouhetteavatar.png', 'anonavatar.png', 'anonavatar1.png', 'ParchmentWSV.png', 'small_v2_combined.png', 'mew_login_screen.png'];
 
 	var TileResourceURL = $MEW.RESOURCE_URL + "/resource/image/0/";
 	var SpriteResourceURL = $MEW.RESOURCE_URL + "/resource/image/1/";
@@ -455,6 +455,10 @@ $MEW.setupInterfaces = function() {
 
 	Crafty.sprite(800, 600, InterfaceResourceURL + 'world_map_concept_mysticalpha-800.jpg', {
 		WorldMapConcept: [0, 0]
+	});
+
+	Crafty.sprite(800, 600, InterfaceResourceURL + 'mew_login_screen.png', {
+		LoginScreenBackground: [0, 0]
 	});
 
 	// Set up windowskins

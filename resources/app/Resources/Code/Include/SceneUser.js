@@ -314,7 +314,7 @@ Crafty.scene("User", function() {
         var h = 250,
             w = 500,
             x = ($MEW.WIDTH - w) / 2,
-            y = ($MEW.HEIGHT - h) / 2;
+            y = ($MEW.HEIGHT - h) / 2 + h / 4;
         
         // create the backgournd window
         $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
@@ -386,7 +386,7 @@ Crafty.scene("User", function() {
         .attr({x:0, y:0, z:10, alpha: 1.0,})
         .tween({alpha: 0.0}, 100);
             
-    $MEW.Scene.background = Crafty.e("2D, Canvas, WorldMapConcept, Tween")
+    $MEW.Scene.background = Crafty.e("2D, Canvas, LoginScreenBackground, Tween")
         .attr({x:0, y:0, z:10, alpha: 0.0,})
         .tween({alpha: 1.0}, 50)
         .bind("TweenEnd", onTweenEnd);
