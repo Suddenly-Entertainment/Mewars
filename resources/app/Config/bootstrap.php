@@ -179,3 +179,19 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+global $ALLOWED_CORS;
+$ALLOWED_CORS = array(
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://0.0.0.0:3000",
+    "http://api.equestrianwars.com", 
+    "http://node1.equestrianwars.com",
+    "http://api2.equestrianwars.com",
+    "http://node2.equestrianwars.com",
+    "http://re.equestrianwars.com",
+    "http://www.equestrianwars.com",
+    "http://equestrianwars.com",
+    "http://client.cors-api.appspot.com",
+    "http://mewars-api-regi.aws.af.cm"
+);

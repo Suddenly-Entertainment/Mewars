@@ -462,7 +462,8 @@ $MEW.setupInterfaces = function() {
 	$MEW.DefaultWindowSkin = null;
 
 	$MEW.WindowSkins["ParchmentV"] = Crafty.e("WindowSkin").WindowSkin(30, 170, 32, 168, 200, 200, InterfaceResourceURL + "ParchmentWSV.png");
+	$MEW.WindowSkins["small_v2_combined"] = Crafty.e("WindowSkin").WindowSkin(32, 112, 32, 112, 144, 144, InterfaceResourceURL + "small_v2_combined.png");
 
-	$MEW.DefaultWindowSkin = "ParchmentV";
+	$MEW.DefaultWindowSkin = "small_v2_combined";
 
 };

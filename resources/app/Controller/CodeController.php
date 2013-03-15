@@ -7,23 +7,10 @@ class CodeController extends AppController {
     public $uses = array();
     
     function beforeFilter() {
-        // CORS
-        $allowed = array(
-            "http://localhost:3000",
-            "http://127.0.0.1:3000",
-            "http://0.0.0.0:3000",
-            "http://api.equestrianwars.com", 
-            "http://node1.equestrianwars.com",
-            "http://api2.equestrianwars.com",
-            "http://node2.equestrianwars.com",
-            "http://re.equestrianwars.com",
-            "http://www.equestrianwars.com",
-            "http://equestrianwars.com",
-            "http://client.cors-api.appspot.com"
-            );
+        //CORS
+        global $ALLOWED_CORS;
         $origin = $this->request->header('Origin');
-        $this->log($origin . ' ' . in_array($origin, $allowed ), 'debug');
-        if (in_array($origin, $allowed )) {
+        if (in_array($origin, $ALLOWED_CORS )) {
             $this->response->header(array('Access-Control-Allow-Origin: ' . $origin));
         } elseif (!($origin == "")) {
             throw new NotFoundException();
