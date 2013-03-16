@@ -161,8 +161,6 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
-<<<<<<< HEAD
-
 
 ############################
 node_modules
@@ -181,7 +179,6 @@ empty
 /resources/lib/Cake/TestSuite
 node_modules
 /node/node_modules
-<<<<<<< HEAD
 log
 *.log
 database.php
