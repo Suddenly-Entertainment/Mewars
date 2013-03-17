@@ -10,16 +10,16 @@ Crafty.scene("PonymakerTest", function() {
 
 
 
-    if ($MEW.compositing == 0) {//messing around with variables to understand how things work
+    if ($MEW.compositing == 0) {
 
 
-        $MEW.player = Crafty.e("Player").makePlayer(400, 400, "0|0|0|0|0|11|0|0|0|0|0|0|0");
+        $MEW.player = Crafty.e("Player").makePlayer(200, 200, "0|0|0|0|0|11|0|0|0|0|0|0|0");
 
 
     } else {
 
 
-        $MEW.player = Crafty.e("CanvasPlayer").makePlayer(400, 400, "0|0|0|0|0|11|0|0|0|0|0|0|0");
+        $MEW.player = Crafty.e("CanvasPlayer").makePlayer(200, 200, "0|0|0|0|0|11|0|0|0|0|0|0|0");
 
 
     }
