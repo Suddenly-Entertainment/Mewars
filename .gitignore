@@ -179,10 +179,9 @@ empty
 /resources/lib/Cake/TestSuite
 node_modules
 /node/node_modules
-log
 *.log
 database.php
-
+OLD_PHP_API
 /rails/*.lock
 
 /rails/db/development.sqlite3
