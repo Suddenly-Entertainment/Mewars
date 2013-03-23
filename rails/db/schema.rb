@@ -11,7 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229045446) do
+ActiveRecord::Schema.define(:version => 20130323004250) do
+
+  create_table "map_chunks", :force => true do |t|
+    t.integer "map_id"
+    t.integer "x"
+    t.integer "y"
+  end
+
+  add_index "map_chunks", ["map_id", "x", "y"], :name => "index_map_chunks_on_map_id_and_x_and_y"
+
+  create_table "map_tiles", :force => true do |t|
+    t.integer "chunk_id"
+    t.integer "map_id"
+    t.integer "x"
+    t.integer "y"
+    t.integer "terrain_type"
+  end
+
+  add_index "map_tiles", ["chunk_id"], :name => "index_map_tiles_on_chunk_id"
+  add_index "map_tiles", ["map_id", "x", "y"], :name => "index_map_tiles_on_map_id_and_x_and_y"
+
+  create_table "maps", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
