@@ -5,6 +5,7 @@ gem 'mysql2'
 gem 'pg'
 gem 'thin'
 gem 'carrot'
+gem 'chunky_png'
 
 gem 'rack-cors', :require => 'rack/cors'
 
