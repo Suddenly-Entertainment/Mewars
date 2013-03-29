@@ -4,7 +4,7 @@ Crafty.c("NetworkMap", {
 	},
 	
 	GetFullMapData: function () {
-		this.Send("MapsGetfullmap", "Maps", "getfullmap", {});
+		this.Send("MapsGetFullMap", {});
 	}
 })
 
@@ -64,7 +64,7 @@ Crafty.scene("Map", function () {
     $MEW.toggleScrolling(1);
     
     // bind to network
-    $MEW.Network.bind("MapsGetfullmap", onGetFullMapData);
+    $MEW.Network.bind("MapsGetFullMap", onGetFullMapData);
     $MEW.Network.bind("MapsGetfullmapError", onError);
     $MEW.Network.GetFullMapData();
     

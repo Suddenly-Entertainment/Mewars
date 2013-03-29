@@ -1,6 +1,7 @@
 $MEW.Routes ={
     "UsersLogin":     ['API', 'POST', '/api/users/login' ],
-    "UsersRegester":  ['API', 'POST', '/api/users']
+    "UsersRegester":  ['API', 'POST', '/api/users'],
+    "MapsGetFullMap": ['API', 'POST', '/api/get_full_map']
 };
 
 Crafty.c("Network", {
@@ -8,7 +9,7 @@ Crafty.c("Network", {
     
     Send: function(type, data) {
         var ajax = this.getAjax(type, data);
-        if (ajax) ajax.done(this.Receive).fail(this.Error);
+        if (ajax) ajax.done(this.Receive(type)).fail(this.Error);
     },
     
     Receive: function(type) {

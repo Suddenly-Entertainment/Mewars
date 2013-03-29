@@ -52,12 +52,12 @@ Mewars::Application.routes.draw do
 	
 	namespace :api do
 		devise_for :users, :path_names => { :sign_up => 'register', :sign_in => 'login', :sign_out => 'logout' }
+    match 'get_full_map', to: 'maps#get_full_map', via: :post
 	end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => 'game#index'
-
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
