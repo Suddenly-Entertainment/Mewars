@@ -8,7 +8,7 @@ $MEW.doResourceLoad = function(progress_cb, ImageURLS) {
 
 	function(e) {
 		//progress
-		progress_cb(e.percent / 100.0)
+		progress_cb(e.percent / 100.0);
 	},
 
 	function(e) {

@@ -174,6 +174,7 @@ Crafty.c("sizer", {
         } else if (this.type === 'grid') {
             // divide the available width by the num of cols
             maxwidth = Math.round(width / this.cols);
+            //TODO: finish grid layout
         }
     }
 });
@@ -343,7 +344,6 @@ function XMLInterface (xml) {
             }
         });
 
-        
 
         return node;
     };
@@ -357,11 +357,10 @@ function XMLInterface (xml) {
         var inter = this.parseNode(this.xml, basex, basey, basez, width, height);
         base.attach(inter);
     };
-    
 }
 
 
-function XMLInterfacePraser(xml) {
+function XMLInterfaceParser(xml) {
 
     this.interfaces = [];
     this.map = [];
@@ -377,5 +376,27 @@ function XMLInterfacePraser(xml) {
     };
 
     this.parseInterfaces(xml);
+
+    this.getInterface = function (name) {
+        var inter = this.map[name] || null ;
+        return inter;
+    };
+
+}
+
+function XMLResourceNode(xml) {
+    this.file = "";
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        var val = atter.nodeValue;
+        if(!isNaN(val)) {
+            val = parseFloat(val);
+        }
+        this[atter.nodeName.toLowerCase()] = val;
+    })
+}
+
+function XMLResourceParser(xml) {
+
+    this.nodes = [];
 
 }

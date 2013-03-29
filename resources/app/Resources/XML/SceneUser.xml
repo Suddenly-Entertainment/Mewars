@@ -16,7 +16,7 @@
                 </e>
 
 
-                <e name="LoginUsernameInput" component="HTML_INPUT">
+                <e name="LoginInput" component="HTML_INPUT">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>
@@ -26,7 +26,7 @@
                     <css><![CDATA[{background: "rgb(196, 183, 135)"}]]></css>
                 </e>
 
-                <e name="LoginPasswordInput" component="HTML_INPUT">
+                <e name="PasswordInput" component="HTML_INPUT">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>
@@ -36,14 +36,14 @@
                     <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
                 </e>
 
-                <e name="LoginResultHTML" component="HTML">
+                <e name="LoginResult" component="HTML">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
                     <html><![CDATA[]]></html>
-                    <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
+                    <!--<css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>-->
                 </e>
             </sizer>
 
