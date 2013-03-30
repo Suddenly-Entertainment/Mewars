@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- URLS -->
+    <url name="TileResourceURL" value="%(RESOURCE_URL)s/resource/image/0/" />
+    <url name="SpriteResourceURL" value="%(RESOURCE_URL)s/resource/image/1/" />
+    <url name="InterfaceResourceURL" value="%(RESOURCE_URL)s/resource/image/2/" />
+    <type name="sprite" url="SpriteResourceURL" />
+    <type name="tile" url="TileResourceURL" />
+    <type name="interface" url="InterfaceResourceURL" />
+
+    <!-- Tiles -->
+    <resource file="apple_trees_block.png", filetype="tile", width="64" height="128">
+        <sprite name="AppleTreesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="zap_apple_tree_block.png", filetype="tile", width="64" height="128">
+        <sprite name="ZapAppleTreeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="everfree_forest_block.png", filetype="tile", width="64" height="128">
+        <sprite name="EverfreeForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="forest_block.png", filetype="tile", width="64" height="128">
+        <sprite name="ForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="bushes_block.png", filetype="tile", width="64" height="128">
+        <sprite name="BushesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="poison_joke_block.png", filetype="tile", width="64" height="128">
+        <sprite name="PoisonJokeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="volcano_block.png", filetype="tile", width="64" height="128">
+        <sprite name="VolcanoSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="mountain_block.png", filetype="tile", width="64" height="128">
+        <sprite name="MountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="snow_mountain_block.png", filetype="tile", width="64" height="128">
+        <sprite name="SnowMountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="desert_1_block.png", filetype="tile", width="64" height="128">
+        <sprite name="Desert1Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="desert_2_block.png", filetype="tile", width="64" height="128">
+        <sprite name="Desert2Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="ice_block.png", filetype="tile", width="64" height="128">
+        <sprite name="IceSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="mud_block.png", filetype="tile", width="64" height="128">
+        <sprite name="MudSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="rocky_block.png", filetype="tile", width="64" height="128">
+        <sprite name="RockySprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="swamp_block.png", filetype="tile", width="64" height="128">
+        <sprite name="SwampSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="gemstone_block.png", filetype="tile", width="64" height="128">
+        <sprite name="GemstoneSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="lava_block.png", filetype="tile", width="64" height="128">
+        <sprite name="LavaSprit" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="snow_block.png", filetype="tile", width="64" height="128">
+        <sprite name="SnowSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="dirt_block.png", filetype="tile", width="64" height="128">
+        <sprite name="DirtSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="water_block.png", filetype="tile", width="64" height="128">
+        <sprite name="WaterSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="quicksand_block.png", filetype="tile", width="64" height="128">
+        <sprite name="QuicksandSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="grass_block.png", filetype="tile", width="64" height="128">
+        <sprite name="GrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="everfree_grass_block.png", filetype="tile", width="64" height="128">
+        <sprite name="EverfreeGrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="diamonds_block.png", filetype="tile", width="64" height="128">
+        <sprite name="DiamondsSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="flower_block.png", filetype="tile", width="64" height="128">
+        <sprite name="FlowerSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="ravine.png", filetype="tile", width="64" height="128">
+        <sprite name="RavineSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="barren.png", filetype="tile", width="64" height="128">
+        <sprite name="BarrenSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+
+
+    <!-- Sprites -->
+
+    <!-- Armor -->
+    <!-- Front -->
+    <resource file="ARMOROPT.PNG", filetype="sprite", width="2048" height="512">
+        <sprintf name="cw" func="%(width)s / 32"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <sprite name="Armor|0|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Armor|1|0|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="1" stop="32">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="varient" func="%(x)s" />
+                <sprintf name="color" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Armor|%(sex)s|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="ARMORback.PNG", filetype="sprite", width="2048" height="512">
+        <sprintf name="cw" func="%(width)s / 32"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <sprite name="Armor|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Armor|1|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="1" stop="32">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="varient" func="%(x)s" />
+                <sprintf name="color" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Armor|%(sex)s|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Body -->
+    <!-- Front & Back-->
+    <resource file="COLOURS.PNG", filetype="sprite", width="3200" height="256">
+        <sprintf name="cw" func="%(width)s / 50"/>
+        <sprintf name="ch" func="%(height)s / 4"/>
+        <loop val="y" start="0" stop="4">
+            <loop val="x" start="0" stop="50">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprintf name="front" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Body|%(sex)s|%(color)s|%(front)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Eyes -->
+    <!-- Front -->
+    <resource file="EYES.png", filetype="sprite", width="640" height="512">
+        <sprintf name="cw" func="%(width)s / 10"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="0" stop="10">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprintf name="varient" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Eyes|%(sex)s|%(color)s|%(varient)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="EYESBACK.png", filetype="sprite", width="640" height="512">
+        <sprintf name="cw" func="%(width)s / 10"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="0" stop="10">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprintf name="varient" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Eyes|%(sex)s|%(color)s|%(varient)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Male Hair-->
+    <!-- Front -->
+    <resource file="HAIRMALEFRONT.png", filetype="sprite", width="1344" height="1600">
+        <sprintf name="cw" func="%(width)s / 21"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Mane|0|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|1|0" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|2|0" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|3|0" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|4|0" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|5|0" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|6|0" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|7|0" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|8|0" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|9|0" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|10|0" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25">
+            <loop val="x" start="0" stop="21">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Mane|0|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="HAIRMALEBACK.PNG", filetype="sprite", width="1344" height="1600">
+        <sprintf name="cw" func="%(width)s / 21"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Mane|0|0|0|1" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|1|1" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|2|1" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|3|1" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|4|1" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|5|1" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|6|1" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|7|1" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|8|1" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|9|1" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|0|0|10|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25">
+            <loop val="x" start="0" stop="21">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Mane|0|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>1
+
+    <!-- Female Hair -->
+    <!-- Front -->
+    <resource file="HAIRFEMFRONT.PNG", filetype="sprite", width="1856" height="1600">
+        <sprintf name="cw" func="%(width)s / 29"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Mane|1|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|1|0" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|2|0" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|3|0" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|4|0" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|5|0" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|6|0" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|7|0" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|8|0" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|9|0" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|10|0" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25|0">
+            <loop val="x" start="0" stop="29">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Mane|1|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="HAIRFEMBACK.png", filetype="sprite", width="1856" height="1600">
+        <sprintf name="cw" func="%(width)s / 29"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Mane|1|0|0|1" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|1|1" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|2|1" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|3|1" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|4|1" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|5|1" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|6|1" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|7|1" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|8|1" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|9|1" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Mane|1|0|10|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25|0">
+            <loop val="x" start="0" stop="29">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Mane|1|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Hats -->
+    <!-- Front -->
+    <resource file="HATS.PNG", filetype="sprite", width="2048" height="512">
+        <sprintf name="cw" func="%(width)s / 32"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <sprite name="Hat|0|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Hat|1|0|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="1" stop="32">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="varient" func="%(x)s" />
+                <sprintf name="color" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Hat|%(sex)s|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="HATSback.PNG", filetype="sprite", width="2048" height="512">
+        <sprintf name="cw" func="%(width)s / 32"/>
+        <sprintf name="ch" func="%(height)s / 8"/>
+        <sprite name="Hat|0|0|0|1" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Hat|1|0|0|1" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
+        <loop val="y" start="0" stop="8">
+            <loop val="x" start="1" stop="32">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="varient" func="%(x)s" />
+                <sprintf name="color" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Hat|%(sex)s|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Horns -->
+    <!-- Front -->
+    <resource file="HORNS.PNG", filetype="sprite", width="3200" height="128">
+        <sprintf name="cw" func="%(width)s / 50"/>
+        <sprintf name="ch" func="%(height)s / 2"/>
+        <loop val="y" start="0" stop="2">
+            <loop val="x" start="0" stop="50">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprite name="Horn|%(sex)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="HORNSBACK.png", filetype="sprite", width="3200" height="128">
+        <sprintf name="cw" func="%(width)s / 50"/>
+        <sprintf name="ch" func="%(height)s / 2"/>
+        <loop val="y" start="0" stop="2">
+            <loop val="x" start="0" stop="50">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprite name="Horn|%(sex)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Male Tails -->
+    <!-- Front -->
+    <resource file="Tailsmalefront.png", filetype="sprite", width="1088" height="1600">
+        <sprintf name="cw" func="%(width)s / 17"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Tail|0|0|0|0" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|1|0" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|2|0" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|3|0" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|4|0" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|5|0" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|6|0" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|7|0" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|8|0" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|9|0" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|10|0" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25">
+            <loop val="x" start="0" stop="17">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Tail|0|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+    <resource file="Tailsmaleback.png", filetype="sprite", width="1088" height="1600">
+        <sprintf name="cw" func="%(width)s / 17"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Tail|0|0|0|1" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|1|1" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|2|1" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|3|1" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|4|1" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|5|1" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|6|1" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|7|1" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|8|1" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|9|1" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|0|0|10|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="10"/>
+        <loop val="y" start="1" stop="25">
+            <loop val="x" start="0" stop="17">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Tail|0|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Female Tails -->
+    <!-- Front -->
+
+    <!-- Back -->
+    <resource file="TAILFEMBACK.PNG", filetype="sprite", width="1856" height="1600">
+        <sprintf name="cw" func="%(width)s / 29"/>
+        <sprintf name="ch" func="%(height)s / 25"/>
+        <sprite name="Tail|1|0|0|1" url="%(url)s" mapx="0" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|1|1" url="%(url)s" mapx="1" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|2|1" url="%(url)s" mapx="2" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|3|1" url="%(url)s" mapx="3" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|4|1" url="%(url)s" mapx="4" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|5|1" url="%(url)s" mapx="5" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|6|1" url="%(url)s" mapx="6" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|7|1" url="%(url)s" mapx="7" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|8|1" url="%(url)s" mapx="8" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|9|1" url="%(url)s" mapx="9" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|10|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|11|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|12|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|13|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|14|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|15|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|16|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|17|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|18|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprite name="Tail|1|0|19|1" url="%(url)s" mapx="10" mapy="0" mapw="%(cw)s" maph="%(ch)s" />
+        <sprintf name="offset" func="19"/>
+        <loop val="y" start="1" stop="25">
+            <loop val="x" start="0" stop="29">
+                <sprintf name="color" func="%(y)s" />
+                <sprintf name="varient" func="%(x)s + %(offset)s" />
+                <sprite name="Tail|1|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Weapons -->
+    <!-- Front -->
+    <resource file="WEAPONS.PNG", filetype="sprite", width="1088" height="128">
+        <sprintf name="cw" func="%(width)s / 17"/>
+        <sprintf name="ch" func="%(height)s / 2"/>
+        <loop val="y" start="0" stop="2">
+            <loop val="x" start="0" stop="17">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="weapon" func="%(x)s" />
+                <sprite name="Weapon|%(sex)s|%(weapon)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+
+    <!-- Wings -->
+    <!-- Front -->
+    <resource file="Wingsfront.png", filetype="sprite", width="3264" height="256">
+        <sprintf name="cw" func="%(width)s / 51"/>
+        <sprintf name="ch" func="%(height)s / 4"/>
+        <loop val="y" start="0" stop="4">
+            <loop val="x" start="0" stop="51">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s" />
+                <sprintf name="open" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Wings|%(sex)s|%(color)s|%(open)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- Back -->
+
+
+    <!-- Chess -->
+    <!-- ChessFix -->
+    <resource file="Chessfix.png", filetype="sprite", width="768" height="256">
+        <sprintf name="cw" func="%(width)s / 12"/>
+        <sprintf name="ch" func="%(height)s / 4"/>
+        <loop val="y" start="0" stop="4">
+            <loop val="x" start="0" stop="12">
+                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="color" func="%(x)s % 2" />
+                <sprintf name="piece" func="Math.floor(%(x)s / 2)" />
+                <sprintf name="front" func="Math.floor(%(y)s / 2)" />
+                <sprite name="Chessfix|%(sex)s|%(color)s|%(piece)s|%(front)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- highlights light -->
+    <resource file="snow_block2.png", filetype="sprite", width="256" height="128">
+        <sprintf name="cw" func="%(width)s / 4"/>
+        <sprintf name="ch" func="%(height)s"/>
+        <loop val="y" start="0" stop="4">
+            <loop val="x" start="0" stop="12">
+                <sprite name="HighlightLight|%(x)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+    <!-- highlights dark-->
+    <resource file="snow_block3.png", filetype="sprite", width="256" height="128">
+        <sprintf name="cw" func="%(width)s / 4"/>
+        <sprintf name="ch" func="%(height)s"/>
+        <loop val="y" start="0" stop="4">
+            <loop val="x" start="0" stop="12">
+                <sprite name="HighlightDark|%(x)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
+            </loop>
+        </loop>
+    </resource>
+
+    <!-- Interface -->
+    <resource file="ParchmentWSV.png", filetype="interface", width="200" height="200">
+        <windowskin top="30" bot="170" left="32" right="160" width="%(width)s" height="%(height)s" />
+    </resource>
+    <resource file="small_v2_combined.png", filetype="interface", width="144" height="144">
+        <windowskin top="32" bot="112" left="32" right="112" width="%(width)s" height="%(height)s" />
+    </resource>
+
+</resources>

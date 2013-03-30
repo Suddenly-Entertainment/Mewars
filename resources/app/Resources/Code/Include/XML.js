@@ -1,4 +1,14 @@
-$XMLAttrParsers = {
+function Clone() { }
+function clone(obj) {
+    Clone.prototype = obj;
+    return new Clone();
+}
+
+/******************************************************************
+ * Interface Parsing
+ ******************************************************************/
+
+$XMLInterfaceAttrParsers = {
     component: function (that, ent, attr, base){
         ent.requires(attr.nodeValue);
     },
@@ -29,7 +39,7 @@ $XMLAttrParsers = {
     }
 };
 
-$XMLNodeParsers = {
+$XMLInterfaceNodeParsers = {
     e: function (that, ent, entities, nodes, node, base){
         var entity = new XMLEntityNode(node);
         entity.passAttrs(ent);
@@ -43,7 +53,7 @@ $XMLNodeParsers = {
     }
 };
 
-$XMLNodeDelayParsers = {
+$XMLInterfaceNodeDelayParsers = {
     e: function (that, ent, entities, node, base){
         var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
         entities.push(pnode.ent);
@@ -308,18 +318,18 @@ function XMLInterface (xml) {
         var that = this;
 
         _(node.children).each( function( cnode, index, children ) {
-            if ($XMLNodeParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                $XMLNodeParsers[node.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
+            if ($XMLInterfaceNodeParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
+                $XMLInterfaceNodeParsers[node.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
             }
-            if ($XMLNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
+            if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
                 delay_nodes.push(cnode);
             }
         });
 
         // parse attributes
         _(node.attributes).each( function( attr, index, attributes ) {
-            if ($XMLAttrParsers.hasOwnProperty(attr.nodeName.toLowerCase())){
-                $XMLAttrParsers[attr.nodeName.toLowerCase()](that, node.ent, attr, base);
+            if ($XMLInterfaceAttrParsers.hasOwnProperty(attr.nodeName.toLowerCase())){
+                $XMLInterfaceAttrParsers[attr.nodeName.toLowerCase()](that, node.ent, attr, base);
             } else {
                 var val = attr.nodeValue;
                 if(!isNaN(val)) {
@@ -337,9 +347,9 @@ function XMLInterface (xml) {
         // set attributes in sub nodes
         _(node.delay_nodes).each( function( cnode, index, delay_nodes ) {
             try {
-                $XMLNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
+                $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
             } catch (e) {
-                errortxt = "Error Phrasing Interface " + this.name + "on node: " + node.ent.name + ":" + cnode.nodeName.toLowerCase();
+                errortxt = "Error Parasing Interface " + this.name + "on node: " + node.ent.name + ":" + cnode.nodeName.toLowerCase();
                 console.log(errortxt, e.message, e);
             }
         });
@@ -384,19 +394,280 @@ function XMLInterfaceParser(xml) {
 
 }
 
-function XMLResourceNode(xml) {
-    this.file = "";
+/******************************************************************
+ * Resource Parsing
+ ******************************************************************/
+
+$XMLResourceNodeParsers = {
+    sprintf: function (resource, xml) {
+        var node = new XMLsprintfNode(xml);
+        return node;
+    },
+    sprite: function (resource, xml) {
+        var node = new XMLResourceSpriteNode(xml);
+        return node;
+
+    },
+    loop: function (resource, xml) {
+        var node = new XMLResourceLoopNode(xml);
+        return node;
+    },
+    windowskin: function (resource, xml) {
+        var node = new XMLResourceWindowSkinNode(xml);
+        return node;
+    }
+
+};
+//$XMLResourceNodeDelayParsers = {};
+
+function XMLsprintfNode(xml) {
+    this.name = "";
+    this.func = "";
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
         this[atter.nodeName.toLowerCase()] = val;
-    })
+    });
+    this.evaluate = function (map) {
+        var result;
+        var s = sprintf(this.func, map);
+        result = eval(s);
+        return result;
+    };
+    this.map =function(map) {
+        map[this.name] = this.evaluate(map);
+    };
+    this.exec = function (map) {
+        this.map(map);
+    };
+}
+
+function XMLResourceURLNode(xml) {
+    this.name = "";
+    this.value = "";
+    var URL_MAP = {
+        RESOURCE_URL: $MEW.RESOURCE_URL,
+        NODE_URL: $MEW.NODE_URL,
+        API_URL: $MEW.API_URL
+    };
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        if (atter.nodeName.toLowerCase() === 'name') {
+            this.name = atter.nodeValue;
+        } else if (atter.nodeName.toLowerCase() === 'value') {
+            this.value = sprintf(atter.nodeValue, URL_MAP);
+        }
+    });
+}
+
+function XMLResourceTypeNode(xml, map) {
+    this.name = "";
+    this.url = "";
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        if (atter.nodeName.toLowerCase() === 'name') {
+            this.name = atter.nodeValue;
+        } else if (atter.nodeName.toLowerCase() === 'url') {
+            this.url = map[atter.nodeValue];
+        }
+    });
+}
+
+function XMLResourceSpriteNode(xml) {
+    this.name = "";
+    this.mapx = "";
+    this.mapy = "";
+    this.mapw = "";
+    this.maph = "";
+    this.url = "";
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        var val = atter.nodeValue;
+        if(!isNaN(val)) {
+            val = parseFloat(val);
+        }
+        this[atter.nodeName.toLowerCase()] = val;
+    });
+    this.getMapedParams = function (sprintfmap) {
+        params = {};
+        params.name = sprintf(this.name, map);
+        params.mapx = sprintf(this.mapx, map);
+        params.mapy = sprintf(this.mapy, map);
+        params.mapw = sprintf(this.mapw, map);
+        params.maph = sprintf(this.maph, map);
+        params.map = {};
+        params.map[params.name] = [params.mapx, params.mapy];
+        params.url = this.url;
+        return params;
+    };
+    this.exec = function (map) {
+        params = this.getMapedParams(map);
+        Crafty.sprite(params.mapw, params.maph, params.url, params.map);
+    };
+}
+
+function XMLResourceWindowSkinNode(xml) {
+    this.name = "";
+    this.top = 0;
+    this.bot = 0;
+    this.left = 0;
+    this.right = 0;
+    this.width = 0;
+    this.height = 0;
+    this.url = "";
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        var val = atter.nodeValue;
+        if(!isNaN(val)) {
+            val = parseFloat(val);
+        }
+        this[atter.nodeName.toLowerCase()] = val;
+    });
+    this.getMapedParams = function (sprintfmap) {
+        params = {};
+        params.name = sprintf(this.name, map);
+        params.top = sprintf(this.top, map);
+        params.bot = sprintf(this.bot, map);
+        params.left = sprintf(this.left, map);
+        params.right = sprintf(this.right, map);
+        params.width = sprintf(this.width, map);
+        params.height = sprintf(this.height, map);
+        params.url = this.url;
+        return params;
+    };
+    this.exec = function (map) {
+        params = this.getMapedParams(map);
+        Crafty.e("WindowSkin").WindowSkin( params.top, params.bot, params.left, params.right, params.width, params.height, params.url);
+    };
+}
+
+function XMLResourceLoopNode (xml) {
+    this.val = "";
+    this.start = 0;
+    this.stop = 0;
+    this.nodes = [];
+    this.sprintfmap = {};
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        var val = atter.nodeValue;
+        if(!isNaN(val)) {
+            val = parseFloat(val);
+        }
+        this[atter.nodeName.toLowerCase()] = val;
+    });
+    this.parse = function () {
+        var children = xml.childNodes;
+        var that = this;
+        var node;
+        _(children).each( function( child, index, children ) {
+            if ($XMLResourceNodeParsers.hasOwnProperty(child.nodeName.toLowerCase())) {
+                node = $XMLResourceNodeParsers[child.nodeName.toLowerCase()](that, child);
+                this.nodes.push(node);
+            }
+        });
+        this.loop();
+
+    };
+    this.loop = function () {
+        var i = this.start;
+        var that = this;
+        var func = function( node, index, nodes ) {
+            node.exec(that.sprintfmap);
+        };
+        for (; i < this.stop; i++) {
+            this.sprintfmap[this.val] = i;
+            _(this.nodes).each(func);
+        }
+    };
+    this.exec = function (map) {
+        this.sprintfmap = clone(map);
+        this.parse();
+    };
+}
+
+function XMLResourceNode(xml) {
+    this.file = "";
+    this.filetype = "";
+    this.width = 0;
+    this.height = 0;
+    this.sprintfmap = {};
+    this.nodes = [];
+    this.url = "";
+    _(xml.attributes).each( function( atter, index, attributes ) {
+        var val = atter.nodeValue;
+        if(!isNaN(val)) {
+            val = parseFloat(val);
+        }
+        this[atter.nodeName.toLowerCase()] = val;
+    });
+    this.parse = function () {
+        var children = xml.childNodes;
+        var that = this;
+        var node;
+        _(children).each( function( child, index, children ) {
+            if ($XMLResourceNodeParsers.hasOwnProperty(child.nodeName.toLowerCase())) {
+                node = $XMLResourceNodeParsers[child.nodeName.toLowerCase()](that, child);
+                this.nodes.push(node);
+            }
+        });
+        this.sprintfmap["width"] = this.width;
+        this.sprintfmap["height"] = this.height;
+        this.sprintfmap["url"] = this.url;
+        _(this.nodes).each( function( node, index, nodes ) {
+            node.exec(this.sprintfmap);
+        });
+
+    };
+    this.exec = function (map) {
+        this.sprintfmap = clone(map);
+        this.parse();
+    };
 }
 
 function XMLResourceParser(xml) {
 
-    this.nodes = [];
+    this.urls = [];
+    this.types = [];
+    this.resources = [];
+    this.sprintfmap = {};
+    this.typemap = {};
+
+
+    this.parseResources = function (xml) {
+        var urls = xml.getElementsByTagName('url');
+        var types = xml.getElementsByTagName('type');
+        var resources = xml.getElementsByTagName('resource');
+
+        _(urls).each( function( urlXML, index, urls ) {
+            var url = new XMLResourceURLNode(urlXML);
+            this.sprintfmap[url.name] = url.value;
+            this.urls.push(url);
+        });
+
+        _(types).each( function( typeXML, index, types ) {
+            var type = new XMLResourceTypeNode(xml, this.sprintfmap);
+            this.typemap[type.name] = type.url;
+            this.types.push(type);
+        });
+
+        _(resources).each( function( resourceXML, index, resources ) {
+            var resource = new XMLResourceNode(resourceXML);
+            resource.url = this.typemap[resource.filetype] + resource.file;
+            this.resources.push(resource);
+        });
+    };
+
+    this.getResourceURLS = function() {
+        var urls = [];
+        _(this.resources).each( function( resource, index, resources ) {
+            urls.push(resource.url);
+        });
+        return urls;
+    };
+
+    this.setupResources = function () {
+        (this.resources).each( function( resource, index, resources ) {
+            resource.exec(this.sprintfmap);
+        });
+    };
+
+    this.parseResources(xml);
 
 }
