@@ -52,7 +52,7 @@ Mewars::Application.routes.draw do
 	
 	namespace :api do
 		devise_for :users, :path_names => { :sign_up => 'register', :sign_in => 'login', :sign_out => 'logout' }
-    match 'get_full_map', to: 'maps#get_full_map', via: :post
+    match 'get_map_chunk', to: 'maps#get_map_chunk', via: :post
 	end
 
   # You can have the root of your site routed with "root"

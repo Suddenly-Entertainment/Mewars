@@ -86,5 +86,34 @@ Crafty.c("Tilemap", {
         this._height = height;
         this._data = data;
         this._setupTilemap(cb);
+    },
+    
+    /**
+     * Make empty tile map to merge chunks into later
+     */
+    makeEmptyTilemap: function(width, height) {
+      this._width = width;
+      this._height = height;
+      this._tiles = [];
+      for (i = 0; i < this._width; i++) {
+        this._tiles[i] = [];
+      }
+    },
+    
+    /**
+     * Merge new tiles into map
+     */
+    addTilesToMap: function(width, height, chunk_x, chunk_y, data, cb) {
+      var tile_width = 64;
+      var tile_height = 32;
+      for (i = chunk_x; i < chunk_x + width; i++) {
+        for (j = chunk_y; j < chunk_y + height; j++) {
+          var id = data[i - chunk_x][j - chunk_y];
+          var x = (j * tile_width / 2) + (i * tile_width / 2);
+          var y = (j * tile_height / 2) - (i * tile_height / 2);
+          var newTile = Crafty.e("Tile").makeTile(x, y, (j * this._width) - i, i, j, id, cb);
+          this._tiles[i][j] = newTile;
+        }
+      }
     }
 });

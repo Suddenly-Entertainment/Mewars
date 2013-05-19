@@ -83,7 +83,7 @@ namespace :mew do
           end
           inserts.push "(#{map.id}, #{chunk.id}, #{tile_x}, #{tile_y}, #{terrain_id})"
           if (inserts.count >= insert_capacity)
-            MapTile.connection.execute "INSERT INTO map_tiles (map_id, chunk_id, x, y, terrain_type) VALUES #{inserts.join(", ")}"
+            MapTile.connection.execute "INSERT INTO map_tiles (map_id, map_chunk_id, x, y, terrain_type) VALUES #{inserts.join(", ")}"
             inserts = []
           end
         end
