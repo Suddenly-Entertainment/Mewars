@@ -75,6 +75,7 @@ $MEW.toggleChunkLoading = function(action) {
   var chunkLoad = function() {
     tile_width = 64;
     tile_height = 32;
+    chunk_size = 10;
     x = Crafty.viewport.x;
     y = Crafty.viewport.y;
     tile_x = Math.round((x / tile_width) - (y / tile_height));
@@ -83,8 +84,16 @@ $MEW.toggleChunkLoading = function(action) {
     tile_x *= -1;
     tile_y -= 11;
     tile_y *= -1;
-    if (!$MEW.tilemap._tiles[tile_x][tile_y]) {
-      $MEW.Network.GetMapChunkData(1, tile_x, tile_y);
+    for (i = -1; i < 2; i++) {
+      for (j = -1; j < 2; j++) {
+        x_offset = i * chunk_size;
+        y_offset = j * chunk_size;
+        if (tile_x + x_offset > 0 && tile_y + y_offset > 0 && $MEW.tilemap._tiles[tile_x + x_offset]) {
+          if (!$MEW.tilemap._tiles[tile_x + x_offset][tile_y + y_offset]) {
+            $MEW.Network.GetMapChunkData(1, tile_x + x_offset, tile_y + y_offset);
+          }
+        }
+      }
     }
   };
   

@@ -6,13 +6,14 @@ class MapsController < ApplicationController
     tile = MapTile.where(:map_id => map_id, :x => x, :y => y).first
     map_chunk = tile.map_chunk
     tile_data = MapTile.where(:map_chunk_id => map_chunk.id).order('x,y').pluck(:terrain_type)
+    chunk_size = 10
     render :json =>
     {
-      :width => 10,
-      :height => 10,
+      :width => chunk_size,
+      :height => chunk_size,
       :chunk_x => map_chunk.x,
       :chunk_y => map_chunk.y,
-      :data => tile_data.each_slice(10).to_a
+      :data => tile_data.each_slice(chunk_size).to_a
     }
   end
 end
