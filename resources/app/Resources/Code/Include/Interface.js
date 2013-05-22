@@ -5,14 +5,16 @@ $MEW.toggleScrolling = function(action) {
         var dx = base.x - e.clientX,
             dy = base.y - e.clientY;
             base = {x: e.clientX, y: e.clientY};
+		$MEW.interface.moveInterface(dx, dy);
         Crafty.viewport.x -= dx;
         Crafty.viewport.y -= dy;
-        $MEW.interface.moveInterface(dx, dy);
     };
-
+	
+	
     var mouseUp = function() {
         Crafty.removeEvent(this, Crafty.stage.elem, "mousemove", scroll);
-        Crafty.removeEvent(this, Crafty.stage.elem, "mouseup", mouseUp);
+        //Crafty.removeEvent(this, Crafty.stage.elem, "mouseup", mouseUp);
+		Crafty.removeEvent(this, window.document, "mouseup", mouseUp);
     };
 
     var mouseDown = function(e) {
@@ -21,7 +23,8 @@ $MEW.toggleScrolling = function(action) {
         base = {x: e.clientX, y: e.clientY};
 
         Crafty.addEvent(this, Crafty.stage.elem, "mousemove", scroll);
-        Crafty.addEvent(this, Crafty.stage.elem, "mouseup", mouseUp);
+        //Crafty.addEvent(this, Crafty.stage.elem, "mouseup", mouseUp);
+		Crafty.addEvent(this, window.document, "mouseup", mouseUp);
     };
 
     if (action == 1) {
