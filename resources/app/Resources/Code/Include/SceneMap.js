@@ -3,8 +3,8 @@ Crafty.c("NetworkMap", {
 		this.requires("Network");
 	},
   
-  GetMapChunkData: function(map_id, x, y) {
-    this.Send("MapsGetChunk", { map_id: map_id, x: x, y: y });
+  GetMapChunksData: function(map_id, coordinates) {
+    this.Send("MapsGetChunks", { map_id: map_id, coordinates: coordinates });
   }
 })
 
@@ -26,9 +26,12 @@ Crafty.scene("Map", function () {
     Crafty.scene("Skirm");
   };
   
-  var onGetMapChunkData = function (chunk) {
-    $MEW.tilemap.addTilesToMap(chunk.width, chunk.height, chunk.chunk_x, chunk.chunk_y, chunk.data, $MEW.cb);
-    console.log("Chunk Loaded (x: " + chunk.chunk_x + ", y: " + chunk.chunk_y + ")");
+  var onGetMapChunksData = function (chunks) {
+    console.log("Receiving chunks");
+    for (var i = 0; i < chunks.length; i++) {
+      $MEW.tilemap.addTilesToMap(chunks[i].width, chunks[i].height, chunks[i].chunk_x, chunks[i].chunk_y, chunks[i].data, $MEW.cb);
+      console.log("Chunk Loaded (x: " + chunks[i].chunk_x + ", y: " + chunks[i].chunk_y + ")");
+    }
   };
   
   var onError = function (xhr, status, error) {
@@ -62,8 +65,8 @@ Crafty.scene("Map", function () {
   // bind to network
   $MEW.tilemap = Crafty.e("Tilemap");
   $MEW.tilemap.makeEmptyTilemap(1000, 1000);
-  $MEW.Network.bind("MapsGetChunk", onGetMapChunkData);
-  $MEW.Network.GetMapChunkData(1, 0, 0);  
+  $MEW.Network.bind("MapsGetChunks", onGetMapChunksData);
+  $MEW.Network.GetMapChunksData(1, [{x: 0, y: 0}]);  
 }, function () {
   $MEW.toggleScrolling(0);
   $MEW.toggleChunkLoading(0);
@@ -84,16 +87,20 @@ $MEW.toggleChunkLoading = function(action) {
     tile_x *= -1;
     tile_y -= 11;
     tile_y *= -1;
+    coordinates = []
     for (i = -1; i < 2; i++) {
       for (j = -1; j < 2; j++) {
         x_offset = i * chunk_size;
         y_offset = j * chunk_size;
         if (tile_x + x_offset > 0 && tile_y + y_offset > 0 && $MEW.tilemap._tiles[tile_x + x_offset]) {
           if (!$MEW.tilemap._tiles[tile_x + x_offset][tile_y + y_offset]) {
-            $MEW.Network.GetMapChunkData(1, tile_x + x_offset, tile_y + y_offset);
+            coordinates.push({x: tile_x + x_offset, y: tile_y + y_offset});
           }
         }
       }
+    }
+    if (coordinates.length > 0) {
+      $MEW.Network.GetMapChunksData(1, coordinates);
     }
   };
   

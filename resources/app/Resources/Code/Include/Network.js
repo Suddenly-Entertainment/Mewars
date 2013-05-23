@@ -1,7 +1,7 @@
 $MEW.Routes = {
     "UsersLogin":     ['API', 'POST', '/api/users/login' ],
     "UsersRegester":  ['API', 'POST', '/api/users'],
-    "MapsGetChunk":   ['API', 'POST', '/api/get_map_chunk']
+    "MapsGetChunks":  ['API', 'POST', '/api/get_map_chunks']
 };
 
 Crafty.c("Network", {
