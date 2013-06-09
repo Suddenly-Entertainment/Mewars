@@ -93,19 +93,19 @@ The workspace is hosted remotly by Cloud9 and has it's own 'local' version of th
   @mew:~/523353 (master) $ git push origin
 ```
  
- ### Getting the recent changes 
+### Getting the recent changes 
  
- if the the files in the workspace have been changed on the github repo we need to pull them in
+if the the files in the workspace have been changed on the github repo we need to pull them in
  
- ```
-  #this commadn will pull in all remote changes adn merge them
-  @mew:~/523353 (master) $ git pull origin
- ```
+```
+ #this command will pull in all remote changes adn merge them
+ @mew:~/523353 (master) $ git pull origin master
+```
  
- you may need to commit any local changes first for the commadn to work
- if there were local changed AND remote changed git will atempt to merge the files and if it cant it will notify you of conflicts. 
- see the git documentation for more information
- http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
+you may need to commit any local changes first for the commadn to work
+if there were local changed AND remote changed git will atempt to merge the files and if it cant it will notify you of conflicts. 
+see the git documentation for more information
+http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
  
- if you need help with the merge get someone else more knoledgeable to do it.
+if you need help with the merge get someone else more knoledgeable to do it.
 
