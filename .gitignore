@@ -188,3 +188,4 @@ OLD_PHP_API
 *.sublime-workspace
 /rails/vendor
 *~
+*.c9revisions
