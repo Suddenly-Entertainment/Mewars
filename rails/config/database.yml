@@ -7,11 +7,12 @@ development:
   adapter: postgresql
   encoding: unicode
   reconnect: false
-  database: mewars_development
+  database: deu8i4bqimsl46
   pool: 5
-  username: postgres
-  password: root
-  host: localhost
+  username: hwqzodqbrsmftj
+  password: gZATnW0TaS11Xe2NvGPj48vV7G
+  host: ec2-23-21-130-189.compute-1.amazonaws.com
+  port: 5432
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -20,11 +21,12 @@ test:
   adapter: postgresql
   encoding: unicode
   reconnect: false
-  database: mewars_test
+  database: d5poiimth06ope
   pool: 5
-  username: postgres
-  password: root
-  host: localhost
+  username: kelqicjcxkrphv
+  password: 5sOyn50kT6G5I1sPCQjsj4jIo4
+  host: ec2-107-20-215-249.compute-1.amazonaws.com
+  port: 5432
 
 production:
   adapter: postgresql
