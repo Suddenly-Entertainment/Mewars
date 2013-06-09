@@ -73,7 +73,7 @@ TODO
 ### Commiting your changes
 
 The workspace is hosted remotly by Cloud9 and has it's own 'local' version of the git repo to push your changes to the project to the github repo you'll need to use the terminal
- '''
+```
  # add all the new files/changes, run it in dry mode first to see what all it will add to the repo
  # if you see a file you dont want add it the the .gitignore file at the bottom then commit only the changes to the ignore file before trying to add 'all' with the .
  @mew:~/523353 (master) $ git add . -n
@@ -91,4 +91,21 @@ The workspace is hosted remotly by Cloud9 and has it's own 'local' version of th
   
   #and now that we have commited to the repo local we need to push thouse changes to the github repo
   @mew:~/523353 (master) $ git push origin
- '''
+```
+ 
+ ### Getting the recent changes 
+ 
+ if the the files in the workspace have been changed on the github repo we need to pull them in
+ 
+ ```
+  #this commadn will pull in all remote changes adn merge them
+  @mew:~/523353 (master) $ git pull origin
+ ```
+ 
+ you may need to commit any local changes first for the commadn to work
+ if there were local changed AND remote changed git will atempt to merge the files and if it cant it will notify you of conflicts. 
+ see the git documentation for more information
+ http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging
+ 
+ if you need help with the merge get someone else more knoledgeable to do it.
+
