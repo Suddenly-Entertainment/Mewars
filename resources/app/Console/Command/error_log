@@ -1,2 +1,0 @@
-[14-Apr-2012 21:55:02] PHP Fatal error:  Call to undefined method ChronShell::loadModel() in /home/decisiv1/public_html/ryex/app/Console/Command/ChronShell.php on line 7
-[14-Apr-2012 22:00:01] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting T_FUNCTION in /home/decisiv1/public_html/ryex/app/Console/Command/ChronShell.php on line 6

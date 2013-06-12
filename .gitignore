@@ -189,3 +189,5 @@ OLD_PHP_API
 /rails/vendor
 *~
 *.c9revisions
+error_log
+startserver.sh
