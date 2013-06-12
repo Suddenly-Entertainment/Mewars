@@ -51,16 +51,14 @@ you should be able to use the `tab` button to autocompleate both commands once y
 #### Resource
 
 #### Running the Server
-the resource server can't be hosted directly on C9
-as such there is a remote FTP space on our server to push the changes if you need to test
+the resource server has been rewritten to run on C9 and as a result is much lighter just
 
-ctrl+alt+d 
+```
+@mew:~/524202 (master) $ ./startserver.sh
 
-in the IDE should bring up the FTP deploy screen with the details already there, just make sure the local path is set to
+```
 
-/resources
-
-and the remote path is blank
+to run the apache server. ther server will then be avalible at mew_resource.ryex.c9.io
 
 ### Node
 
