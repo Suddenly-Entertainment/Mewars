@@ -98,8 +98,10 @@ The workspace is hosted remotly by Cloud9 and has it's own 'local' version of th
 if the the files in the workspace have been changed on the github repo we need to pull them in
  
 ```
- #this command will pull in all remote changes adn merge them
- @mew:~/523353 (master) $ git pull origin
+ #this command will pull in all remote changes and merge them
+
+ @mew:~/523353 (master) $ git pull origin master
+
 ```
  
 you may need to commit any local changes first for the commadn to work
