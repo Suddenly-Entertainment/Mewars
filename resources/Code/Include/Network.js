@@ -1,3 +1,4 @@
+/*global $MEW, Crafty*/
 $MEW.Routes = {
     "UsersLogin":     ['API', 'POST', '/api/users/login' ],
     "UsersRegester":  ['API', 'POST', '/api/users'],

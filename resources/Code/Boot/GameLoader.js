@@ -1,3 +1,4 @@
+/*global $MEW, Crafty*/
 /**
 $MEW.scripts = [
     // System 
@@ -36,34 +37,6 @@ $MEW.LOADINGFUNCTIONS = {};
 
 $MEW.CurrentLoadingScript = 0;
 
-$MEW.LOADINGFUNCTIONS.getNextScript = function (script_index) {
-    var processNext = function (script) {
-            $MEW.EvalScript(script); //Debug method
-            $MEW.CurrentLoadingScript++;
-            if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
-                $MEW.LOADINGFUNCTIONS.drawProgress($MEW.CurrentLoadingScript / $MEW.scripts.length);
-                $MEW.LOADINGFUNCTIONS.getNextScript($MEW.CurrentLoadingScript);
-            }
-        };
-    var retry = function () {
-            if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
-                $MEW.LOADINGFUNCTIONS.getNextScript($MEW.CurrentLoadingScript);
-            }
-        };
-    $.post($MEW.API_URL + '/game/action/', {
-            controller: 'code',
-            action: 'file',
-            pass: JSON.stringify([$MEW.scripts[script_index]]),
-            named: JSON.stringify({
-                '': ''
-            }),
-            post: JSON.stringify([null ])
-        },
-        //function(script) {eval(script);}
-        processNext
-    ).error($MEW.GameLoadErrorFunc(retry));
-
-};
 
 $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () {
 	$MEW.clear();
@@ -74,6 +47,54 @@ $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () {
 	var x = ($MEW.WIDTH - textWidth) / 2;
 	var y = ($MEW.HEIGHT - 14) / 2 - 14;
 	$MEW.CTX.fillText(text, x, y, textWidth);
+};
+
+$MEW.LOADINGFUNCTIONS.updateScriptProgress = function () {
+	if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
+		var progress = $MEW.CurrentLoadingScript / $MEW.scripts.length;
+		var percentage = Math.floor(progress * 100);
+		var text = 'Loading Game Code ... ' + percentage + "%";
+		if ($MEW.ScriptsRetryCounter > 0) {
+			text += (" (Retry " + $MEW.ScriptsRetryCounter + ")");
+		}
+		$MEW.LOADINGFUNCTIONS.bar.updateProgress(progress);
+		$MEW.LOADINGFUNCTIONS.text.text(text);
+		$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
+	}
+	else {
+		// proceed with the Main loop
+		$MEW.LOADINGFUNCTIONS.PostLoadCallBack();
+	}
+};
+
+$MEW.LOADINGFUNCTIONS.getNextScriptAJAX = function (script_index) {
+	function processNext (script) {
+		$MEW.EvalScript(script, $MEW.scripts[script_index]); //Debug method
+		$MEW.CurrentLoadingScript++;
+		$MEW.LOADINGFUNCTIONS.updateScriptProgress();
+	}
+	var retry = function () {
+		if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
+			$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
+		}
+	};
+    var ajax = $.ajax(
+        {
+            type: 'GET',
+            url: $MEW.RESOURCE_URL + '/code/file/' + $MEW.scripts[script_index],
+            context: this,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true
+        }
+    )
+	ajax.done(processNext)
+	ajax.fail($MEW.GameLoadErrorFunc(retry, "Error obtaining code file: " + $MEW.scripts[script_index]));
+};
+
+$MEW.LOADINGFUNCTIONS.loadScripts = function () {
+	$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
 };
 
 // Some tools for displaying the loading scene
@@ -401,43 +422,7 @@ Crafty.scene("Load", function () {
             $MEW.Viewport.bindTo($MEW.LOADINGFUNCTIONS.bar, 154, 500);
             $MEW.Viewport.bindTo($MEW.LOADINGFUNCTIONS.text, 295, 458);
 			
-			$MEW.LOADINGFUNCTIONS.updateScriptProgress = function () {
-				if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
-					var progress = $MEW.CurrentLoadingScript / $MEW.scripts.length;
-					var percentage = Math.floor(progress * 100);
-					var text = 'Loading Game Code ... ' + percentage + "%";
-					if ($MEW.ScriptsRetryCounter > 0) {
-						text += (" (Retry " + $MEW.ScriptsRetryCounter + ")");
-					}
-					$MEW.LOADINGFUNCTIONS.bar.updateProgress(progress);
-					$MEW.LOADINGFUNCTIONS.text.text(text);
-					$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
-				}
-				else {
-					// proceed with the Main loop
-					$MEW.LOADINGFUNCTIONS.PostLoadCallBack();
-				}
-			};
-
-            $MEW.LOADINGFUNCTIONS.getNextScriptAJAX = function (script_index) {
-				function processNext (script) {
-					$MEW.EvalScript(script, $MEW.scripts[script_index]); //Debug method
-					$MEW.CurrentLoadingScript++;
-					$MEW.LOADINGFUNCTIONS.updateScriptProgress();
-				}
-				var retry = function () {
-					if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
-						$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
-					}
-				};
-				$.get($MEW.RESOURCE_URL + '/code/file/' + $MEW.scripts[script_index])
-				.done(processNext)
-				.fail($MEW.GameLoadErrorFunc(retry, "Error obtaining code file: " + $MEW.scripts[script_index]));
-            };
 			
-			$MEW.LOADINGFUNCTIONS.loadScripts = function () {
-				$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
-			};
 			
 			// Load the scripts
 			$MEW.LOADINGFUNCTIONS.loadScripts();
@@ -446,8 +431,18 @@ Crafty.scene("Load", function () {
         };
 
 	function getMEWScripts() {
-		$.get($MEW.RESOURCE_URL + '/code/includes')
-		.success(function(data) {
+        var ajax = $.ajax(
+            {
+                type: 'GET',
+                url: $MEW.RESOURCE_URL + '/code/includes',
+                context: this,
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true
+            }
+        )
+		ajax.done(function(data) {
 			try {
 				$MEW.scripts = JSON.parse(data);
 			} catch(e) {
@@ -455,7 +450,7 @@ Crafty.scene("Load", function () {
 			}
 			setUpLoadScene();
 		})
-		.error($MEW.GameLoadErrorFunc(function(){getMEWScripts();}, "Error obtaining list of scripts to load"));
+		ajax.fail($MEW.GameLoadErrorFunc(function(){getMEWScripts();}, "Error obtaining list of scripts to load"));
 	}
 	
     Crafty.load(ImageURLS, function () {

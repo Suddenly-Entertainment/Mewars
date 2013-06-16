@@ -1,3 +1,4 @@
+/*global $MEW, Crafty*/
 function Clone() { }
 function clone(obj) {
     Clone.prototype = obj;
@@ -8,7 +9,7 @@ function clone(obj) {
  * Interface Parsing
  ******************************************************************/
 
-$XMLInterfaceAttrParsers = {
+var $XMLInterfaceAttrParsers = {
     component: function (that, ent, attr, base){
         ent.requires(attr.nodeValue);
     },
@@ -39,7 +40,7 @@ $XMLInterfaceAttrParsers = {
     }
 };
 
-$XMLInterfaceNodeParsers = {
+var $XMLInterfaceNodeParsers = {
     e: function (that, ent, entities, nodes, node, base){
         var entity = new XMLEntityNode(node);
         entity.passAttrs(ent);
@@ -53,7 +54,7 @@ $XMLInterfaceNodeParsers = {
     }
 };
 
-$XMLInterfaceNodeDelayParsers = {
+var $XMLInterfaceNodeDelayParsers = {
     e: function (that, ent, entities, node, base){
         var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
         entities.push(pnode.ent);
@@ -398,7 +399,7 @@ function XMLInterfaceParser(xml) {
  * Resource Parsing
  ******************************************************************/
 
-$XMLResourceNodeParsers = {
+var $XMLResourceNodeParsers = {
     sprintf: function (resource, xml) {
         var node = new XMLsprintfNode(xml);
         return node;

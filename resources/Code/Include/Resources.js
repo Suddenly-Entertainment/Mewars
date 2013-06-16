@@ -1,3 +1,7 @@
+/*global $MEW, Crafty*/
+// retry counter for getting resources
+$MEW.ResourceRetryCounter = 0;
+
 $MEW.doResourceLoad = function(progress_cb, ImageURLS) {
 	Crafty.load(ImageURLS, function() {
 		//when loaded
@@ -15,7 +19,14 @@ $MEW.doResourceLoad = function(progress_cb, ImageURLS) {
 		//uh oh, error loading
 		console.log("Error Loading resources:");
 		console.log(e);
-		$MEW.doResourceLoad(progress_cb, ImageURLS);
+        $MEW.ResourceRetryCounter += 1
+        if ($MEW.ResourceRetryCounter < 3) {
+            $MEW.doResourceLoad(progress_cb, ImageURLS);
+        } else {
+            var text = "Could not Load Resources: Contact Admin";
+            $MEW.LOADINGFUNCTIONS.text.text(text);
+            $MEW.LOADINGFUNCTIONS.bar.updateProgress(0);
+        }
 	});
 };
 

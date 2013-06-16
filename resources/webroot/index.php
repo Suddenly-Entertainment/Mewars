@@ -1,6 +1,8 @@
 <?php
 ob_start("ob_gzhandler");
 
+global $ALLOWED_CORS;
+
 $ALLOWED_CORS = array(
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -13,7 +15,8 @@ $ALLOWED_CORS = array(
     "http://www.equestrianwars.com",
     "http://equestrianwars.com",
     "http://client.cors-api.appspot.com",
-    "http://mewars-api-regi.aws.af.cm"
+    "http://mewars-api-regi.aws.af.cm",
+    "http://mew.ryex.c9.io"
 );
 
 
@@ -43,11 +46,12 @@ if (!empty($_GET['vars'])) {
     index();
 }
 
-function error_404() {
+function error_404($message="") {
     header('HTTP/1.0 404 Not Found');
-    echo '<h2 class="center">Error 404 - Not Found</h2>
-          <p>The requested page does not exist!</p>
-         ';
+    $text = '<h2 class="center">Error 404 - Not Found</h2>
+            <p>The requested page does not exist!</p>
+            ';
+    echo $text . " <br /> " . $message;
     die();
 }
 
@@ -178,12 +182,16 @@ class XML {
 function process_CORS() {
     $headers = getallheaders();
     
-    if (!empty($headers['Origin'])){
-        $origin = $headers['Origin'];
+    global $ALLOWED_CORS;
+    
+    header('X-Origin-Result: ' . $headers['origin']);
+    if (!empty($headers['origin'])){
+        $origin = $headers['origin'];
         if (in_array($origin, $ALLOWED_CORS )) {
             header('Access-Control-Allow-Origin: ' . $origin);
+            header('Access-Control-Allow-Credentials: true');
         } else {
-            error_404();
+            error_404($origin . " not in " . json_encode($ALLOWED_CORS));
         }
     }
 }

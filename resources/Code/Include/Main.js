@@ -1,3 +1,4 @@
+/*global $MEW, Crafty*/
 //$MEW.clear();
 //Crafty.init(800, 600);
 //Crafty.canvas.context = $MEW.CTX;

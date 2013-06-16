@@ -1,3 +1,4 @@
+/*global Crafty*/
 // Set up namespace
 var $MEW = {};
 // Set up URLs
@@ -5,6 +6,10 @@ if (document.location.hostname === "localhost") {
     $MEW.API_URL = "http://localhost:3000";
     $MEW.NODE_URL = "http://localhost:5000";
     $MEW.RESOURCE_URL = "http://localhost/resources";
+} else if (document.location.hostname === "mew.ryex.c9.io") {
+    $MEW.API_URL = "http://mew.ryex.c9.io";
+    $MEW.NODE_URL = "http://mew_node.ryex.c9.io";
+    $MEW.RESOURCE_URL = "http://mew_resource.ryex.c9.io";
 } else if (document.location.hostname === "api2.equestrianwars.com") {
     $MEW.API_URL = "http://api2.equestrianwars.com";
     $MEW.NODE_URL = "http://node2.equestrianwars.com";
@@ -14,6 +19,8 @@ if (document.location.hostname === "localhost") {
     $MEW.NODE_URL = "http://node.equestrianwars.com";
     $MEW.RESOURCE_URL = "http://re.equestrianwars.com";
 }
+
+console.log($MEW.API_URL, $MEW.NODE_URL, $MEW.RESOURCE_URL);
 
 // get our canvas
 var c = document.getElementById("MEWGame");
@@ -29,10 +36,10 @@ $MEW.ScriptsRetryCounter = 0;
 (function () {
     function DEBUG() {
         var SCRIPT_INCLUDE_MODE = "EVAL";
-        this.getIncludMode = function () {
+        this.getIncludeMode = function () {
             return SCRIPT_INCLUDE_MODE;
         };
-        this.setIncludMode = function (mode) {
+        this.setIncludeMode = function (mode) {
             SCRIPT_INCLUDE_MODE = mode;
         };
 
@@ -111,6 +118,7 @@ $MEW.clear = function() {
 };
 
 $MEW.DrawErrorText = function (text) {
+    console.log("Error: " + text);
     $MEW.clear();
     $MEW.CTX.fillStyle="#000000";
     $MEW.CTX.font="14px sans-serif";
@@ -148,17 +156,17 @@ $MEW.GameLoadErrorFunc = function(retryCB, extra_text) {
 
 // to load a script for the game into the locla namespace
 $MEW.EvalScript = function(script, name){
-    if ($MEW.DEBUG.getIncludMode() === "EVAL") {
+    if ($MEW.DEBUG.getIncludeMode() === "EVAL") {
         //runs eval '//@ sourceURL=name.js' gives the script a name
         //remember that eval doesn't give a proper message in case of a syntax error
-        source = '\n //@ sourceURL=' + $MEW.RESOURCE_URL + '/code/include/' + name;
+        var source = '\n //@ sourceURL=' + $MEW.RESOURCE_URL + '/code/include/' + name;
         $MEW.ScriptsRetryCounter = 0;
         try {
             eval(script + source);
         } catch (e) {
             console.log("Error Phrasing Game Code: " + $MEW.scripts[$MEW.CurrentLoadingScript], e.message, e);
         }
-    } else if ($MEW.DEBUG.getIncludMode() === "DIV") {
+    } else if ($MEW.DEBUG.getIncludeMode() === "DIV") {
         //adds code block
         var codeDiv = document.getElementById('CodeDiv');
         var scriptBlock = document.createElement("script");
@@ -184,9 +192,19 @@ $MEW.AddScriptDiv = function(url) {
 
 // to get a script for the game from the resourcs server
 $MEW.GetGameLoader = function() {
-    $.get($MEW.RESOURCE_URL + '/code/loader')
-    .success(function (script) {$MEW.EvalScript(script, "loader");})
-    .error($MEW.GameLoadErrorFunc(function(){$MEW.GetGameLoader();}, "Error obtaining the game loader"));
+    var ajax = $.ajax(
+        {
+            type: 'GET',
+            url: $MEW.RESOURCE_URL + '/code/loader',
+            context: this,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true
+        }
+    )
+    ajax.done(function (script) {$MEW.EvalScript(script, "loader");})
+    ajax.fail($MEW.GameLoadErrorFunc(function(){$MEW.GetGameLoader();}, "Error obtaining the game loader"));
 };
 
 $MEW.onDocLoad = function() {
