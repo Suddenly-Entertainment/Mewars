@@ -36,7 +36,7 @@ $MEW.LoadResources = function(progress_cb) {
 	var TileImageNames = ['apple_trees_block.png', 'desert_2_block.png', 'everfree_forest_block.png', 'forest_block.png', 'ice_block.png', 'mud_block.png', 'rocky_block.png', 'swamp_block.png', 'zap_apple_tree_block.png', 'bushes_block.png', 'diamonds_block.png', 'everfree_grass_block.png', 'gemstone_block.png', 'lava_block.png', 'poison_joke_block.png', 'snow_block.png', 'volcano_block.png', 'desert_1_block.png', 'dirt_block.png', 'flower_block.png', 'grass_block.png', 'mountain_block.png', 'quicksand_block.png', 'snow_mountain_block.png', 'water_block.png', 'ravine.png', 'barren.png'];
 
 	// Sprite image names
-	var SpriteImageNames = ['ARMOROPT.PNG', 'COLOURS.PNG', 'COLOURSBLACK.png', 'EYES.png', 'HAIRFEM.png', 'HAIRMALEwork.png', 'HATS.PNG', 'HORNS.PNG', 'TAILSFEM.png', 'Tailsmaleback.png', 'Tailsmalefront.png', 'WEAPONS.PNG', 'Wingsback.png', 'Wingsfront.png', "Chessfix.png", "snow_block3.png", "snow_block2.png"];
+	var SpriteImageNames = ['ARMOROPT.PNG', 'COLOURS.PNG', 'COLOURSBLACK.png', 'EYES.png', 'HAIRFEM.png', 'HAIRMALE.png', 'HATS.PNG', 'HORNS.PNG', 'TAILSFEM.png', 'Tailsmaleback.png', 'Tailsmalefront.png', 'WEAPONS.PNG', 'Wingsback.png', 'Wingsfront.png', "Chessfix.png", "snow_block3.png", "snow_block2.png"];
 
 	// Interface image names
 	var InterfaceImageNames = ['world_map_concept_mysticalpha-800.jpg', 'silouhetteavatar.png', 'anonavatar.png', 'anonavatar1.png', 'ParchmentWSV.png', 'small_v2_combined.png', 'mew_login_screen.png'];
