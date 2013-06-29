@@ -88,8 +88,8 @@ $MEW.LOADINGFUNCTIONS.getNextScriptAJAX = function (script_index) {
             },
             crossDomain: true
         }
-    )
-	ajax.done(processNext)
+    );
+	ajax.done(processNext);
 	ajax.fail($MEW.GameLoadErrorFunc(retry, "Error obtaining code file: " + $MEW.scripts[script_index]));
 };
 
