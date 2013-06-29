@@ -36,7 +36,10 @@ $MEW.LoadResources = function(progress_cb) {
 	var TileImageNames = ['apple_trees_block.png', 'desert_2_block.png', 'everfree_forest_block.png', 'forest_block.png', 'ice_block.png', 'mud_block.png', 'rocky_block.png', 'swamp_block.png', 'zap_apple_tree_block.png', 'bushes_block.png', 'diamonds_block.png', 'everfree_grass_block.png', 'gemstone_block.png', 'lava_block.png', 'poison_joke_block.png', 'snow_block.png', 'volcano_block.png', 'desert_1_block.png', 'dirt_block.png', 'flower_block.png', 'grass_block.png', 'mountain_block.png', 'quicksand_block.png', 'snow_mountain_block.png', 'water_block.png', 'ravine.png', 'barren.png'];
 
 	// Sprite image names
-	var SpriteImageNames = ['ARMOROPT.PNG', 'COLOURS.PNG', 'COLOURSBLACK.png', 'EYES.png', 'HAIRFEM.png', 'HAIRMALE.png', 'HATS.PNG', 'HORNS.PNG', 'TAILSFEM.png', 'Tailsmaleback.png', 'Tailsmalefront.png', 'WEAPONS.PNG', 'Wingsback.png', 'Wingsfront.png', "Chessfix.png", "snow_block3.png", "snow_block2.png"];
+	var SpriteImageNames = ['ARMOROPT.PNG', 'COLOURS.PNG', 'COLOURSBLACK.png', 'EYES.png', 'EYESBACK.png', 'HAIRFEMFRONT.PNG', 
+        'HAIRFEMBACK.png', 'HAIRMALEFRONT.png', 'HAIRMALEBACK.PNG', 'WEAPONSBACK1.png',
+        'HATS.PNG', 'HATSback.PNG', 'HORNS.PNG', 'TAILSFEMFRONT.png', 'TAILSFEMBACK.png', 'Tailsmaleback.png', 'Tailsmalefront.png', 'WEAPONS.PNG', 
+        'Wingsback.png', 'Wingsfront.png', "Chessfix.png", "snow_block3.png", "snow_block2.png"];
 
 	// Interface image names
 	var InterfaceImageNames = ['world_map_concept_mysticalpha-800.jpg', 'silouhetteavatar.png', 'anonavatar.png', 'anonavatar1.png', 'ParchmentWSV.png', 'small_v2_combined.png', 'mew_login_screen.png'];
@@ -274,50 +277,106 @@ $MEW.setupSprites = function() {
 			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'EYES.png', x, y, cw, ch];
 		}
 	}
+    
+    // EYES.png
+	image = Crafty.assets[SpriteResourceURL + 'EYESBACK.png'];
+	ch = image.height / 8;
+	cw = image.width / 10;
+	for(y = 0; y < 8; y++) {
+		for(x = 0; x < 10; x++) {
+			key = "Eyes|" + (y % 2) + "|" + (x + Math.floor(y / 2) * 10);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'EYESBACK.png', x, y, cw, ch];
+		}
+	}
 
-	// HAIRMALE.png
-	image = Crafty.assets[SpriteResourceURL + 'HAIRMALE.png'];
+    // HAIRMALEFRONT.png
+	image = Crafty.assets[SpriteResourceURL + 'HAIRMALEFRONT.png'];
 	ch = image.height / 24;
 	cw = image.width / 28;
-	$MEW.PonyPartSprites["Mane|0|0|0"] = [SpriteResourceURL + 'HAIRMALE.png', 0, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|1"] = [SpriteResourceURL + 'HAIRMALE.png', 1, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|2"] = [SpriteResourceURL + 'HAIRMALE.png', 2, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|3"] = [SpriteResourceURL + 'HAIRMALE.png', 3, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|4"] = [SpriteResourceURL + 'HAIRMALE.png', 4, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|5"] = [SpriteResourceURL + 'HAIRMALE.png', 5, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|6"] = [SpriteResourceURL + 'HAIRMALE.png', 6, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|7"] = [SpriteResourceURL + 'HAIRMALE.png', 7, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|8"] = [SpriteResourceURL + 'HAIRMALE.png', 8, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|9"] = [SpriteResourceURL + 'HAIRMALE.png', 9, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|0|0|10"] = [SpriteResourceURL + 'HAIRMALE.png', 10, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|0"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|1"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|2"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|3"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|4"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|5"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|6"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|7"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|8"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|9"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|10"] = [SpriteResourceURL + 'HAIRMALEFRONT.png', 10, 0, cw, ch];
 	colorOffset = 10;
 	for(y = 1; y < 24; y++) {
 		for(x = 0; x < 28; x++) {
 			key = "Mane|0|" + x + "|" + (y + colorOffset);
-			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRMALE.png', x, y, cw, ch];
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRMALEFRONT.png', x, y, cw, ch];
+		}
+	}
+    // HAIRMALEBACK.png
+	image = Crafty.assets[SpriteResourceURL + 'HAIRMALEBACK.png'];
+	ch = image.height / 24;
+	cw = image.width / 28;
+	$MEW.PonyPartSprites["Mane|0|0|0"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|1"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|2"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|3"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|4"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|5"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|6"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|7"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|8"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|9"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|0|0|10"] = [SpriteResourceURL + 'HAIRMALEBACK.png', 10, 0, cw, ch];
+	colorOffset = 10;
+	for(y = 1; y < 24; y++) {
+		for(x = 0; x < 28; x++) {
+			key = "Mane|0|" + x + "|" + (y + colorOffset);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRMALEBACK.png', x, y, cw, ch];
 		}
 	}
 
-	// HAIRFEM.png
-	image = Crafty.assets[SpriteResourceURL + 'HAIRFEM.png'];
+	// HAIRFEMFRONT.png
+	image = Crafty.assets[SpriteResourceURL + 'HAIRFEMFRONT.png'];
 	ch = image.height / 24;
 	cw = image.width / 28;
-	$MEW.PonyPartSprites["Mane|1|0|0"] = [SpriteResourceURL + 'HAIRFEM.png', 0, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|1"] = [SpriteResourceURL + 'HAIRFEM.png', 1, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|2"] = [SpriteResourceURL + 'HAIRFEM.png', 2, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|3"] = [SpriteResourceURL + 'HAIRFEM.png', 3, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|4"] = [SpriteResourceURL + 'HAIRFEM.png', 4, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|5"] = [SpriteResourceURL + 'HAIRFEM.png', 5, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|6"] = [SpriteResourceURL + 'HAIRFEM.png', 6, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|7"] = [SpriteResourceURL + 'HAIRFEM.png', 7, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|8"] = [SpriteResourceURL + 'HAIRFEM.png', 8, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|9"] = [SpriteResourceURL + 'HAIRFEM.png', 9, 0, cw, ch];
-	$MEW.PonyPartSprites["Mane|1|0|10"] = [SpriteResourceURL + 'HAIRFEM.png', 10, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|0"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|1"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|2"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|3"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|4"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|5"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|6"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|7"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|8"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|9"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|10"] = [SpriteResourceURL + 'HAIRFEMFRONT.png', 10, 0, cw, ch];
 	colorOffset = 10;
 	for(y = 1; y < 24; y++) {
 		for(x = 0; x < 28; x++) {
 			key = "Mane|1|" + x + "|" + (y + colorOffset);
-			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRFEM.png', x, y, cw, ch];
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRFEMFRONT.png', x, y, cw, ch];
+		}
+	}
+    
+    // HAIRFEMBACK.png
+	image = Crafty.assets[SpriteResourceURL + 'HAIRFEMBACK.png'];
+	ch = image.height / 24;
+	cw = image.width / 28;
+	$MEW.PonyPartSprites["Mane|1|0|0"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|1"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|2"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|3"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|4"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|5"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|6"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|7"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|8"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|9"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Mane|1|0|10"] = [SpriteResourceURL + 'HAIRFEMBACK.png', 10, 0, cw, ch];
+	colorOffset = 10;
+	for(y = 1; y < 24; y++) {
+		for(x = 0; x < 28; x++) {
+			key = "Mane|1|" + x + "|" + (y + colorOffset);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HAIRFEMBACK.png', x, y, cw, ch];
 		}
 	}
 
@@ -333,6 +392,19 @@ $MEW.setupSprites = function() {
 			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HATS.PNG', x, y, cw, ch];
 		}
 	}
+    
+    // HATSback.PNG
+	image = Crafty.assets[SpriteResourceURL + 'HATSback.PNG'];
+	ch = image.height / 8;
+	cw = image.width / 32;
+	$MEW.PonyPartSprites["Hat|0|0|0"] = [SpriteResourceURL + 'HATSback.PNG', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Hat|1|0|0"] = [SpriteResourceURL + 'HATSback.PNG', 0, 1, cw, ch];
+	for(y = 0; y < 8; y++) {
+		for(x = 1; x < 32; x++) {
+			key = "Hat|" + (y % 2) + "|" + x + "|" + Math.floor(y / 2);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HATSback.PNG', x, y, cw, ch];
+		}
+	}
 
 	// HORNS.PNG
 	image = Crafty.assets[SpriteResourceURL + 'HORNS.PNG'];
@@ -344,50 +416,106 @@ $MEW.setupSprites = function() {
 			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HORNS.PNG', x, y, cw, ch];
 		}
 	}
+    // HORNSBACK.PNG
+	image = Crafty.assets[SpriteResourceURL + 'HORNSBACK.PNG'];
+	ch = image.height / 2;
+	cw = image.width / 50;
+	for(y = 0; y < 2; y++) {
+		for(x = 0; x < 56; x++) {
+			key = "Horn|" + y + "|" + x;
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'HORNSBACK.PNG', x, y, cw, ch];
+		}
+	}
 
-	// TAILSMALE.png
-	image = Crafty.assets[SpriteResourceURL + 'TAILSMALE.png'];
+	// Tailsmalefront.png
+	image = Crafty.assets[SpriteResourceURL + 'Tailsmalefront.png'];
 	ch = image.height / 24;
 	cw = image.width / 26;
-	$MEW.PonyPartSprites["Tail|0|0|0"] = [SpriteResourceURL + 'TAILSMALE.png', 0, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|1"] = [SpriteResourceURL + 'TAILSMALE.png', 1, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|2"] = [SpriteResourceURL + 'TAILSMALE.png', 2, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|3"] = [SpriteResourceURL + 'TAILSMALE.png', 3, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|4"] = [SpriteResourceURL + 'TAILSMALE.png', 4, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|5"] = [SpriteResourceURL + 'TAILSMALE.png', 5, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|6"] = [SpriteResourceURL + 'TAILSMALE.png', 6, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|7"] = [SpriteResourceURL + 'TAILSMALE.png', 7, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|8"] = [SpriteResourceURL + 'TAILSMALE.png', 8, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|9"] = [SpriteResourceURL + 'TAILSMALE.png', 9, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|0|0|10"] = [SpriteResourceURL + 'TAILSMALE.png', 10, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|0"] = [SpriteResourceURL + 'Tailsmalefront.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|1"] = [SpriteResourceURL + 'Tailsmalefront.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|2"] = [SpriteResourceURL + 'Tailsmalefront.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|3"] = [SpriteResourceURL + 'Tailsmalefront.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|4"] = [SpriteResourceURL + 'Tailsmalefront.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|5"] = [SpriteResourceURL + 'Tailsmalefront.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|6"] = [SpriteResourceURL + 'Tailsmalefront.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|7"] = [SpriteResourceURL + 'Tailsmalefront.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|8"] = [SpriteResourceURL + 'Tailsmalefront.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|9"] = [SpriteResourceURL + 'Tailsmalefront.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|10"] = [SpriteResourceURL + 'Tailsmalefront.png', 10, 0, cw, ch];
 	colorOffset = 10;
 	for(y = 1; y < 24; y++) {
 		for(x = 0; x < 26; x++) {
 			key = "Tail|0|" + x + "|" + (y + colorOffset);
-			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'TAILSMALE.png', x, y, cw, ch];
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'Tailsmalefront.png', x, y, cw, ch];
+		}
+	}
+    
+    // Tailsmaleback.png
+	image = Crafty.assets[SpriteResourceURL + 'Tailsmaleback.png'];
+	ch = image.height / 24;
+	cw = image.width / 26;
+	$MEW.PonyPartSprites["Tail|0|0|0"] = [SpriteResourceURL + 'Tailsmaleback.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|1"] = [SpriteResourceURL + 'Tailsmaleback.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|2"] = [SpriteResourceURL + 'Tailsmaleback.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|3"] = [SpriteResourceURL + 'Tailsmaleback.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|4"] = [SpriteResourceURL + 'Tailsmaleback.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|5"] = [SpriteResourceURL + 'Tailsmaleback.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|6"] = [SpriteResourceURL + 'Tailsmaleback.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|7"] = [SpriteResourceURL + 'Tailsmaleback.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|8"] = [SpriteResourceURL + 'Tailsmaleback.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|9"] = [SpriteResourceURL + 'Tailsmaleback.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|0|0|10"] = [SpriteResourceURL + 'Tailsmaleback.png', 10, 0, cw, ch];
+	colorOffset = 10;
+	for(y = 1; y < 24; y++) {
+		for(x = 0; x < 26; x++) {
+			key = "Tail|0|" + x + "|" + (y + colorOffset);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'Tailsmaleback.png', x, y, cw, ch];
 		}
 	}
 
-	//TAILSFEM.png
-	image = Crafty.assets[SpriteResourceURL + 'TAILSFEM.png'];
+	//TAILFEMBACK.png
+	image = Crafty.assets[SpriteResourceURL + 'TAILFEMBACK.png'];
 	ch = image.height / 24;
 	cw = image.width / 26;
-	$MEW.PonyPartSprites["Tail|1|0|0"] = [SpriteResourceURL + 'TAILSFEM.png', 0, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|1"] = [SpriteResourceURL + 'TAILSFEM.png', 1, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|2"] = [SpriteResourceURL + 'TAILSFEM.png', 2, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|3"] = [SpriteResourceURL + 'TAILSFEM.png', 3, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|4"] = [SpriteResourceURL + 'TAILSFEM.png', 4, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|5"] = [SpriteResourceURL + 'TAILSFEM.png', 5, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|6"] = [SpriteResourceURL + 'TAILSFEM.png', 6, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|7"] = [SpriteResourceURL + 'TAILSFEM.png', 7, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|8"] = [SpriteResourceURL + 'TAILSFEM.png', 8, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|9"] = [SpriteResourceURL + 'TAILSFEM.png', 9, 0, cw, ch];
-	$MEW.PonyPartSprites["Tail|1|0|10"] = [SpriteResourceURL + 'TAILSFEM.png', 10, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|0"] = [SpriteResourceURL + 'TAILFEMBACK.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|1"] = [SpriteResourceURL + 'TAILFEMBACK.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|2"] = [SpriteResourceURL + 'TAILFEMBACK.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|3"] = [SpriteResourceURL + 'TAILFEMBACK.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|4"] = [SpriteResourceURL + 'TAILFEMBACK.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|5"] = [SpriteResourceURL + 'TAILFEMBACK.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|6"] = [SpriteResourceURL + 'TAILFEMBACK.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|7"] = [SpriteResourceURL + 'TAILFEMBACK.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|8"] = [SpriteResourceURL + 'TAILFEMBACK.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|9"] = [SpriteResourceURL + 'TAILFEMBACK.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|10"] = [SpriteResourceURL + 'TAILFEMBACK.png', 10, 0, cw, ch];
 	colorOffset = 10;
 	for(y = 1; y < 24; y++) {
 		for(x = 0; x < 26; x++) {
 			key = "Tail|1|" + x + "|" + (y + colorOffset);
-			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'TAILSFEM.png', x, y, cw, ch];
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'TAILFEMBACK.png', x, y, cw, ch];
+		}
+	}
+    
+    //TAILFEMFRONT.png
+	image = Crafty.assets[SpriteResourceURL + 'TAILFEMFRONT.png'];
+	ch = image.height / 24;
+	cw = image.width / 26;
+	$MEW.PonyPartSprites["Tail|1|0|0"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 0, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|1"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 1, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|2"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 2, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|3"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 3, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|4"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 4, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|5"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 5, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|6"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 6, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|7"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 7, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|8"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 8, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|9"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 9, 0, cw, ch];
+	$MEW.PonyPartSprites["Tail|1|0|10"] = [SpriteResourceURL + 'TAILFEMFRONT.png', 10, 0, cw, ch];
+	colorOffset = 10;
+	for(y = 1; y < 24; y++) {
+		for(x = 0; x < 26; x++) {
+			key = "Tail|1|" + x + "|" + (y + colorOffset);
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'TAILFEMFRONT.png', x, y, cw, ch];
 		}
 	}
 
@@ -399,6 +527,16 @@ $MEW.setupSprites = function() {
 		for(x = 0; x < 17; x++) {
 			key = "Weapon|" + y + "|" + x;
 			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'WEAPONS.PNG', x, y, cw, ch];
+		}
+	}
+    // WEAPONSBACK1.PNG
+	image = Crafty.assets[SpriteResourceURL + 'WEAPONSBACK1.PNG'];
+	ch = image.height / 2;
+	cw = image.width / 17;
+	for(y = 0; y < 2; y++) {
+		for(x = 0; x < 17; x++) {
+			key = "Weapon|" + y + "|" + x;
+			$MEW.PonyPartSprites[key] = [SpriteResourceURL + 'WEAPONSBACK1.PNG', x, y, cw, ch];
 		}
 	}
 
