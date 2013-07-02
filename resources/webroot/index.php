@@ -58,7 +58,7 @@ function error_404($message="") {
 
 function index() {
     
-    echo 'Hello form MockEquestrianWars! <br/> What are you doing here? <br />';
+    echo 'Hello form Mock Equestrian Wars! <br/> What are you doing here? <br />';
 }
 
 class Code {

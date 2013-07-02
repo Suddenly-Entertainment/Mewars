@@ -1,3 +1,4 @@
+/*global $MEW, Crafty*/
 Crafty.c("NetworkMap", {
 	init: function () {
 		this.requires("Network");

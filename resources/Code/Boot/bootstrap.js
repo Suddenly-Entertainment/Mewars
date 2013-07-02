@@ -236,7 +236,7 @@ $MEW.onDocLoad = function() {
         $( this ).dialog( "close" );
         var text = "" +
             "WARNING: You have selected not to load Mock Equestrian Wars. \n" +
-            "If you want to load the game, reload the page and chouse 'yes'.";
+            "If you want to load the game, reload the page and choose 'yes'.";
         $MEW.DrawErrorText(text);
     }
 
