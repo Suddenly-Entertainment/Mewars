@@ -10,115 +10,113 @@
     <type name="interface" url="InterfaceResourceURL" />
 
     <!-- Tiles -->
-    <resource file="apple_trees_block.png" filetype="tile" width="64" height="128">
-        <sprite name="AppleTreesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="zap_apple_tree_block.png" filetype="tile" width="64" height="128">
-        <sprite name="ZapAppleTreeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="everfree_forest_block.png" filetype="tile" width="64" height="128">
-        <sprite name="EverfreeForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="forest_block.png" filetype="tile" width="64" height="128">
-        <sprite name="ForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="bushes_block.png" filetype="tile" width="64" height="128">
-        <sprite name="BushesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="poison_joke_block.png" filetype="tile" width="64" height="128">
-        <sprite name="PoisonJokeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="volcano_block.png" filetype="tile" width="64" height="128">
-        <sprite name="VolcanoSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="mountain_block.png" filetype="tile" width="64" height="128">
-        <sprite name="MountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="snow_mountain_block.png" filetype="tile" width="64" height="128">
-        <sprite name="SnowMountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="desert_1_block.png" filetype="tile" width="64" height="128">
-        <sprite name="Desert1Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="desert_2_block.png" filetype="tile" width="64" height="128">
-        <sprite name="Desert2Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="ice_block.png" filetype="tile" width="64" height="128">
-        <sprite name="IceSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="mud_block.png" filetype="tile" width="64" height="128">
-        <sprite name="MudSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="rocky_block.png" filetype="tile" width="64" height="128">
-        <sprite name="RockySprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="swamp_block.png" filetype="tile" width="64" height="128">
-        <sprite name="SwampSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="gemstone_block.png" filetype="tile" width="64" height="128">
-        <sprite name="GemstoneSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="lava_block.png" filetype="tile" width="64" height="128">
-        <sprite name="LavaSprit" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="snow_block.png" filetype="tile" width="64" height="128">
-        <sprite name="SnowSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="dirt_block.png" filetype="tile" width="64" height="128">
-        <sprite name="DirtSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="water_block.png" filetype="tile" width="64" height="128">
-        <sprite name="WaterSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
-    <resource file="quicksand_block.png" filetype="tile" width="64" height="128">
-        <sprite name="QuicksandSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
     <resource file="grass_block.png" filetype="tile" width="64" height="128">
-        <sprite name="GrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+        <sprite id="0" name="GrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
     </resource>
 
     <resource file="everfree_grass_block.png" filetype="tile" width="64" height="128">
-        <sprite name="EverfreeGrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+        <sprite id="1" name="EverfreeGrassSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
     </resource>
-
-    <resource file="diamonds_block.png" filetype="tile" width="64" height="128">
-        <sprite name="DiamondsSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
-    </resource>
-
+    
     <resource file="flower_block.png" filetype="tile" width="64" height="128">
-        <sprite name="FlowerSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+        <sprite id="2" name="FlowerSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
     </resource>
-
-    <resource file="ravine.png" filetype="tile" width="64" height="128">
-        <sprite name="RavineSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    
+    <resource file="dirt_block.png" filetype="tile" width="64" height="128">
+        <sprite id="3" name="DirtSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
     </resource>
-
+    
+    <resource file="mud_block.png" filetype="tile" width="64" height="128">
+        <sprite id="4" name="MudSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
     <resource file="barren.png" filetype="tile" width="64" height="128">
-        <sprite name="BarrenSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+        <sprite id="5" name="BarrenSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    <!-- MISSING ID 6 -->
+    <resource file="swamp_block.png" filetype="tile" width="64" height="128">
+        <sprite id="7" name="SwampSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="bushes_block.png" filetype="tile" width="64" height="128">
+        <sprite id="8" name="BushesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="forest_block.png" filetype="tile" width="64" height="128">
+        <sprite id="9" name="ForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="everfree_forest_block.png" filetype="tile" width="64" height="128">
+        <sprite id="10" name="EverfreeForestSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="rocky_block.png" filetype="tile" width="64" height="128">
+        <sprite id="11" name="RockySprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="snow_block.png" filetype="tile" width="64" height="128">
+        <sprite id="12" name="SnowSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="ice_block.png" filetype="tile" width="64" height="128">
+        <sprite id="13" name="IceSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="water_block.png" filetype="tile" width="64" height="128">
+        <sprite id="14" name="WaterSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="ravine.png" filetype="tile" width="64" height="128">
+        <sprite id="15" name="RavineSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="volcano_block.png" filetype="tile" width="64" height="128">
+        <sprite id="16" name="VolcanoSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
     </resource>
 
+    <resource file="mountain_block.png" filetype="tile" width="64" height="128">
+        <sprite id="17" name="MountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
 
+    <resource file="snow_mountain_block.png" filetype="tile" width="64" height="128">
+        <sprite id="18" name="SnowMountainSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="desert_2_block.png" filetype="tile" width="64" height="128">
+        <sprite id="19" name="Desert2Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="lava_block.png" filetype="tile" width="64" height="128">
+        <sprite id="20" name="LavaSprit" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="quicksand_block.png" filetype="tile" width="64" height="128">
+        <sprite id="21" name="QuicksandSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="poison_joke_block.png" filetype="tile" width="64" height="128">
+        <sprite id="22" name="PoisonJokeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="apple_trees_block.png" filetype="tile" width="64" height="128">
+        <sprite id="23" name="AppleTreesSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="zap_apple_tree_block.png" filetype="tile" width="64" height="128">
+        <sprite id="24" name="ZapAppleTreeSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+
+    <resource file="gemstone_block.png" filetype="tile" width="64" height="128">
+        <sprite id="25" name="GemstoneSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="diamonds_block.png" filetype="tile" width="64" height="128">
+        <sprite id="26" name="DiamondsSprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
+    
+    <resource file="desert_1_block.png" filetype="tile" width="64" height="128">
+        <sprite id="27" name="Desert1Sprite" url="%(url)s" mapx="0" mapy="0" mapw="64" maph="128" />
+    </resource>
 
     <!-- Sprites -->
 
@@ -131,7 +129,7 @@
         <sprite name="Armor|1|0|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
         <loop val="y" start="0" stop="8">
             <loop val="x" start="1" stop="32">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="varient" func="%(x)s" />
                 <sprintf name="color" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Armor|%(sex)s|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -146,7 +144,7 @@
         <sprite name="Armor|1|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
         <loop val="y" start="0" stop="8">
             <loop val="x" start="1" stop="32">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="varient" func="%(x)s" />
                 <sprintf name="color" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Armor|%(sex)s|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -161,7 +159,7 @@
         <sprintf name="ch" func="%(height)s / 4"/>
         <loop val="y" start="0" stop="4">
             <loop val="x" start="0" stop="50">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprintf name="front" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Body|%(sex)s|%(color)s|%(front)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -176,7 +174,7 @@
         <sprintf name="ch" func="%(height)s / 8"/>
         <loop val="y" start="0" stop="8">
             <loop val="x" start="0" stop="10">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprintf name="varient" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Eyes|%(sex)s|%(color)s|%(varient)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -189,7 +187,7 @@
         <sprintf name="ch" func="%(height)s / 8"/>
         <loop val="y" start="0" stop="8">
             <loop val="x" start="0" stop="10">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprintf name="varient" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Eyes|%(sex)s|%(color)s|%(varient)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -306,7 +304,7 @@
         <sprite name="Hat|1|0|0|0" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
         <loop val="y" start="0" stop="8">
             <loop val="x" start="1" stop="32">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="varient" func="%(x)s" />
                 <sprintf name="color" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Hat|%(sex)s|%(varient)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -321,7 +319,7 @@
         <sprite name="Hat|1|0|0|1" url="%(url)s" mapx="0" mapy="1" mapw="%(cw)s" maph="%(ch)s" />
         <loop val="y" start="0" stop="8">
             <loop val="x" start="1" stop="32">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="varient" func="%(x)s" />
                 <sprintf name="color" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Hat|%(sex)s|%(varient)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -336,7 +334,7 @@
         <sprintf name="ch" func="%(height)s / 2"/>
         <loop val="y" start="0" stop="2">
             <loop val="x" start="0" stop="50">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprite name="Horn|%(sex)s|%(color)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
             </loop>
@@ -348,7 +346,7 @@
         <sprintf name="ch" func="%(height)s / 2"/>
         <loop val="y" start="0" stop="2">
             <loop val="x" start="0" stop="50">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprite name="Horn|%(sex)s|%(color)s|1" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
             </loop>
@@ -449,7 +447,7 @@
         <sprintf name="ch" func="%(height)s / 2"/>
         <loop val="y" start="0" stop="2">
             <loop val="x" start="0" stop="17">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="weapon" func="%(x)s" />
                 <sprite name="Weapon|%(sex)s|%(weapon)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
             </loop>
@@ -464,7 +462,7 @@
         <sprintf name="ch" func="%(height)s / 4"/>
         <loop val="y" start="0" stop="4">
             <loop val="x" start="0" stop="51">
-                <sprintf name="sex" func="%(y)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
                 <sprintf name="color" func="%(x)s" />
                 <sprintf name="open" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Wings|%(sex)s|%(color)s|%(open)s|0" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -481,8 +479,8 @@
         <sprintf name="ch" func="%(height)s / 4"/>
         <loop val="y" start="0" stop="4">
             <loop val="x" start="0" stop="12">
-                <sprintf name="sex" func="%(y)s % 2" />
-                <sprintf name="color" func="%(x)s % 2" />
+                <sprintf name="sex" func="%(y)s %(mod)s 2" />
+                <sprintf name="color" func="%(x)s %(mod)s 2" />
                 <sprintf name="piece" func="Math.floor(%(x)s / 2)" />
                 <sprintf name="front" func="Math.floor(%(y)s / 2)" />
                 <sprite name="Chessfix|%(sex)s|%(color)s|%(piece)s|%(front)s" url="%(url)s" mapx="%(x)s" mapy="%(y)s" mapw="%(cw)s" maph="%(ch)s" />
@@ -512,10 +510,10 @@
 
     <!-- Interface -->
     <resource file="ParchmentWSV.png" filetype="interface" width="200" height="200">
-        <windowskin top="30" bot="170" left="32" right="160" width="%(width)s" height="%(height)s" />
+        <windowskin name="ParchmentWSV" url="%(url)s" top="30" bot="170" left="32" right="160" width="%(width)s" height="%(height)s" />
     </resource>
     <resource file="small_v2_combined.png" filetype="interface" width="144" height="144">
-        <windowskin top="32" bot="112" left="32" right="112" width="%(width)s" height="%(height)s" />
+        <windowskin name="small_v2_combined" url="%(url)s" top="32" bot="112" left="32" right="112" width="%(width)s" height="%(height)s" />
     </resource>
 
 </resources>

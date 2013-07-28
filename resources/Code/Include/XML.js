@@ -375,7 +375,7 @@ function XMLInterfaceParser(xml) {
 
     this.interfaces = [];
     this.map = [];
-
+    console.log(this);
     this.parseInterfaces = function (xml) {
         var interfaces = xml.getElementsByTagName('interface');
 
@@ -388,8 +388,9 @@ function XMLInterfaceParser(xml) {
 
     this.parseInterfaces(xml);
 
-    this.getInterface = function (name) {
-        var inter = this.map[name] || null ;
+    //this.getInterface = function (name) {
+    $MEW.getInterface = function (name){
+        var inter = window.map[name] || null ;
         return inter;
     };
 
@@ -405,7 +406,7 @@ var $XMLResourceNodeParsers = {
         return node;
     },
     sprite: function (resource, xml) {
-        var node = new XMLResourceSpriteNode(xml);
+        var node = new XMLResourceSpriteNode(resource, xml);
         return node;
 
     },
@@ -424,30 +425,34 @@ var $XMLResourceNodeParsers = {
 function XMLsprintfNode(xml) {
     this.name = "";
     this.func = "";
+    var that = this;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
     this.evaluate = function (map) {
         var result;
-        var s = sprintf(this.func, map);
+        map['mod'] = '%';
+        var s = sprintf(String(that.func), map);
         result = eval(s);
         return result;
     };
     this.map =function(map) {
-        map[this.name] = this.evaluate(map);
+        map[that.name] = that.evaluate(map);
     };
     this.exec = function (map) {
-        this.map(map);
+        that.map(map);
     };
 }
 
 function XMLResourceURLNode(xml) {
     this.name = "";
     this.value = "";
+    var that = this;
+    
     var URL_MAP = {
         RESOURCE_URL: $MEW.RESOURCE_URL,
         NODE_URL: $MEW.NODE_URL,
@@ -455,9 +460,9 @@ function XMLResourceURLNode(xml) {
     };
     _(xml.attributes).each( function( atter, index, attributes ) {
         if (atter.nodeName.toLowerCase() === 'name') {
-            this.name = atter.nodeValue;
+            that.name = atter.nodeValue;
         } else if (atter.nodeName.toLowerCase() === 'value') {
-            this.value = sprintf(atter.nodeValue, URL_MAP);
+            that.value = sprintf(String(atter.nodeValue), URL_MAP);
         }
     });
 }
@@ -465,43 +470,53 @@ function XMLResourceURLNode(xml) {
 function XMLResourceTypeNode(xml, map) {
     this.name = "";
     this.url = "";
+    var that = this;
+    
     _(xml.attributes).each( function( atter, index, attributes ) {
         if (atter.nodeName.toLowerCase() === 'name') {
-            this.name = atter.nodeValue;
+            that.name = atter.nodeValue;
         } else if (atter.nodeName.toLowerCase() === 'url') {
-            this.url = map[atter.nodeValue];
+            that.url = map[atter.nodeValue];
         }
     });
 }
 
-function XMLResourceSpriteNode(xml) {
+function XMLResourceSpriteNode(resource, xml) {
     this.name = "";
     this.mapx = "";
     this.mapy = "";
     this.mapw = "";
     this.maph = "";
     this.url = "";
+    this.id = -1;
+    var that = this;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
-    this.getMapedParams = function (sprintf, map) {
+    this.getMappedParams = function (map) {
         var params = {};
-        params.name = sprintf(this.name, map);
-        params.mapx = sprintf(this.mapx, map);
-        params.mapy = sprintf(this.mapy, map);
-        params.mapw = sprintf(this.mapw, map);
-        params.maph = sprintf(this.maph, map);
+        params.name = sprintf(String(that.name), map);
+        params.id = parseInt(sprintf(String(that.id), map));
+        params.mapx = parseInt(sprintf(String(that.mapx), map));
+        params.mapy = parseInt(sprintf(String(that.mapy), map));
+        params.mapw = parseInt(sprintf(String(that.mapw), map));
+        params.maph = parseInt(sprintf(String(that.maph), map));
         params.map = {};
         params.map[params.name] = [params.mapx, params.mapy];
-        params.url = this.url;
+        params.url = sprintf(String(that.url), map);
         return params;
     };
     this.exec = function (map) {
-        var params = this.getMapedParams(map);
+        var params = that.getMappedParams(map);
+        if (resource.filetype === 'tile') {
+            $MEW.SkermishTerrainSprites[params.id] = params.name;
+        } else if (resource.filetype === 'sprite') {
+            $MEW.PonyPartSprites[params.name] = [params.url, params.mapx, params.mapy, params.mapw, params.maph];
+        }
         Crafty.sprite(params.mapw, params.maph, params.url, params.map);
     };
 }
@@ -514,29 +529,39 @@ function XMLResourceWindowSkinNode(xml) {
     this.right = 0;
     this.width = 0;
     this.height = 0;
-    this.url = "";
+    this.url ="";
+    var that = this;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
-    this.getMapedParams = function (sprintf, map) {
+    this.getMappedParams = function (map) {
         var params = {};
-        params.name = sprintf(this.name, map);
-        params.top = sprintf(this.top, map);
-        params.bot = sprintf(this.bot, map);
-        params.left = sprintf(this.left, map);
-        params.right = sprintf(this.right, map);
-        params.width = sprintf(this.width, map);
-        params.height = sprintf(this.height, map);
-        params.url = this.url;
+        params.name = sprintf(String(that.name), map);
+        params.top = parseInt(sprintf(String(that.top), map));
+        params.bot = parseInt(sprintf(String(that.bot), map));
+        params.left = parseInt(sprintf(String(that.left), map));
+        params.right = parseInt(sprintf(String(that.right), map));
+        params.width = parseInt(sprintf(String(that.width), map));
+        params.height = parseInt(sprintf(String(that.height), map));
+        params.url = sprintf(String(that.url), map);
         return params;
     };
     this.exec = function (map) {
-        var params = this.getMapedParams(map);
-        Crafty.e("WindowSkin").WindowSkin( params.top, params.bot, params.left, params.right, params.width, params.height, params.url);
+        var params = that.getMappedParams(map);
+        $MEW.WindowSkins[params.name] = Crafty.e("WindowSkin").WindowSkin(
+            params.top,
+            params.bot,
+            params.left,
+            params.right,
+            params.width,
+            params.height,
+            params.url
+        );
+        $MEW.DefaultWindowSkin = params.name;
     };
 }
 
@@ -546,12 +571,13 @@ function XMLResourceLoopNode (xml) {
     this.stop = 0;
     this.nodes = [];
     this.sprintfmap = {};
+    var that = this;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
     this.parse = function () {
         var children = xml.childNodes;
@@ -560,26 +586,27 @@ function XMLResourceLoopNode (xml) {
         _(children).each( function( child, index, children ) {
             if ($XMLResourceNodeParsers.hasOwnProperty(child.nodeName.toLowerCase())) {
                 node = $XMLResourceNodeParsers[child.nodeName.toLowerCase()](that, child);
-                this.nodes.push(node);
+                that.nodes.push(node);
             }
         });
         this.loop();
-
     };
     this.loop = function () {
-        var i = this.start;
-        var that = this;
+        var i = that.start;
         var func = function( node, index, nodes ) {
             node.exec(that.sprintfmap);
         };
-        for (; i < this.stop; i++) {
-            this.sprintfmap[this.val] = i;
-            _(this.nodes).each(func);
+        for (; i < that.stop; i++) {
+            that.sprintfmap[that.val] = i;
+            _(that.nodes).each(func);
         }
     };
     this.exec = function (map) {
-        this.sprintfmap = clone(map);
-        this.parse();
+        for (var a in map) {
+            that.sprintfmap[a] = map[a];
+        }
+        //that.sprintfmap = clone(map); --clone doesn't seem to work
+        that.parse();
     };
 }
 
@@ -591,28 +618,29 @@ function XMLResourceNode(xml) {
     this.sprintfmap = {};
     this.nodes = [];
     this.url = "";
+    var that = this;
+    
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
     this.parse = function () {
         var children = xml.childNodes;
-        var that = this;
         var node;
         _(children).each( function( child, index, children ) {
             if ($XMLResourceNodeParsers.hasOwnProperty(child.nodeName.toLowerCase())) {
                 node = $XMLResourceNodeParsers[child.nodeName.toLowerCase()](that, child);
-                this.nodes.push(node);
+                that.nodes.push(node);
             }
         });
-        this.sprintfmap["width"] = this.width;
-        this.sprintfmap["height"] = this.height;
-        this.sprintfmap["url"] = this.url;
-        _(this.nodes).each( function( node, index, nodes ) {
-            node.exec(this.sprintfmap);
+        that.sprintfmap["width"] = that.width;
+        that.sprintfmap["height"] = that.height;
+        that.sprintfmap["url"] = that.url;
+        _(that.nodes).each( function( node, index, nodes ) {
+            node.exec(that.sprintfmap);
         });
 
     };
@@ -629,14 +657,12 @@ function XMLResourceParser(xml) {
     this.resources = [];
     this.sprintfmap = {};
     this.typemap = {};
-
-
+    var that = this;
+    
     this.parseResources = function (xml) {
         var urls = xml.getElementsByTagName('url');
         var types = xml.getElementsByTagName('type');
         var resources = xml.getElementsByTagName('resource');
-        
-        var that = this
         
         _(urls).each( function( urlXML, index, urls ) {
             var url = new XMLResourceURLNode(urlXML);
@@ -645,7 +671,7 @@ function XMLResourceParser(xml) {
         });
 
         _(types).each( function( typeXML, index, types ) {
-            var type = new XMLResourceTypeNode(xml, that.sprintfmap);
+            var type = new XMLResourceTypeNode(typeXML, that.sprintfmap);
             that.typemap[type.name] = type.url;
             that.types.push(type);
         });
@@ -658,21 +684,18 @@ function XMLResourceParser(xml) {
     };
 
     this.getResourceURLS = function() {
-        var that = this;
         var urls = [];
-        _(this.resources).each( function( resource, index, resources ) {
+        _(that.resources).each( function( resource, index, resources ) {
             urls.push(resource.url);
         });
         return urls;
     };
 
     this.setupResources = function () {
-        var that = this;
-        (this.resources).each( function( resource, index, resources ) {
+        _(that.resources).each( function( resource, index, resources ) {
             resource.exec(that.sprintfmap);
         });
     };
 
     this.parseResources(xml);
-
 }

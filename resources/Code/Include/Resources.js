@@ -2,12 +2,33 @@
 // retry counter for getting resources
 $MEW.ResourceRetryCounter = 0;
 
-$MEW.doResourceLoad = function(progress_cb, ImageURLS) {
+Crafty.c("NetworkResourceAccessor", {
+    init: function () {
+		this.requires("Network");
+    },
+  
+    GetResourceXML: function() {
+        this.Send("GetResourceXML", {});
+    },
+    
+    GetInterfaceXML: function(){
+        this.Send("GetInterfaceXML", {})
+    }
+});
+
+$MEW.doResourceLoad = function(progress_cb, ImageURLS, resources) {
 	Crafty.load(ImageURLS, function() {
 		//when loaded
 		console.log("Loaded Resources");
-		$MEW.SetUpResources();
-		Crafty.scene("User"); //go to main scene
+        //I also want to allow the option for poeple to continue on without me bothering them until this xml interface stuff is working.
+        if(confirm('Use XML to display interface for the User page?  (click "Cancel" to continue normally unless you want to test the XML Interfaces)')){
+            $MEW.UseXMLInterface();
+            $MEW.IsUsingXMLInterface = true;
+        } else {
+            $MEW.IsUsingXMLInterface = false;
+            resources.setupResources();
+            Crafty.scene("User");
+        }
 	},
 
 	function(e) {
@@ -31,7 +52,31 @@ $MEW.doResourceLoad = function(progress_cb, ImageURLS) {
 };
 
 $MEW.LoadResources = function(progress_cb) {
-
+    var onGetXml = function(xml) {
+        var resources = new XMLResourceParser(xml);
+        var imageURLS = resources.getResourceURLS();
+        $MEW.WindowSkins = {};
+        $MEW.PonyPartSprites = {};
+        $MEW.DefaultWindowSkin = null;
+        $MEW.doResourceLoad(progress_cb, imageURLS, resources);
+    };
+    var onXmlError = function(e) {
+        alert(e.error);
+    };
+    
+    var InterfaceResourceURL = $MEW.RESOURCE_URL + "/resource/image/2/";
+    Crafty.sprite(800, 600, InterfaceResourceURL + 'world_map_concept_mysticalpha-800.jpg', {
+		WorldMapConcept: [0, 0]
+	});
+	Crafty.sprite(800, 600, InterfaceResourceURL + 'mew_login_screen.png', {
+		LoginScreenBackground: [0, 0]
+	});
+    $MEW.SkermishTerrainSprites = {};
+    $MEW.Network = Crafty.e("NetworkResourceAccessor");
+    $MEW.Network.pBind("GetResourceXML", onGetXml);
+    $MEW.Network.pBind("GetResourceXMLError", onXmlError);
+    $MEW.Network.GetResourceXML();
+/*
 	// Tile image names
 	var TileImageNames = ['apple_trees_block.png', 'desert_2_block.png', 'everfree_forest_block.png', 'forest_block.png', 'ice_block.png', 'mud_block.png', 'rocky_block.png', 'swamp_block.png', 'zap_apple_tree_block.png', 'bushes_block.png', 'diamonds_block.png', 'everfree_grass_block.png', 'gemstone_block.png', 'lava_block.png', 'poison_joke_block.png', 'snow_block.png', 'volcano_block.png', 'desert_1_block.png', 'dirt_block.png', 'flower_block.png', 'grass_block.png', 'mountain_block.png', 'quicksand_block.png', 'snow_mountain_block.png', 'water_block.png', 'ravine.png', 'barren.png'];
 
@@ -67,9 +112,28 @@ $MEW.LoadResources = function(progress_cb) {
 	}
 
 	// alright lets load our resources and switch scenes to the Main scene
-	$MEW.doResourceLoad(progress_cb, ImageURLS);
+	$MEW.doResourceLoad(progress_cb, ImageURLS); */
 };
-
+$MEW.UseXMLInterface = function() {
+    var onGetXml = function(xml) {
+        console.log(xml);
+        alert('XML recieved!  Glorious days!');
+        
+        XMLInterfaceParser(xml);
+        Crafty.scene("User");
+    };
+    var onXmlError = function(e) {
+        alert(e.error);
+    };
+    
+    $MEW.Network = Crafty.e("NetworkResourceAccessor");
+    $MEW.Network.pBind("GetInterfaceXML", onGetXml);
+    $MEW.Network.pBind("GetInterfaceXMLError", onXmlError);
+    $MEW.Network.GetInterfaceXML();
+}
+/*---From here until end is unused now with xml resource loading, will delete after changes are in github
+$MEW.SetUpResourcesXML = function() {
+};
 $MEW.SetUpResources = function() {
 	console.log("Setting up Resources");
 
@@ -621,3 +685,4 @@ $MEW.setupInterfaces = function() {
 	$MEW.DefaultWindowSkin = "small_v2_combined";
 
 };
+*/
