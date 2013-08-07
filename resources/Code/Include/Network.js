@@ -3,7 +3,9 @@ $MEW.Routes = {
     "UsersLogin":     ['API', 'POST', '/api/users/login' ],
     "UsersRegester":  ['API', 'POST', '/api/users'],
     "MapsGetChunks":  ['API', 'POST', '/api/get_map_chunks'],
-    "GetGameByID":    ['API', 'POST', '/api/get_game_by_id']
+    "GetGameByID":    ['API', 'POST', '/api/get_game_by_id'],
+    "GetResourceXML": ['RESOURCE', 'GET', '/xml/file/Resources.xml'],
+    
 };
 
 Crafty.c("Network", {
@@ -48,10 +50,25 @@ Crafty.c("Network", {
                     url: $MEW.API_URL + headers[2],
                     data: data,
                     context: this,
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     headers: {
                         'X-Transaction': headers[1] + ' ' + type,
                         'X-CSRF-Token': this.csrf_token
                     }
+                }
+            );
+        } else if (headers[0] === 'RESOURCE') {
+            return $.ajax(
+                {
+                    type: headers[1],
+                    url: $MEW.RESOURCE_URL + headers[2],
+                    data: data,
+                    context: this,
+                    xhrFields: {
+                        withCredentials: true
+                    },
                 }
             );
         } else if (headers[0] === 'NODE') {
@@ -61,5 +78,10 @@ Crafty.c("Network", {
             error = new Error("Unspesified end point for network call '" + type + "'");
             console.log(error.message, error.stack);
         }
+    },
+    
+    pBind: function(type, func) {
+        this.unbind(type, func);
+        this.bind(type, func);
     }
 });

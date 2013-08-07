@@ -6,10 +6,7 @@
 //Crafty.scene("Load");
 
 $MEW.LOADINGFUNCTIONS.LoadResourcesCallBack = function(p) {
-    var percentage = Math.floor(p * 100),
-        text = 'Loading Resources...' + percentage + "%";
-    $MEW.LOADINGFUNCTIONS.text.text(text);
-    $MEW.LOADINGFUNCTIONS.bar.updateProgress(p);
+    $MEW.LOADINGFUNCTIONS.updateProgress("Loading Resources", p, (p / 3) + (1 / 3) )
 };
 
 //$MEW.LoadResources(callback);

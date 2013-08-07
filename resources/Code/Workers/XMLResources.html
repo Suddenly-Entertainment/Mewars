@@ -1,0 +1,17 @@
+<html>
+<head>
+    <script type='text/javascript'>
+        var worker = new worker("XMLResources.js")
+        window.onmessage = function(evt){
+            worker.postMessage(evt);
+        }
+
+        worker.onmessage = function(evt){
+            window.top.postMessage({from:"XMLResources", msg:evt}, "*")
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

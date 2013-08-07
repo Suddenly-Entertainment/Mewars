@@ -8,6 +8,8 @@ function clone(obj) {
 /******************************************************************
  * Interface Parsing
  ******************************************************************/
+ 
+ var DEPTH = 0;
 
 var $XMLInterfaceAttrParsers = {
     component: function (that, ent, attr, base){
@@ -56,18 +58,22 @@ var $XMLInterfaceNodeParsers = {
 
 var $XMLInterfaceNodeDelayParsers = {
     e: function (that, ent, entities, node, base){
+        //console.log(node);
         var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
         entities.push(pnode.ent);
     },
     sizer: function (that, ent, entities, node, base) {
+        //console.log(node);
         var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
         entities.push(pnode.ent);
         node.sizer(pnode.entities);
     },
     init: function (that, ent, entities, node, base) {
+        //console.log(node);
         ent[node.childNodes[0].nodeValue]();
     },
     attr: function (that, ent, entities, node, base) {
+       // console.log(node);
         _(node.childNodes).each( function( attr, index, attributes) {
             var val = attr.childNodes[0].nodeValue;
             if(!isNaN(val)) {
@@ -76,13 +82,16 @@ var $XMLInterfaceNodeDelayParsers = {
             ent.attr(attr.nodeName.toLowerCase(), val);
         });
     },
-    html: function (that, ent, entities, node, base) {
+    craftyhtml: function (that, ent, entities, node, base) {
+        //console.log(node);
         ent.replace(node.childNodes[0].nodeValue);
     },
     css: function (that, ent, entities, node, base) {
+        //console.log(node);
         ent.css(JSON.parse(node.childNodes[0].nodeValue));
     },
-    text: function (that, ent, entities, node, base) {
+    craftytext: function (that, ent, entities, node, base) {
+        //console.log(node);
         _(node.childNodes).each( function( cnode, index, nodes) {
             if (cnode.nodeName.toLowerCase() === 'value') {
                 var text = cnode.childNodes[0].nodeValue;
@@ -165,8 +174,8 @@ Crafty.c("sizer", {
             // get the width avalible for expantion and section it
             _(this.nodes).each( function( node, index, nodes ) {
                 widthportions += node.portion;
-                minweight      += (node.minwidth || 0);
-                minweight      += node.pleft + node.pright;
+                minweight     += (node.minwidth || 0);
+                minweight     += node.pleft + node.pright;
             });
             lessminwidth = width - minwidth;
             if (lessminwidth > 0) {
@@ -243,7 +252,6 @@ function XMLSizerNode (xml) {
     };
 }
 
-
 function XMLEntityNode (xml) {
     this.name      = '';
     this.component = '';
@@ -305,7 +313,7 @@ function XMLInterfaceNode (xml) {
 
 function XMLInterface (xml) {
     this.name       = "";
-    this.delayNodes = ['css', 'html', 'init', 'attr', 'text', 'sizer'];
+    this.delayNodes = [];
     this.ent        = null;
     this.entities   = [];
     this.xml        = xml;
@@ -320,10 +328,10 @@ function XMLInterface (xml) {
 
         _(node.children).each( function( cnode, index, children ) {
             if ($XMLInterfaceNodeParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                $XMLInterfaceNodeParsers[node.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
+                $XMLInterfaceNodeParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, node, base);
             }
             if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                delay_nodes.push(cnode);
+                that.delayNodes.push(cnode);
             }
         });
 
@@ -346,15 +354,21 @@ function XMLInterface (xml) {
         });
 
         // set attributes in sub nodes
-        _(node.delay_nodes).each( function( cnode, index, delay_nodes ) {
+        var length = that.delayNodes.length
+        for (var i = 0; i < length; i++) {
+            if (DEPTH > 10) continue;
+            DEPTH++;
+            var cnode = that.delayNodes[i];
             try {
-                $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
+                console.log(that.delayNodes);
+                //setTimeout(function() {
+                    $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
+                //}, 10);
             } catch (e) {
                 var errortxt = "Error Parasing Interface " + this.name + "on node: " + node.ent.name + ":" + cnode.nodeName.toLowerCase();
                 console.log(errortxt, e.message, e);
-            }
-        });
-
+            }  
+        }
 
         return node;
     };
@@ -366,8 +380,15 @@ function XMLInterface (xml) {
             height = base.h,
             basez = base.z;
         var inter = this.parseNode(this.xml, basex, basey, basez, width, height);
-        base.attach(inter);
+        base.attach(inter.ent);
     };
+    
+    this.destroy = function() {
+        var that = this;
+        _(this.entities).each(function(entity, index, entities) {
+            entity.destroy();
+        });
+    }
 }
 
 
@@ -375,22 +396,23 @@ function XMLInterfaceParser(xml) {
 
     this.interfaces = [];
     this.map = [];
-    console.log(this);
+    var that = this;
     this.parseInterfaces = function (xml) {
         var interfaces = xml.getElementsByTagName('interface');
 
         _(interfaces).each( function( interfaceXML, index, interfaces ) {
             var inter = new XMLInterface(interfaceXML);
-            this.interfaces.push(inter);
-            this.map[inter.name] = inter;
+            inter.name = interfaceXML.attributes['name'].nodeValue;
+            that.interfaces.push(inter);
+            that.map[inter.name] = inter;
         });
     };
 
     this.parseInterfaces(xml);
 
     //this.getInterface = function (name) {
-    $MEW.getInterface = function (name){
-        var inter = window.map[name] || null ;
+    this.getInterface = function (name) {
+        var inter = that.map[name] || null ;
         return inter;
     };
 
@@ -691,10 +713,25 @@ function XMLResourceParser(xml) {
         return urls;
     };
 
-    this.setupResources = function () {
-        _(that.resources).each( function( resource, index, resources ) {
-            resource.exec(that.sprintfmap);
-        });
+    this.setupResources = function (progress_cb, call_after) {
+        function setupChain(resources) {
+            // a rather intrcate loop set up as a delayed recursion intended to allow the browser to update in the middle 
+            // there is no garentee that the loop has finsihed when the function returns
+            var this_fn = arguments.callee;
+            var i = this_fn.start || 0;
+            resources[i].exec(that.sprintfmap);
+            // Next time we'll start from the next index
+            var next = arguments.callee.start = i + 1;
+            if (next < resources.length) {
+                progress_cb(next / resources.length); // Draw progress bar, whatever.
+                setTimeout(function(){
+                    this_fn(resources);
+                }, 10);
+            } else {
+                call_after();
+            }
+        }
+        setupChain(that.resources);
     };
 
     this.parseResources(xml);

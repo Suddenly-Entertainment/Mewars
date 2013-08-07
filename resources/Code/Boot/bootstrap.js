@@ -1,16 +1,16 @@
-/*global Crafty*/
+/*global Crafty, _*/
 // Set up namespace
 var $MEW = {};
 // Set up URLs
-if (document.location.hostname === "localhost") {
+if (location.hostname === "localhost") {
     $MEW.API_URL = "http://localhost:3000";
     $MEW.NODE_URL = "http://localhost:5000";
     $MEW.RESOURCE_URL = "http://localhost/resources";
-} else if (document.location.hostname === "mew.ryex.c9.io") {
+} else if (location.hostname === "mew.ryex.c9.io") {
     $MEW.API_URL = "http://mew.ryex.c9.io";
     $MEW.NODE_URL = "http://mew_node.ryex.c9.io";
     $MEW.RESOURCE_URL = "http://mew_resource.ryex.c9.io";
-} else if (document.location.hostname === "api2.equestrianwars.com") {
+} else if (location.hostname === "api2.equestrianwars.com") {
     $MEW.API_URL = "http://api2.equestrianwars.com";
     $MEW.NODE_URL = "http://node2.equestrianwars.com";
     $MEW.RESOURCE_URL = "http://re.equestrianwars.com";

@@ -108,6 +108,15 @@ class Code {
         header('Content-Type: text/javascript');
         echo file_get_contents($filepath);
     }
+    
+    static public function worker($name) {
+        $filepath = ROOT . DS . 'Code' . DS . 'Workers' . DS . $name;
+        if (!file_exists($filepath)){
+            error_404();
+        }
+        header('Content-Type: text/javascript');
+        echo file_get_contents($filepath);
+    }
 } 
 
 $image_mine_types = array();

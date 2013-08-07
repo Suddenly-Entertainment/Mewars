@@ -39,7 +39,7 @@ $MEW.CurrentLoadingScript = 0;
 
 
 $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () {
-	$MEW.clear();
+    $MEW.clear();
 	$MEW.CTX.fillStyle="#000000";
 	$MEW.CTX.font="14px sans-serif";
 	var text = "Error: Post load Call Back not set, contact the admin to report this error";
@@ -49,17 +49,21 @@ $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () {
 	$MEW.CTX.fillText(text, x, y, textWidth);
 };
 
+$MEW.LOADINGFUNCTIONS.updateProgress = function (message, progress, bar) {
+    var text = message + "... " + Math.floor(progress * 100) + "%";
+	$MEW.LOADINGFUNCTIONS.bar.updateProgress(bar);
+	$MEW.LOADINGFUNCTIONS.text.text(text);
+};
+
 $MEW.LOADINGFUNCTIONS.updateScriptProgress = function () {
 	if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
 		var progress = $MEW.CurrentLoadingScript / $MEW.scripts.length;
-		var percentage = Math.floor(progress * 100);
-		var text = 'Loading Game Code ... ' + percentage + "%";
+		var text = 'Loading Game Code';
 		if ($MEW.ScriptsRetryCounter > 0) {
 			text += (" (Retry " + $MEW.ScriptsRetryCounter + ")");
 		}
-		$MEW.LOADINGFUNCTIONS.bar.updateProgress(progress);
-		$MEW.LOADINGFUNCTIONS.text.text(text);
-		$MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
+		$MEW.LOADINGFUNCTIONS.updateProgress(text, progress, progress / 3);
+        $MEW.LOADINGFUNCTIONS.getNextScriptAJAX($MEW.CurrentLoadingScript);
 	}
 	else {
 		// proceed with the Main loop
@@ -72,6 +76,7 @@ $MEW.LOADINGFUNCTIONS.getNextScriptAJAX = function (script_index) {
 		$MEW.EvalScript(script, $MEW.scripts[script_index]); //Debug method
 		$MEW.CurrentLoadingScript++;
 		$MEW.LOADINGFUNCTIONS.updateScriptProgress();
+        
 	}
 	var retry = function () {
 		if ($MEW.CurrentLoadingScript < $MEW.scripts.length) {
@@ -184,6 +189,137 @@ Crafty.c("LoadingBar", {
 
     updateProgress: function (p) {
         this.p = p;
+        this.updateContents();
+        this.trigger("Change");
+        return this;
+    }
+});
+
+Crafty.c("ShadowTextCanvas", {
+    _text: "",
+    _textFont: {
+        "type": "",
+        "weight": "",
+        "size": "",
+        "family": ""
+    },
+    init: function () {
+        this.requires("2D, Canvas, DynamicSprite");
+    },
+
+    ShadowTextCanvas: function (w, h, text, depth) {
+        this.sprite(0, 0, w, h, w, h);
+        this.attr({depth: depth, w: w, h: h});
+        if(!(typeof text !== "undefined" && text !== null)) return this._text;
+        if(typeof(text) == "function") this._text = text.call(this);
+        else this._text = text;
+        this.updateContents();
+        this.trigger("Change");
+        return this;
+    },
+
+    updateContents: function () {
+        var ctx = this.canv.getContext("2d");
+        
+        ctx.clearRect(0, 0, this.w, this.h);
+            
+        var font = this._textFont["type"] + ' ' + this._textFont["weight"] + ' ' + this._textFont["size"] + ' ' + this._textFont["family"];
+        ctx.save();
+
+        ctx.font = font;
+
+        ctx.translate(0, parseInt(this._textFont["size"]));
+        
+        //shadow
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillText(this._text, 0 - this.depth, 0 - this.depth);
+        ctx.fillText(this._text, 0 - this.depth, 0 + this.depth);
+        ctx.fillText(this._text, 0 + this.depth, 0 - this.depth);
+        ctx.fillText(this._text, 0 + this.depth, 0 + this.depth);
+        
+        //forground
+        ctx.fillStyle = this._textColor || "rgb(255,255,255)";
+        ctx.fillText(this._text, 0, 0);
+
+        var metrics = ctx.measureText(this._text);
+        this._w = metrics.width;
+        
+        ctx.restore();
+        
+        return this;
+    },
+   
+   /**@
+     * #.text
+     * @example
+     * ~~~
+     * Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("Look at me!!");
+     *
+     * Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 })
+     *     .text(function () { return "My position is " + this._x });
+     *
+     * Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Look at me!!");
+     *
+     * Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 })
+     *     .text(function () { return "My position is " + this._x });
+     * ~~~
+     */
+    text: function(text) {
+        if(!(typeof text !== "undefined" && text !== null)) return this._text;
+        if(typeof(text) == "function") this._text = text.call(this);
+        else this._text = text;
+        this.updateContents();
+        this.trigger("Change");
+        return this;
+    },
+
+    /**@
+     * #.textColor
+     * @example
+     * ~~~
+     * Crafty.e("2D, DOM, Text").attr({ x: 100, y: 100 }).text("Look at me!!")
+     *   .textColor('#FF0000');
+     *
+     * Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text('Look at me!!')
+     *   .textColor('#FF0000', 0.6);
+     * ~~~
+     * @see Crafty.toRGB
+     */
+    textColor: function(color, strength) {
+        this._strength = strength;
+        this._textColor = Crafty.toRGB(color, this._strength);
+        this.updateContents();
+        this.trigger("Change");
+        return this;
+    },
+
+    /**@
+     * #.textFont
+     * @example
+     * ~~~
+     * Crafty.e("2D, DOM, Text").textFont({ type: 'italic', family: 'Arial' });
+     * Crafty.e("2D, Canvas, Text").textFont({ size: '20px', weight: 'bold' });
+     *
+     * Crafty.e("2D, Canvas, Text").textFont("type", "italic");
+     * Crafty.e("2D, Canvas, Text").textFont("type"); // italic
+     * ~~~
+     */
+    textFont: function(key, value) {
+        if(arguments.length === 1) {
+            //if just the key, return the value
+            if(typeof key === "string") {
+                return this._textFont[key];
+            }
+
+            if(typeof key === "object") {
+                for(var propertyKey in key) {
+                    this._textFont[propertyKey] = key[propertyKey];
+                }
+            }
+        } else {
+            this._textFont[key] = value;
+        }
+
         this.updateContents();
         this.trigger("Change");
         return this;
@@ -408,7 +544,7 @@ Crafty.scene("Load", function () {
                 alpha: 1.0
             }, 100);
 
-            $MEW.LOADINGFUNCTIONS.text = Crafty.e("2D, Canvas, Text, Tween").textFont({
+            $MEW.LOADINGFUNCTIONS.text = Crafty.e("ShadowTextCanvas, Tween").ShadowTextCanvas(200, 22, "Loading Game Code", 1).textFont({
                 family: 'sans-serif',
                 size: '16px'
             }).textColor('#FFFFFF', 1.0).text("Loading Game Code").attr({
@@ -420,7 +556,7 @@ Crafty.scene("Load", function () {
             }, 100);
 
             $MEW.Viewport.bindTo($MEW.LOADINGFUNCTIONS.bar, 154, 500);
-            $MEW.Viewport.bindTo($MEW.LOADINGFUNCTIONS.text, 295, 458);
+            $MEW.Viewport.bindTo($MEW.LOADINGFUNCTIONS.text, 295, 460);
 			
 			
 			

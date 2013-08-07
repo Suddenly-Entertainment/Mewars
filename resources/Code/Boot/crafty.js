@@ -9023,7 +9023,7 @@ function(Crafty, window, document) {
                     context.fillStyle = this._textColor || "rgb(0,0,0)";
                     context.font = font;
 
-                    context.translate(this.x, this.y + this.h);
+                    context.translate(this.x, this.y + parseInt(this._textFont["size"]));
                     context.fillText(this._text, 0, 0);
 
                     metrics = context.measureText(this._text);

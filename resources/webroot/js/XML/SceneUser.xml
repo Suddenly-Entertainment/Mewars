@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interfaces>
+    <!-- Login form interface -->
+    <interface name="LoginForm">
+
+        <e name="MEWLoginFormInterface" component="MEWLoginForm" >
+            
+            <init><![CDATA[MEWLoginForm]]></init>
+
+            <!-- children -->
+            <sizer type="verticle">
+                <e name="GreetingText" component="DOM, Text">
+                    <craftytext>
+                        <value>Welcome Guest!</value>
+                    </craftytext>
+                </e>
+
+
+                <e name="LoginInput" component="HTML_INPUT">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></craftyhtml>
+                    <css><![CDATA[{background: "rgb(196, 183, 135)"}]]></css>
+                </e>
+
+                <e name="PasswordInput" component="HTML_INPUT">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></craftyhtml>
+                    <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
+                </e>
+
+                <e name="LoginResult" component="HTML">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[]]></craftyhtml>
+                    <!--<css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>-->
+                </e>
+            </sizer>
+
+        </e>
+
+    </interface>
+</interfaces>
