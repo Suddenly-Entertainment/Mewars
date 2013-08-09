@@ -182,7 +182,7 @@ class Resource {
         $info = finfo_file($finfo, $filepath);
         finfo_close($finfo);
         
-		cacheThis($filepath, $info);
+	cacheThis($filepath, $info);
         
     }
     static public function audio($name) {
@@ -194,7 +194,7 @@ class Resource {
         $info = finfo_file($finfo, $filepath);
         finfo_close($finfo);
         
-		cacheThis($filepath, $info);
+	cacheThis($filepath, $info);
     }
 } 
 
