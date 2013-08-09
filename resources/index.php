@@ -137,8 +137,8 @@ $image_mine_types = array();
 //caching function for resources
 function cacheThis($filepath, $info) {
     //do they have the file?
-    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) {
-        $userLastModifiedDate = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'];
+    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+        $userLastModifiedDate = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
         $fileMTime = filemtime($filepath);
 		//do they have the most recent?
         if ($fileMTime > $userLastModifiedDate){
