@@ -1,3 +1,5 @@
+//BROKED RIGHT NOW BRB
+
 <?php
 ob_start("ob_gzhandler");
 
@@ -108,6 +110,17 @@ class Code {
         header('Content-Type: text/javascript');
         echo file_get_contents($filepath);
     }
+    static public function date($name) {
+        $filepath = ROOT . DS . 'Code' . DS . 'Include' . DS . $name;
+        if (!file_exists($filepath)){
+            error_404();
+        }
+        //send the file's last modified date in JSON
+        $last_modified = filemtime($filepath);
+        $responce = array();
+        $responce['time'] = $last_modified;
+        echo json_encode($responce);
+    }
     
     static public function worker($name) {
         $filepath = ROOT . DS . 'Code' . DS . 'Workers' . DS . $name;
@@ -120,6 +133,29 @@ class Code {
 } 
 
 $image_mine_types = array();
+
+//caching function for resources
+function cacheThis($filepath, $info) {
+    //do they have the file?
+    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+        //
+        $userLastModifiedDate = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+        $fileMTime = filemtime($filepath);
+        if ($fileMTime > $userLastModifiedDate) {
+            header('HTTP/1.0 304 Not Modified');
+        } else {
+            header('Cache-Control: max-age=432000, must-revalidate');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', time()));
+            header("Content-Type: $info");
+            echo file_get_contents($filepath);
+        }
+    } else {
+        header('Cache-Control: max-age=432000, must-revalidate');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', time()));
+        header("Content-Type: $info");
+        echo file_get_contents($filepath);
+    }
+}
 
 class Resource {
     static public function index() {
@@ -145,8 +181,8 @@ class Resource {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $info = finfo_file($finfo, $filepath);
         finfo_close($finfo);
-        header("Content-Type: $info");
-        echo file_get_contents($filepath);
+        
+        
         
     }
     static public function audio($name) {
@@ -185,6 +221,21 @@ class XML {
         echo file_get_contents($filepath);
         
     }
+    static public function date($name) {
+        $filepath = ROOT . DS . 'XML' . DS . $name;
+        if (!file_exists($filepath)){
+            error_404();
+        }
+        
+        //send the file's last modified date in JSON
+        $last_modified = filemtime($filepath);
+        $response = array();
+        $response['time'] = $last_modified;
+        header('Content-type: application/json');
+        echo json_encode($response);
+        
+    }
+    
 } 
 
 

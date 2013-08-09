@@ -421,6 +421,16 @@ function XMLInterfaceParser(xml) {
 /******************************************************************
  * Resource Parsing
  ******************************************************************/
+ 
+ 
+ var $RESOURCES = {
+     SkermishTerrainSprites: [],
+     WindowSkins: [],
+     PonyPartSprites: [],
+     DefaultWindowSkin: '',
+     Sprites: []
+ }
+ 
 
 var $XMLResourceNodeParsers = {
     sprintf: function (resource, xml) {
@@ -535,11 +545,12 @@ function XMLResourceSpriteNode(resource, xml) {
     this.exec = function (map) {
         var params = that.getMappedParams(map);
         if (resource.filetype === 'tile') {
-            $MEW.SkermishTerrainSprites[params.id] = params.name;
+            $RESOURCES.SkermishTerrainSprites[params.id] = params.name;
         } else if (resource.filetype === 'sprite') {
-            $MEW.PonyPartSprites[params.name] = [params.url, params.mapx, params.mapy, params.mapw, params.maph];
+            $RESOURCES.PonyPartSprites[params.name] = [params.url, params.mapx, params.mapy, params.mapw, params.maph];
         }
-        Crafty.sprite(params.mapw, params.maph, params.url, params.map);
+        $RESOURCES.Sprites.push([params.mapw, params.maph, params.url, params.map])
+        //Crafty.sprite(params.mapw, params.maph, params.url, params.map);
     };
 }
 
@@ -574,7 +585,7 @@ function XMLResourceWindowSkinNode(xml) {
     };
     this.exec = function (map) {
         var params = that.getMappedParams(map);
-        $MEW.WindowSkins[params.name] = Crafty.e("WindowSkin").WindowSkin(
+        $RESOURCES.WindowSkins[params.name] = [
             params.top,
             params.bot,
             params.left,
@@ -582,8 +593,8 @@ function XMLResourceWindowSkinNode(xml) {
             params.width,
             params.height,
             params.url
-        );
-        $MEW.DefaultWindowSkin = params.name;
+        ]
+        $RESOURCES.DefaultWindowSkin = params.name;
     };
 }
 
@@ -728,7 +739,7 @@ function XMLResourceParser(xml) {
                     this_fn(resources);
                 }, 10);
             } else {
-                call_after();
+                call_after($RESOURCES);
             }
         }
         setupChain(that.resources);

@@ -11,76 +11,58 @@ Crafty.c("NetworkResourceAccessor", {
         this.Send("GetResourceXML", {});
     },
 
+    GetResourceXMLDate: function() {
+        this.Send("GetResourceXMLDate", {});
+    },
+    
     GetInterfaceXML: function() {
         this.Send("GetInterfaceXML", {})
     }
 });
 
-Crafty.c("CrossDomainWorkers", {
-    
-    workers: {},
-
-    init: function () {
-        var that = this;
-        
-        window.onmessage = function(evt){
-            try {
-                that.trigger(evt.data.from, evt.data.msg);
-            } catch (e) {
-                console.log(e.message, e.stack);
-            }
-        }      
-    },
-    
-    addWorker: function(url, name) {
-        var codeDiv = document.getElementById('CodeDiv');
-        var workerBlock = document.createElement("script");
-        workerBlock.src = url
-        codeDiv.appendChild(workerBlock);
-        this.workers[name] = workerBlock;
-    },
-    
-    message: function(name, data) {
-        this.workers[name].postMessage(data, $MEW.RESOURCE_URL)
-    }
-});
-
 $MEW.LoadResources = function(progress_cb) {
+    var setUpResources = function(){
+        //loads resource configuration form storage and makes crafty sprites
+        if (localStorage.getItem('MEWResourceXMLSetup')){
+            var resources = JSON.parse(localStorage.getItem('MEWResourceXMLSetup'));
+            // loop for craft sprite setup
+        } else {
+            //error
+            console.log("error obtaining resource setup")
+        }
+        
+    };
+    var storeResources = function(resources){
+        //sends resources and last modified date to storage
+        localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));
+        
+    };
     var onGetXml = function(xml) {
-        var resourceWorker = new Worker($MEW.RESOURCE_URL + '/code/Workers/XMLResource.js');
-        resourceWorker.addEventListener('message', function(e) {
-            var data = e.data;
-            switch (data.msg) {
-                case 'error':
-                    var errortxt = "[LOADING] Error in XML Resource worker";
-                    console.log(errortxt, data.data.message, data.data);
-                    break;
-                case 'geturls':
-                    setTimeout(function() {
-                        var imageURLS = data.data;
-                        $MEW.doResourceLoad(progress_cb, imageURLS, resourceWorker);
-                    }, 0);
-                    break;
-                case 'progress':
-                    var p = data.data;
-                    $MEW.LOADINGFUNCTIONS.updateProgress("Setting Up Resources", p, (p / 3) + (2 / 3) )
-                    break;
-                case 'done':
-                    console.log(data.data);
-                    break;
-                default:
-                console.log('[LOADING] Unknown message from Resource parser');
-            }
-        }, false);
-        resourceWorker.postMessage({msg:'setup', data:xml})
-        resourceWorker.postMessage({msg:'geturls', data:null})
+        var resourceParser = new XMLResourceParser(xml);
         $MEW.WindowSkins = {};
         $MEW.PonyPartSprites = {};
         $MEW.DefaultWindowSkin = null;
+        resourceParser.setUpResources(progress_cb, storeResources);
     };
-    var onXmlError = function(e) {
+    var onGetXmlError = function(e) {
         console.log(e);
     };
+    var onGetDate = function(data) {
+        if (localStorage.getItem('MEWResourceXMLDate')){
+            if (JSON.parse(localStorage.getItem('MEWResourceXMLDate')) > data.time){
+                localStorage.setItem('MEWResourceXMLDate', JSON.stringify(data.time))
+                //load resource setup from local storage
+            } else {
+                //load and setup resources form network
+            }
+        } else {
+            //load and setup resources form network
+        }
+    };
+    var onGetDateError = function(e) {
+        console.log(e);
+    };
+    
 
     var InterfaceResourceURL = $MEW.RESOURCE_URL + "/resource/image/2/";
     Crafty.sprite(800, 600, InterfaceResourceURL + 'world_map_concept_mysticalpha-800.jpg', {
@@ -92,8 +74,8 @@ $MEW.LoadResources = function(progress_cb) {
 
     $MEW.SkermishTerrainSprites = {};
     $MEW.Network = Crafty.e("NetworkResourceAccessor");
-    $MEW.Network.pBind("GetResourceXML", onGetXml);
-    $MEW.Network.pBind("GetResourceXMLError", onXmlError);
+    $MEW.Network.pBind("GetResourceXMLDate", onGetDate);
+    $MEW.Network.pBind("GetResourceXMLDateError", onGetDateError);
     $MEW.Network.GetResourceXML();
 };
 
