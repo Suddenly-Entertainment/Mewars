@@ -1,7 +1,0 @@
-Fri, 28 Dec 2012 00:43:14 -0700
-doc/README_FOR_APP	Wed, 12 Dec 2012 00:44:48 -0700
-app/controllers/application_controller.rb	Wed, 12 Dec 2012 00:44:48 -0700
-app/controllers/game_controller.rb	Mon, 17 Dec 2012 16:53:46 -0700
-app/helpers/application_helper.rb	Wed, 12 Dec 2012 00:44:47 -0700
-app/helpers/game_helper.rb	Mon, 17 Dec 2012 16:52:05 -0700
-app/models/user.rb	Wed, 26 Dec 2012 15:56:55 -0700
