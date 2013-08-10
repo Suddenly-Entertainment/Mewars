@@ -21,47 +21,101 @@ Crafty.c("NetworkResourceAccessor", {
 });
 
 $MEW.LoadResources = function(progress_cb) {
-    var setUpResources = function(){
+    
+    function resourseSetupCallback(p) {
+        $MEW.LOADINGFUNCTIONS.updateProgress('Setting Up Resources', p, (p / 3) + (2 / 3));
+    }
+    
+    function loadImages(call_after) {
+        var urls = localStorage.getItem('MEWResourceURLSList');
+        Crafty.load(urls, function() {
+            //when loaded
+            console.log("Loaded Resources");
+    
+            call_after();
+        },
+    
+        function(e) {
+            //progress
+            progress_cb(e.percent / 100.0);
+        },
+    
+        function(e) {
+            //uh oh, error loading
+            console.log("Error Loading resources:");
+            console.log(e);
+            $MEW.ResourceRetryCounter += 1
+            if ($MEW.ResourceRetryCounter < 3) {
+                loadImages(call_after);
+            }
+            else {
+                var text = "Could not Load Resources: Contact Admin";
+                $MEW.LOADINGFUNCTIONS.text.text(text);
+                $MEW.LOADINGFUNCTIONS.bar.updateProgress(0);
+            }
+        });
+        
+    }
+    
+    function setUpResources() {
         //loads resource configuration form storage and makes crafty sprites
         if (localStorage.getItem('MEWResourceXMLSetup')){
             var resources = JSON.parse(localStorage.getItem('MEWResourceXMLSetup'));
+            $MEW.WindowSkins = {};
+            $MEW.PonyPartSprites = {};
+            $MEW.DefaultWindowSkin = null;
             // loop for craft sprite setup
+            //Crafty.sprite(params.mapw, params.maph, params.url, params.map);
         } else {
             //error
             console.log("error obtaining resource setup")
-        }
-        
-    };
-    var storeResources = function(resources){
+        }   
+    }
+    
+    function storeResources(resources){
         //sends resources and last modified date to storage
-        localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));
-        
-    };
-    var onGetXml = function(xml) {
+        localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));    
+    }
+    
+    function reloadResourceSetup(resources) {
+        storeResources(resources);
+        setUpResources();
+    }
+    function onGetXML(xml) {
         var resourceParser = new XMLResourceParser(xml);
-        $MEW.WindowSkins = {};
-        $MEW.PonyPartSprites = {};
-        $MEW.DefaultWindowSkin = null;
-        resourceParser.setUpResources(progress_cb, storeResources);
-    };
-    var onGetXmlError = function(e) {
+        var urls = resourceParser.getResourceURLS();
+        localStorage.setItem('MEWResourceURLSList', JSON.stringify(urls));
+        loadImages(function(){
+            resourceParser.setUpResources(resourseSetupCallback, storeResources);
+        })       
+    }
+    
+    function onGetXMLError(e) {
         console.log(e);
-    };
-    var onGetDate = function(data) {
+    }
+    
+    function onGetDate(data) {
+        var needReload = false;
         if (localStorage.getItem('MEWResourceXMLDate')){
-            if (JSON.parse(localStorage.getItem('MEWResourceXMLDate')) > data.time){
-                localStorage.setItem('MEWResourceXMLDate', JSON.stringify(data.time))
-                //load resource setup from local storage
-            } else {
-                //load and setup resources form network
-            }
-        } else {
-            //load and setup resources form network
+            console.log('[RESOURCES] XML Last M Time: ',  JSON.parse(localStorage.getItem('MEWResourceXMLDate')), data.time);
+            if (!(JSON.parse(localStorage.getItem('MEWResourceXMLDate')) >= data.time)) {
+                needReload = true;
+            } 
         }
-    };
-    var onGetDateError = function(e) {
+        
+        if (needReload) {
+            //load and setup resources form network
+            localStorage.setItem('MEWResourceXMLDate', JSON.stringify(data.time))
+            $MEW.Network.GetResourceXML();
+        } else {
+            //load resource setup from local storage
+            loadImages(setUpResources);
+        }
+    }
+    
+    function onGetDateError(e) {
         console.log(e);
-    };
+    }
     
 
     var InterfaceResourceURL = $MEW.RESOURCE_URL + "/resource/image/2/";
@@ -76,7 +130,10 @@ $MEW.LoadResources = function(progress_cb) {
     $MEW.Network = Crafty.e("NetworkResourceAccessor");
     $MEW.Network.pBind("GetResourceXMLDate", onGetDate);
     $MEW.Network.pBind("GetResourceXMLDateError", onGetDateError);
-    $MEW.Network.GetResourceXML();
+    $MEW.Network.pBind("GetResourceXML", onGetXML);
+    $MEW.Network.pBind("GetResourceXMLError", onGetXMLError);
+    // check if the resource setup needs to be updated
+    $MEW.Network.GetResourceXMLDate();
 };
 
 $MEW.doResourceLoad = function(progress_cb, ImageURLS, resourceWorker) {

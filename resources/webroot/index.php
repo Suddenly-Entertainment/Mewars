@@ -244,8 +244,9 @@ function process_CORS() {
     
     global $ALLOWED_CORS;
     
-    header('X-Origin-Result: ' . $headers['origin']);
+    
     if (!empty($headers['origin'])){
+        header('X-Origin-Result: ' . $headers['origin']);
         $origin = $headers['origin'];
         if (in_array($origin, $ALLOWED_CORS )) {
             header('Access-Control-Allow-Origin: ' . $origin);

@@ -148,7 +148,9 @@ Crafty.c("sizer", {
             heightportion  = 0,
             heightportions = 0,
             lessminwidth   = 0,
-            lessminHeight  = 0;
+            lessminHeight  = 0,
+            minweight      = 0;
+            
         if (this.type === 'verticle') {
             // get the height avalible for expantion and section it
             _(this.nodes).each( function( node, index, nodes ) {

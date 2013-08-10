@@ -35,6 +35,8 @@
                     <html><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></html>
                     <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
                 </e>
+                
+    
 
                 <e name="LoginResult" component="HTML">
                     <attr>

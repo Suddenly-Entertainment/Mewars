@@ -299,107 +299,134 @@ Crafty.scene("User", function() {
     // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
     $MEW.Scene = {};
 
-    
-    console.log("Loaded User Scene");
-    
-    //set the viewport
-    Crafty.viewport.x = 0;    
-    Crafty.viewport.y = 0;
-    
-    //create network object
-    $MEW.Network = Crafty.e("NetworkUser")
-    
-    var onTweenEnd = function() {
-        // position the login window
-        var h = 250,
-            w = 500,
-            x = ($MEW.WIDTH - w) / 2,
-            y = ($MEW.HEIGHT - h) / 2 + h / 4;
+    if (!confirm('Do you want to try out the XML interface?')) {
+        console.log("Loaded User Scene");
         
-        // create the backgournd window
-        $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
+        //set the viewport
+        Crafty.viewport.x = 0;    
+        Crafty.viewport.y = 0;
         
-        $MEW.Viewport.bindTo($MEW.Scene.loginWindow, x, y);
+        //create network object
+        $MEW.Network = Crafty.e("NetworkUser")
         
-        // login updating of the interface
-        function updateInterface() {
-            if ($MEW.User.is_guest) {
-                //welcome Text
-                $MEW.Scene.userWelcomeText.text("Welcome Guest! Please Login.");
-                //avatar
-                $MEW.Scene.avatar.changeAvatar($MEW.Scene.defaultavatarURL);
-                //show login form
-                $MEW.Scene.loginForm.set_visible(true);
-            } else {
-                //welcome Text
-                $MEW.Scene.userWelcomeText.text("Welcome " + $MEW.User.name + "!");
-                //avatar
-                if ($MEW.User.avatar_href === "") {
+        var onTweenEnd = function() {
+            // position the login window
+            var h = 250,
+                w = 500,
+                x = ($MEW.WIDTH - w) / 2,
+                y = ($MEW.HEIGHT - h) / 2 + h / 4;
+            
+            // create the backgournd window
+            $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
+            
+            $MEW.Viewport.bindTo($MEW.Scene.loginWindow, x, y);
+            
+            // login updating of the interface
+            function updateInterface() {
+                if ($MEW.User.is_guest) {
+                    //welcome Text
+                    $MEW.Scene.userWelcomeText.text("Welcome Guest! Please Login.");
+                    //avatar
                     $MEW.Scene.avatar.changeAvatar($MEW.Scene.defaultavatarURL);
+                    //show login form
+                    $MEW.Scene.loginForm.set_visible(true);
                 } else {
-                    $MEW.Scene.avatar.changeAvatar($MEW.User.avatar_href);
-                }
-                //hide login form
-                $MEW.Scene.loginForm.set_visible(false);
-            }           
-        }     
-        // create the login form
-        function LoginUpdate() {
-            $MEW.User.load_user(updateInterface);   
-        }
-        
-        $MEW.Scene.loginForm.set_successCB(LoginUpdate);
-        
-        //LoginUpdate();
-        
-    
-        //$MEW.Login.elemid = loginHTML.getDomId();
-        //$MEW.Login.resultHTML = resultHTML;
-        
-        
-        
-        function viewTest() {
-            console.log("Calling Test Scene");
-            Crafty.scene("Map");
-        }
-        
-        $MEW.Scene.testButton = Crafty.e("Window, Mouse")
-            .Window(x, y, 100, 100, 40)
-            .setName("TestsButton")
-            .bind("Click", viewTest);
-        
-        $MEW.Scene.testButtonText = Crafty.e("2D, Canvas, Text, Mouse")
-            .textFont({ family: 'sans-serif', size: '16px' })
-            .textColor('#FFFFFF', 1.0)
-            .text("View Tests")  
-            .attr({z:110, w: 100, h: 20})
-            .bind("Click", viewTest);
+                    //welcome Text
+                    $MEW.Scene.userWelcomeText.text("Welcome " + $MEW.User.name + "!");
+                    //avatar
+                    if ($MEW.User.avatar_href === "") {
+                        $MEW.Scene.avatar.changeAvatar($MEW.Scene.defaultavatarURL);
+                    } else {
+                        $MEW.Scene.avatar.changeAvatar($MEW.User.avatar_href);
+                    }
+                    //hide login form
+                    $MEW.Scene.loginForm.set_visible(false);
+                }           
+            }     
+            // create the login form
+            function LoginUpdate() {
+                $MEW.User.load_user(updateInterface);   
+            }
+            
+            $MEW.Scene.loginForm.set_successCB(LoginUpdate);
+            
+            //LoginUpdate();
             
         
-        $MEW.Viewport.bindTo($MEW.Scene.testButton, $MEW.WIDTH - 140, $MEW.HEIGHT - 85);
-        $MEW.Viewport.bindTo($MEW.Scene.testButtonText, $MEW.WIDTH - 140 + 5, $MEW.HEIGHT - 85 + 5);
-
-    };
-    
-    // get the background & border and change it to the map for the login screen
-    $MEW.Scene.background_old = Crafty.e("2D, Canvas, LoadingBackgroundGraphic, Tween")
-        .attr({x:0, y:0, z:10, alpha: 1.0,})
-        .tween({alpha: 0.0}, 100);
+            //$MEW.Login.elemid = loginHTML.getDomId();
+            //$MEW.Login.resultHTML = resultHTML;
             
-    $MEW.Scene.background = Crafty.e("2D, Canvas, LoginScreenBackground, Tween")
-        .attr({x:0, y:0, z:10, alpha: 0.0,})
-        .tween({alpha: 1.0}, 50)
-        .bind("TweenEnd", onTweenEnd);
+            
+            
+            function viewTest() {
+                console.log("Calling Test Scene");
+                Crafty.scene("Map");
+            }
+            
+            $MEW.Scene.testButton = Crafty.e("Window, Mouse")
+                .Window(x, y, 100, 100, 40)
+                .setName("TestsButton")
+                .bind("Click", viewTest);
+            
+            $MEW.Scene.testButtonText = Crafty.e("2D, Canvas, Text, Mouse")
+                .textFont({ family: 'sans-serif', size: '16px' })
+                .textColor('#FFFFFF', 1.0)
+                .text("View Tests")  
+                .attr({z:110, w: 100, h: 20})
+                .bind("Click", viewTest);
+                
+            
+            $MEW.Viewport.bindTo($MEW.Scene.testButton, $MEW.WIDTH - 140, $MEW.HEIGHT - 85);
+            $MEW.Viewport.bindTo($MEW.Scene.testButtonText, $MEW.WIDTH - 140 + 5, $MEW.HEIGHT - 85 + 5);
+    
+        };
         
-    $MEW.Scene.border = Crafty.e("2D, Canvas, BorderGraphic")
-        .attr({x:0, y:0, z:10, alpha: 1.0,});
-    
-    //bind the sprites to the viewport    
-    $MEW.Viewport.bindTo($MEW.Scene.background_old, 0, 0);
-    $MEW.Viewport.bindTo($MEW.Scene.background, 0, 0);
-    $MEW.Viewport.bindTo($MEW.Scene.border, 0, 0);
-    
-    $MEW.toggleScrolling(0);
+        // get the background & border and change it to the map for the login screen
+        $MEW.Scene.background_old = Crafty.e("2D, Canvas, LoadingBackgroundGraphic, Tween")
+            .attr({x:0, y:0, z:10, alpha: 1.0,})
+            .tween({alpha: 0.0}, 100);
+                
+        $MEW.Scene.background = Crafty.e("2D, Canvas, LoginScreenBackground, Tween")
+            .attr({x:0, y:0, z:10, alpha: 0.0,})
+            .tween({alpha: 1.0}, 50)
+            .bind("TweenEnd", onTweenEnd);
+            
+        $MEW.Scene.border = Crafty.e("2D, Canvas, BorderGraphic")
+            .attr({x:0, y:0, z:10, alpha: 1.0,});
+        
+        //bind the sprites to the viewport    
+        $MEW.Viewport.bindTo($MEW.Scene.background_old, 0, 0);
+        $MEW.Viewport.bindTo($MEW.Scene.background, 0, 0);
+        $MEW.Viewport.bindTo($MEW.Scene.border, 0, 0);
+        
+        $MEW.toggleScrolling(0);
+    } else {
+        var onXMLReturn = function(data){
+            var XMLParser = new XMLInterfaceParser(data);
+            var XMLInterface = XMLParser.getInterface("LoginForm");
+            XMLInterface.layout($MEW.Viewport);
+            $("#_MEW_login_btn").click(function(e){
+                 var Obj = { user_login: { login: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() } };
+                 $MEW.Network.pBind('UsersLogin', loginReturn);
+                 $MEW.Network.pBind('UsersLoginError', loginReturnError);
+                 $MEW.NEtwork.Send('UsersLogin', Obj);
+            });
+        }
+        var onXMLReturnError = function(err){
+            console.log(err);
+        }
+        
+        var loginReturn = function(data){
+            console.log(data);
+        }
+        
+        var loginReturnError = function(err){
+            console.log(err);
+        }
+        $MEW.Network.pBind('GetSceneUserXML', onXMLReturn);
+        $MEW.Network.pBind('GetSceneUserXMLError', onXMLReturnError);
+        $MEW.Network.Send('GetSceneUserXML');
+    }
 }, function () {
     $MEW.Viewport.detach();
     $MEW.Scene = {};

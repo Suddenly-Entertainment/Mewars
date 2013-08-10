@@ -6,7 +6,7 @@ $MEW.Routes = {
     "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
     "GetResourceXML":       ['RESOURCE',  'GET',    '/xml/file/Resources.xml',  'XML' ],
     "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/xml/date/Resources.xml',  'JSON'],
-    
+    "GetSceneUserXML":       ['RESOURCE',  'GET',    '/xml/file/SceneUser.xml',  'XML' ],
 };
 
 Crafty.c("Network", {
