@@ -20,8 +20,12 @@
 
   "dependencies": {
     "express": "3.x",
-    "passport": "0.1.x"
+    "passport": "0.1.x",
+    "socket.io": "0.9.x",
+    "pg": "*",
+    "orm": "2.1.x"
   },
+
   "devDependencies": {},
   "bundleDependencies": [],
 
