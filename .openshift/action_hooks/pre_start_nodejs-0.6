@@ -17,6 +17,8 @@
 #  Source utility functions.
 source "$OPENSHIFT_REPO_DIR.openshift/lib/utils"
 
+ensure_node_is_installed
+
 #  Setup path to include the custom Node[.js] version.
 ver=$(get_node_version)
 echo ""
