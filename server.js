@@ -22,13 +22,9 @@ var SampleApp = function() {
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
-<<<<<<< HEAD
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-=======
+
         self.ipaddress = process.env.OPENSHIFT_INTERNAL_IP || process.env.OPENSHIFT_NODEJS_IP;
         self.port      = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
->>>>>>> c000171280db2d539adc4a23d80c85189cbb9f1c
 
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -100,40 +96,16 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
-<<<<<<< HEAD
-        // Routes for /health, /asciimo and /
-        self.routes['/health'] = function(req, res) {
-            res.send('1');
-        };
-        
-        self.routes['/env'] = function(req, res) {
-            var content = 'Version: ' + process.version + '\n<br/>\n' +
-                          'Env: {<br/>\n<pre>';
-            //  Add env entries.
-            for (var k in process.env) {
-               content += '   ' + k + ': ' + process.env[k] + '\n';
-            }
-            content += '}\n</pre><br/>\n'
-            res.send('<html>\n' +
-                     '  <head><title>Node.js Process Env</title></head>\n' +
-                     '  <body>\n<br/>\n' + content + '</body>\n</html>');
-        };
-=======
         // Routes for /health, /asciimo, /env and /
         self.routes['/health'] = function(req, res) {
             res.send('1');
         };
->>>>>>> c000171280db2d539adc4a23d80c85189cbb9f1c
 
         self.routes['/asciimo'] = function(req, res) {
             var link = "http://i.imgur.com/kmbjB.png";
             res.send("<html><body><img src='" + link + "'></body></html>");
         };
 
-<<<<<<< HEAD
-        self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
-=======
         self.routes['/env'] = function(req, res) {
             var content = 'Version: ' + process.version + '\n<br/>\n' +
                           'Env: {<br/>\n<pre>';
@@ -150,7 +122,6 @@ var SampleApp = function() {
 
         self.routes['/'] = function(req, res) {
             res.set('Content-Type', 'text/html');
->>>>>>> c000171280db2d539adc4a23d80c85189cbb9f1c
             res.send(self.cache_get('index.html') );
         };
     };
