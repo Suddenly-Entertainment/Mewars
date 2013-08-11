@@ -109,7 +109,7 @@ var SampleApp = function() {
             }
             content += '}\n</pre><br/>\n'
             res.send('<html>\n' +
-                     '  <head><title>Node.js Process Env</title></head>\n' +
+                     '  <head><title>Node.js Env Process</title></head>\n' +
                      '  <body>\n<br/>\n' + content + '</body>\n</html>');
         };
 
