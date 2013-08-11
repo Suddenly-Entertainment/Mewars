@@ -62,7 +62,7 @@ function _install_nodejs() {
    instdir="$(get_node_install_dir)"
 
    #  Download and extract the gzipped tarball.
-   datadir="$OPENSHIFT_DATA_DIR"
+   datadir=${"$OPENSHIFT_DATA_DIR"}
    dldir="$(datadir)downloads"
    mkdir -p "$dldir"
 
