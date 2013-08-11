@@ -6,6 +6,7 @@
 
 
 #  Source utility functions.
+echo "Running Node.js Deploy Process:"
 source "$OPENSHIFT_REPO_DIR.openshift/lib/utils"
 
 
