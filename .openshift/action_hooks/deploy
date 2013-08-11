@@ -6,7 +6,8 @@
 
 
 #  Source utility functions.
-source "$OPENSHIFT_REPO_DIR/.openshift/lib/utils"
+echo "Running Node.js Deploy Process:"
+source "$OPENSHIFT_REPO_DIR.openshift/lib/utils"
 
 
 #  On slave/serving gears, need to do the install as part of deploy

@@ -1,13 +1,17 @@
-#!/bin/env node
-//  OpenShift sample Node application
+// Load libaries
 var express = require('express');
 var fs      = require('fs');
+var orm     = require('orm');
+
+var mewdb   = require('./mewdb.js');
+
+var CONFIG  = require('./config.js')
 
 
 /**
- *  Define the sample application.
+ *  Define the application.
  */
-var SampleApp = function() {
+var MewApp = function() { 
 
     //  Scope.
     var self = this;
@@ -22,8 +26,9 @@ var SampleApp = function() {
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+
+        self.ipaddress = process.env.OPENSHIFT_INTERNAL_IP || process.env.OPENSHIFT_NODEJS_IP;
+        self.port      = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -95,11 +100,16 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
-        // Routes for /health, /asciimo and /
+        // Routes for /health, /asciimo, /env and /
         self.routes['/health'] = function(req, res) {
             res.send('1');
         };
-        
+
+        self.routes['/asciimo'] = function(req, res) {
+            var link = "http://i.imgur.com/kmbjB.png";
+            res.send("<html><body><img src='" + link + "'></body></html>");
+        };
+
         self.routes['/env'] = function(req, res) {
             var content = 'Version: ' + process.version + '\n<br/>\n' +
                           'Env: {<br/>\n<pre>';
@@ -108,18 +118,14 @@ var SampleApp = function() {
                content += '   ' + k + ': ' + process.env[k] + '\n';
             }
             content += '}\n</pre><br/>\n'
+            res.send(content);
             res.send('<html>\n' +
-                     '  <head><title>Node.js Env Process</title></head>\n' +
+                     '  <head><title>Node.js Process Env</title></head>\n' +
                      '  <body>\n<br/>\n' + content + '</body>\n</html>');
         };
 
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
         self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
+            res.set('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
         };
     };
@@ -131,12 +137,20 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
-        self.app = express.createServer();
+        self.app = express();
 
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
             self.app.get(r, self.routes[r]);
         }
+        
+        //connect database
+        console.log("%s: Connecting to Postgress Database on ",  Date(Date.now()), process.env.OPENSHIFT_POSTGRESQL_DB_URL )
+        app.use(orm.express(process.env.OPENSHIFT_POSTGRESQL_DB_URL + "mew", {
+            define: function (db, models) {
+                mewdb.define(db, models);
+            }
+        }));
     };
 
 
@@ -171,7 +185,7 @@ var SampleApp = function() {
 /**
  *  main():  Main code.
  */
-var zapp = new SampleApp();
-zapp.initialize();
-zapp.start();
+var app = new MewApp();
+app.initialize();
+app.start();
 

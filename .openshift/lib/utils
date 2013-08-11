@@ -4,25 +4,12 @@
 #
 
 
-#  Returns the configured Node version
+
+#  Returns the configured Node version - defaults to 0.8.9.
 function get_node_version() {
-   # read the app's package.json file
-   package_json="${OPENSHIFT_REPO_DIR}/package.json"
-
-   # attempt to detect the desired node.js version
-   engine=$(grep "\"node\"" "$package_json" | tail -n 1 | sed -e 's/^.*" *[~=<>]*[=<>]* *v*\([0-9][^" ]*\) *[^"]*".*$/\1/p;d')
-
-   # assume that a deprecated marker value is a reasonable default
-   marker="${OPENSHIFT_REPO_DIR}.openshift/markers/NODEJS_VERSION"
-   marker_ver=$(egrep -v "^\s*#.*" "$marker" 2>/dev/null | egrep -v "^\s*$" | tail -1)
-   
-   # use the OpenShift cart default of 0.6.20 as a final option:
-   if [ -z $engine ]; then
-       echo ${marker_ver-"0.6.20"}
-   else
-       echo ${engine}
-   fi
-
+   marker="$OPENSHIFT_REPO_DIR.openshift/markers/NODEJS_VERSION"
+   nodejs_ver=$(egrep -v "^\s*#.*" "$marker" | egrep -v "^\s*$" | tail -1)
+   echo "${nodejs_ver:-"0.8.9"}"
 }  #  End of function  get_node_version.
 
 
@@ -36,7 +23,7 @@ function get_node_install_dir() {
 #  Returns the path to the npm binary.
 function get_npm_bin_path() {
    ver=${1:-"$(get_node_version)"}
-   echo "$(get_node_install_dir)/node-v$ver-linux-x64/bin"
+   echo "$(get_node_install_dir)node-v$ver-linux-x64/bin"
 
 }  #  End of function  get_npm_bin_path.
 
@@ -50,7 +37,7 @@ function get_node_bin_path() {
 
 #  Returns the temporary directory we use for processing.
 function get_node_tmp_dir() {
-   ztmpdir="$OPENSHIFT_DATA_DIR/.nodejs.tmp"
+   ztmpdir="$OPENSHIFT_DATA_DIR.nodejs.tmp"
 
    #  Ensure temp directory is created.
    [ -d "$ztmpdir" ]  ||  mkdir -p "$ztmpdir"
@@ -75,7 +62,8 @@ function _install_nodejs() {
    instdir="$(get_node_install_dir)"
 
    #  Download and extract the gzipped tarball.
-   dldir="$OPENSHIFT_DATA_DIR/downloads"
+   datadir="$OPENSHIFT_DATA_DIR"
+   dldir="${datadir}downloads"
    mkdir -p "$dldir"
 
    echo "  - Downloading and extracting $zlink ... "
@@ -95,14 +83,14 @@ function _install_nodejs() {
 
 #  Ensure the shell env setup bits are added to user's .bash_profile.
 function _ensure_bash_profile_setup() {
-   dot_bash_profile=$OPENSHIFT_DATA_DIR/.bash_profile
+   dot_bash_profile=$OPENSHIFT_DATA_DIR.bash_profile
    pattern='\s*source(.*)\.openshift/lib/setup_custom_nodejs_env\s*(.*)\s*'
    if ! egrep "$pattern" $dot_bash_profile > /dev/null 2>&1 ; then
 
       cat >> $dot_bash_profile  <<SRCEOF
 
 #  Setup shell env for the custom Node[.js] version.
-source "\$OPENSHIFT_REPO_DIR/.openshift/lib/setup_custom_nodejs_env"
+source "\$OPENSHIFT_REPO_DIR.openshift/lib/setup_custom_nodejs_env"
 SRCEOF
 
       echo "  - Added source setup_custom_nodejs_env to .bash_profile"
@@ -120,7 +108,7 @@ function ensure_node_is_installed() {
    #
    #  To re-download and reinstall Node.js, uncomment these lines.
    #     rm -f downloads/node-v${ver}-linux-x64.tar.gz
-   #     rm -rf $OPENSHIFT_DATA_DIR/node-v${ver}-linux-x64/
+   #     rm -rf $OPENSHIFT_DATA_DIRnode-v${ver}-linux-x64/
    #
    #  Note:  This function could be run multiple times on every git push,
    #         so use w/ caution (do once).
