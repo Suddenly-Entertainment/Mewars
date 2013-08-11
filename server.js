@@ -1,17 +1,17 @@
 // Load libaries
+// 
+global.APP_DIR = __dirname;
 var express = require('express');
-var fs      = require('fs');
-var orm     = require('orm');
 
-var mewdb   = require('./mewdb.js');
-
-var CONFIG  = require('./config.js')
+var CONFIG  = require('./config');
+var Router  = require('./routes');
+var db      = require('./models');
 
 
 /**
  *  Define the application.
  */
-var MewApp = function() { 
+var MewApp = function() {
 
     //  Scope.
     var self = this;
@@ -35,28 +35,8 @@ var MewApp = function() {
             //  allows us to run/test the app locally.
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
             self.ipaddress = "127.0.0.1";
-        };
-    };
-
-
-    /**
-     *  Populate the cache.
-     */
-    self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
         }
-
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
     };
-
-
-    /**
-     *  Retrieve entry (content) from cache.
-     *  @param {string} key  Key identifying content to retrieve from cache.
-     */
-    self.cache_get = function(key) { return self.zcache[key]; };
 
 
     /**
@@ -90,67 +70,14 @@ var MewApp = function() {
     };
 
 
-    /*  ================================================================  */
-    /*  App server functions (main app logic here).                       */
-    /*  ================================================================  */
-
-    /**
-     *  Create the routing table entries + handlers for the application.
-     */
-    self.createRoutes = function() {
-        self.routes = { };
-
-        // Routes for /health, /asciimo, /env and /
-        self.routes['/health'] = function(req, res) {
-            res.send('1');
-        };
-
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
-        self.routes['/env'] = function(req, res) {
-            var content = 'Version: ' + process.version + '\n<br/>\n' +
-                          'Env: {<br/>\n<pre>';
-            //  Add env entries.
-            for (var k in process.env) {
-               content += '   ' + k + ': ' + process.env[k] + '\n';
-            }
-            content += '}\n</pre><br/>\n'
-            res.send(content);
-            res.send('<html>\n' +
-                     '  <head><title>Node.js Process Env</title></head>\n' +
-                     '  <body>\n<br/>\n' + content + '</body>\n</html>');
-        };
-
-        self.routes['/'] = function(req, res) {
-            res.set('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html') );
-        };
-    };
-
-
     /**
      *  Initialize the server (express) and create the routes and register
      *  the handlers.
      */
     self.initializeServer = function() {
-        self.createRoutes();
         self.app = express();
-
-        //  Add handlers for the app (from the routes).
-        for (var r in self.routes) {
-            self.app.get(r, self.routes[r]);
-        }
+        Router.route(self.app);
         
-        //connect database
-        console.log("%s: Connecting to Postgress Database on ",  Date(Date.now()), process.env.OPENSHIFT_POSTGRESQL_DB_URL )
-        app.use(orm.express(process.env.OPENSHIFT_POSTGRESQL_DB_URL + "mew", {
-            define: function (db, models) {
-                mewdb.define(db, models);
-            }
-        }));
     };
 
 

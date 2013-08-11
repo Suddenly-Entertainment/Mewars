@@ -15,6 +15,7 @@
 
 
 #  Source utility functions.
+echo "Running Pre Start: "
 source "$OPENSHIFT_REPO_DIR.openshift/lib/utils"
 
 ensure_node_is_installed

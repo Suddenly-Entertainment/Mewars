@@ -16,6 +16,7 @@
 
 #  First time in .openshift/lib/utils might not exist, so add a check
 #  to ensure file exists.
+echo "Running Pre Stop:"
 if [ -f "$OPENSHIFT_REPO_DIR.openshift/lib/utils" ]; then
    #  Source utility functions.
    source "$OPENSHIFT_REPO_DIR.openshift/lib/utils"
