@@ -61,7 +61,7 @@ function ResourceController(){
               res.set('Content-Type', mimeType);
               self.cacheThis(req, res, filepath);
           }else{
-              res.send(404, "Not Found Filepath: "+ filepath);
+              res.send(404, "Not Found Filepath: "+ filepath +" Type: " + type + " Name: " + name);
           }
        });
     }
