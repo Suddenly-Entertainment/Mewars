@@ -48,10 +48,10 @@ function ResourceController(){
                filepath = global.APP_DIR + "/resources/Images/Tiles/" + name;
            break;
            case 1:
-               filepath = global.APP_DIR + "/resources/Images/Sprites" + name;
+               filepath = global.APP_DIR + "/resources/Images/Sprites/" + name;
            break;
            case 2:
-               filepath = global.APP_DIR + "/resources/Images/Interface" + name;   
+               filepath = global.APP_DIR + "/resources/Images/Interface/" + name;   
            break;
        }
        
@@ -61,7 +61,7 @@ function ResourceController(){
               res.set('Content-Type', mimeType);
               self.cacheThis(req, res, filepath);
           }else{
-              res.send(404, "Not found");
+              res.send(404, "Not Found Filepath: "+ filepath);
           }
        });
     }
