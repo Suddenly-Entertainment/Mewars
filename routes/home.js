@@ -3,23 +3,24 @@ var fs = require('fs');
 
 function HomeController() {
     // define controller data
-    this.cache = { 'index.html': '' };
-    this.cache['index.html'] = fs.readFileSync(global.APP_DIR + '/index.html');
+    var self = this;
+    self.cache = { 'index.html': '' };
+    self.cache['index.html'] = fs.readFileSync(global.APP_DIR + '/index.html');
 
     // define utility functions
-    this.cache_get = function(key) { return this.cache[key]; };
+    self.cache_get = function(key) { return self.cache[key]; };
 
     // define rout functions
-    this.health = function(req, res) {
+    self.health = function(req, res) {
         res.send('1');
     };
 
-    this.index = function(req, res) {
+    self.index = function(req, res) {
         res.set('Content-Type', 'text/html');
-        res.send(this.cache_get('index.html') );
+        res.send(self.cache_get('index.html') );
     };
 
-    this.env = function(req, res) {
+    self.env = function(req, res) {
         var content = 'Version: ' + process.version + '\n<br/>\n' +
                       'Env: {<br/>\n<pre>';
         //  Add env entries.

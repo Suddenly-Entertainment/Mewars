@@ -1,6 +1,6 @@
 module.exports = {
   hostname:       "http://mew-mew.rhcloud.com/",
-  ip:             process.env.OPENSHIFT_NODEJS_IP,
+  ip:             process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
   port:           process.env.OPENSHIFT_NODEJS_PORT || 8080,
   pg_connect_URI: process.env.OPENSHIFT_POSTGRESQL_DB_UR,
   pg_host:        process.env.OPENSHIFT_POSTGRESQL_DB_HOST,
