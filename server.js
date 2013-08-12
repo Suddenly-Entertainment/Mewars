@@ -78,6 +78,7 @@ var MewApp = function() {
         self.app.listen(CONFIG.port, CONFIG.ip, function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), CONFIG.ip, CONFIG.port);
+            console.log(app.routes);
         });
     };
 
