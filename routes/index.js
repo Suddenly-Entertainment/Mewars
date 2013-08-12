@@ -8,10 +8,11 @@ module.exports = {
             for (var verb in routes[controler]) {
                 for (var route in controler[verb]) {
                     app[verb](route, verb[route]);
+                    console.log("Adding Route: %s %s", verb, route);
                 }
             }
         }
 
-        
+
     }
 };
