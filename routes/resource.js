@@ -40,7 +40,7 @@ function ResourceController(){
     
     self.image = function(req, res){
        var filepath = "";
-       var type = req.params.type;
+       var type = parseInt(req.params.type);
        var name = req.params.name;
        
        switch(type){
