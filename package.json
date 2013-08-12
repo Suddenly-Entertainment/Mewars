@@ -23,7 +23,8 @@
     "passport": "0.1.x",
     "socket.io": "0.9.x",
     "pg": "*",
-    "sequelize": "2.x.x"
+    "sequelize": "2.x.x",
+    "mime" : "1.2.x"
   },
 
   "devDependencies": {},

@@ -3,6 +3,7 @@ module.exports = {
         var routes = {};
         //add controlers
         routes['home'] = require(__dirname + "/home").verbs;
+        routes['resource'] = require(__dirname + "/resource").verbs;
 
 
         // loop through and add routes

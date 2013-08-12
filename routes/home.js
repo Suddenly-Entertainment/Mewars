@@ -37,7 +37,7 @@ function HomeController() {
 
 var controller = new HomeController();
 
-// define routes we handel here
+// define routes we handle here
 exports.verbs = {
     'get':  {
         '/':       controller.index,
