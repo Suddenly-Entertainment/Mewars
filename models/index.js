@@ -3,14 +3,29 @@ if (!global.hasOwnProperty('db')) {
         sequelize = null;
 
     CONFIG = require(global.APP_DIR + '/config');
- 
+
+    var migrate = function(sequelize) {
+        var migrationsPath = global.APP_DIR + '/migrations';
+        var migratorOptions = { path: migrationsPath },
+            migrator        = sequelize.getMigrator(migratorOptions);
+
+        sequelize.migrate();
+    };
+    
     sequelize = new Sequelize(CONFIG.pg_database, CONFIG.pg_user, CONFIG.pg_password, {
         dialect:  'postgres',
         protocol: 'postgres',
         port:     CONFIG.pg_port,
         host:     CONFIG.pg_host,
-        logging:  CONFIG.db_logging
+        logging:  CONFIG.db_logging,
+        pool: { maxConnections: 5, maxIdleTime: 30},
+        maxConcurrentQueries: 100,
+        syncOnAssociation: false,
     });
+
+    if (CONFIG.auto_migrate) {
+        migrate(sequelize);
+    }
 
     global.db = {
         Sequelize: Sequelize,

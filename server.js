@@ -1,7 +1,9 @@
 // Load libaries
 // 
 global.APP_DIR = __dirname;
+var http    = require('http');
 var express = require('express');
+var io      = require('socket.io');
 
 var CONFIG  = require('./config');
 var Router  = require('./routes');
@@ -24,7 +26,7 @@ var MewApp = function() {
      */
     self.terminator = function(sig){
         if (typeof sig === "string") {
-           console.log('%s: Received %s - terminating sample app ...',
+           console.log('%s: Received %s - terminating MEW ...',
                        Date(Date.now()), sig);
            process.exit(1);
         }
@@ -54,8 +56,51 @@ var MewApp = function() {
      */
     self.initializeServer = function() {
         self.app = express();
+        self.server = http.createServer(self.app);
+        self.socket = io.listen(self.server, {'flash policy port': -1});
+
+    };
+
+    self.configServer = function() {
+
+        self.app.configure('development', function(){
+            self.app.use(express.static(__dirname + '/public'));
+            self.app.use(express.logger());
+        });
+
+        self.app.configure('production', function(){
+            self.app.use(express.static(__dirname + '/public'));
+            self.app.use(express.logger());
+        });
+            
+        self.socket.configure('production', function(){
+            /**
+            self.socket.enable('browser client minification');  // send minified client
+            self.socket.enable('browser client etag');          // apply etag caching logic based on version number
+            self.socket.enable('browser client gzip');          // gzip the file
+            self.socket.set('log level', 1);                    // reduce logging
+            **/
+            self.socket.set('transports', [
+                'xhr-polling',
+                'websocket'
+            //  , 'flashsocket'
+            //  , 'htmlfile'
+            //  , 'jsonp-polling'
+            ]);
+        });
+
+        self.socket.configure('development', function(){
+          self.socket.set('transports', [
+                'xhr-polling',
+                'websocket'
+            //  , 'flashsocket'
+            //  , 'htmlfile'
+            //  , 'jsonp-polling'
+            ]);
+        });
+
         Router.route(self.app);
-        
+
     };
 
 
@@ -67,6 +112,7 @@ var MewApp = function() {
 
         // Create the express server and routes.
         self.initializeServer();
+        self.configServer();
     };
 
 
@@ -75,10 +121,9 @@ var MewApp = function() {
      */
     self.start = function() {
         //  Start the app on the specific interface (and port).
-        self.app.listen(CONFIG.port, CONFIG.ip, function() {
+        self.server.listen(CONFIG.port, CONFIG.ip, function() {
             console.log('%s: Node server started on %s:%d ...',
                         Date(Date.now() ), CONFIG.ip, CONFIG.port);
-            console.log(app.routes);
         });
     };
 

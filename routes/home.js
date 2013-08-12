@@ -28,7 +28,7 @@ function HomeController() {
            content += '   ' + k + ': ' + process.env[k] + '\n';
         }
         content += '}\n</pre><br/>\n';
-        res.send(content);
+        //res.send(content);
         res.send('<html>\n' +
                  '  <head><title>Node.js Process Env</title></head>\n' +
                  '  <body>\n<br/>\n' + content + '</body>\n</html>');
