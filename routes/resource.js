@@ -8,6 +8,36 @@ function ResourceController(){
             res.send(404, "Not found");
     }
     
+    self.cacheThis = function(req, res, filepath){
+        var httpModified = req.get('HTTP_IF_MODIFIED_SINCE');
+        if(typeof httpModified !== 'undefined'){
+            var httpModifiedDate = new Date(httpModified);
+            fs.stat(filepath, function(err, stats){
+                if (err) throw err;
+                if(stats.mtime <= httpModifiedDate){
+                  res.send(304, "Not Modified");
+                }else{
+                    res.set('Cache-Control', 'max-age=432000, must-revalidate');
+                    res.set('Last-Modified', stats.mtime);
+                    fs.readFile(filepath, function(err,data){
+                        if (err) throw err;
+                        res.send(data);
+                    });
+                }
+            });
+        } else {
+            fs.stat(filepath, function(err, stats){
+                if (err) throw err;
+                res.set('Cache-Control', 'max-age=432000, must-revalidate');
+                res.set('Last-Modified', stats.mtime);
+                fs.readFile(filepath, function(err,data){
+                    if (err) throw err;
+                    res.send(data);
+                });
+            });
+        }
+    }
+    
     self.image = function(req, res){
        var filepath = "";
        var type = req.params.type;
