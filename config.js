@@ -1,7 +1,7 @@
 var config = {
   hostname:       "http://mew-mew.rhcloud.com/",
-  ip:             process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
-  port:           process.env.OPENSHIFT_NODEJS_PORT || 8080,
+  ip:             process.env.OPENSHIFT_NODEJS_IP || process.env.VCAP_APP_HOST || 'localhost',
+  port:           process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || 3000,
   pg_connect_URI: process.env.OPENSHIFT_POSTGRESQL_DB_URL,
   pg_host:        process.env.OPENSHIFT_POSTGRESQL_DB_HOST || '127.0.0.1',
   pg_port:        process.env.PGPORT || 5432,
@@ -9,7 +9,8 @@ var config = {
   pg_password:    process.env.PGPASSWORD || 'root',
   pg_database:    process.env.PGDATABASE || 'mew',
   db_logging:     console.log,
-  auto_migrate:   false
+  datbdatbauto_migrate:   false,
+  databasease
 };
 
 module.exports = config;
