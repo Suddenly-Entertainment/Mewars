@@ -1,18 +1,25 @@
 module.exports = {
     'route': function(app) {
-        var routes = {};
+        var controlers = {};
         //add controlers
-        routes['home'] = require(__dirname + "/home").verbs;
-        routes['resource'] = require(__dirname + "/resource").verbs;
-        routes['code'] = require(__dirname + '/code').verbs;
-        routes['xml'] = require(__dirname + '/xml').verbs;
-        routes['game'] = require(__dirname + '/game').verbs;
+        controlers['home'] = require(__dirname + "/home").verbs;
+        controlers['resource'] = require(__dirname + "/resource").verbs;
+        controlers['code'] = require(__dirname + '/code').verbs;
+        controlers['xml'] = require(__dirname + '/xml').verbs;
+        controlers['game'] = require(__dirname + '/game').verbs;
 
         // loop through and add routes
-        for (var controler in routes) {
-            for (var verb in routes[controler]) {
-                for (var route in routes[controler][verb]) {
-                    app[verb](route, routes[controler][verb][route]);
+        for (var controler_name in controlers) {
+            var controler = controlers[controler_name];
+            for (var verb in controler) {
+                var routes = controler[verb];
+                for (var route in routes) {
+                    // we dont want to care if middleware is a function or an array of functions
+                    // so lets ensure that weathers it an array or not we call the path mounting 
+                    // function with an array of arguments in the right order
+                    var middleware = routes[route];
+                    var args = [].concat(route, middleware);
+                    app[verb].apply(app, args);
                 }
             }
         }
