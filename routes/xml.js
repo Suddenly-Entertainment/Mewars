@@ -54,9 +54,9 @@ var controller = new XmlController();
 exports.verbs = {
     'get':  {
 
-        '/XML/includes' : controller.includes,
-        '/XML/file/:name' : controller.file,
-        '/XML/date/:name' : controller.date,
+        '/resource/XML/includes' : controller.includes,
+        '/resource/XML/file/:name' : controller.file,
+        '/resource/XML/date/:name' : controller.date,
         
     },
     'post': {

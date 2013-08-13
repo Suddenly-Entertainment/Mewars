@@ -111,13 +111,13 @@ var controller = new CodeController();
 exports.verbs = {
     'get':  {
 
-        '/code/includes' : controller.includes,
-        '/code/bootstrap' : controller.bootstrap,
-        '/code/loader' : controller.loader,
-        '/code/engine' : controller.engine,
-        '/code/file/:name' : controller.file,
-        '/code/date/:name' : controller.date,
-        '/code/worker/:name' : controller.worker,
+        '/resource/code/includes' : controller.includes,
+        '/resource/code/bootstrap' : controller.bootstrap,
+        '/resource/code/loader' : controller.loader,
+        '/resource/code/engine' : controller.engine,
+        '/resource/code/file/:name' : controller.file,
+        '/resource/code/date/:name' : controller.date,
+        '/resource/code/worker/:name' : controller.worker,
     },
     'post': {
 
