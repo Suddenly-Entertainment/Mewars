@@ -1,0 +1,31 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'start' ]
+2 info using npm@1.2.15
+3 info using node@v0.10.1
+4 verbose read json e:\Projects\mewars\package.json
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info prestart Mock-Equestrian-Wars@1.0.0
+7 info start Mock-Equestrian-Wars@1.0.0
+8 verbose unsafe-perm in lifecycle true
+9 silly exec cmd "/c" "node server.js"
+10 silly cmd,/c,node server.js,e:\Projects\mewars spawning
+11 info Mock-Equestrian-Wars@1.0.0 Failed to exec start script
+12 error Mock-Equestrian-Wars@1.0.0 start: `node server.js`
+12 error `cmd "/c" "node server.js"` failed with 8
+13 error Failed at the Mock-Equestrian-Wars@1.0.0 start script.
+13 error This is most likely a problem with the Mock-Equestrian-Wars package,
+13 error not with npm itself.
+13 error Tell the author that this fails on your system:
+13 error     node server.js
+13 error You can get their info via:
+13 error     npm owner ls Mock-Equestrian-Wars
+13 error There is likely additional logging output above.
+14 error System Windows_NT 6.1.7601
+15 error command "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
+16 error cwd e:\Projects\mewars
+17 error node -v v0.10.1
+18 error npm -v 1.2.15
+19 error code ELIFECYCLE
+20 verbose exit [ 1, true ]

@@ -4,8 +4,8 @@ var $MEW = {};
 // Set up URLs
 if (location.hostname === "localhost") {
     $MEW.API_URL = "http://localhost:3000";
-    $MEW.NODE_URL = "http://localhost:5000";
-    $MEW.RESOURCE_URL = "http://localhost/resources";
+    $MEW.NODE_URL = "http://localhost:3000";
+    $MEW.RESOURCE_URL = "http://localhost:3000/resource";
 } else if (location.hostname === 'mew-mew.rhcloud.com') {
     $MEW.API_URL = "http://mew-mew.rhcloud.com";
     $MEW.NODE_URL = "http://mew-mew.rhcloud.com";
