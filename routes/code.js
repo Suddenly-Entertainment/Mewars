@@ -18,7 +18,10 @@ function CodeController(){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
                 fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.send(data);
                 });
             }else{
@@ -33,7 +36,10 @@ function CodeController(){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
                 fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.send(data);
                 });
             }else{
@@ -48,7 +54,10 @@ function CodeController(){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
                 fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.send(data);
                 });
             }else{
@@ -63,8 +72,11 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
+                fs.readFile(filepath, function(err, data){
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.send(data);
                 });
             }else{
@@ -79,7 +91,10 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                fs.stat(filepath, function(err, stats){
-                    if (err) throw err;
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.set("Content-Type", "application/json");
                     res.json(stats.mtime);
               });
@@ -96,7 +111,10 @@ function CodeController(){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
                 fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
+                    if (err) {
+                        console.log(filepath);
+                        throw err;
+                    }
                     res.send(data);
                 });
             }else{
