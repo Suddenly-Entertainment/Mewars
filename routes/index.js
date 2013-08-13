@@ -5,6 +5,8 @@ module.exports = {
         routes['home'] = require(__dirname + "/home").verbs;
         routes['resource'] = require(__dirname + "/resource").verbs;
         routes['code'] = require(__dirname + '/code').verbs;
+        routes['xml'] = require(__dirname + '/xml').verbs;
+        routes['game'] = require(__dirname + '/game').verbs;
 
         // loop through and add routes
         for (var controler in routes) {

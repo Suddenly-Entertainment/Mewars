@@ -1,5 +1,4 @@
 // Load libaries
-// 
 global.APP_DIR = __dirname;
 var http    = require('http');
 var express = require('express');
@@ -137,4 +136,3 @@ var MewApp = function() {
 var app = new MewApp();
 app.initialize();
 app.start();
-

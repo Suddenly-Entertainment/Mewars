@@ -92,7 +92,7 @@ exports.verbs = {
     },
     'post': {
 
-    }
+    },
 
 };
 

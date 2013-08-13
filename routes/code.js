@@ -6,7 +6,7 @@ function CodeController(){
     
     self.includes = function(req, res){
         var filepath = global.APP_DIR + "/resources/Code/Include/";
-        fs.readDir(filepath, function(err, files){
+        fs.readdir(filepath, function(err, files){
             res.set('Content-Type', "application/json"); 
             res.json(files);
         });
