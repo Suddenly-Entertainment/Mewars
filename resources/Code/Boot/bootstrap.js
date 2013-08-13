@@ -22,15 +22,7 @@ if (location.hostname === "localhost") {
 
 console.log($MEW.API_URL, $MEW.NODE_URL, $MEW.RESOURCE_URL);
 
-// get our canvas
-var c = document.getElementById("MEWGame");
-$MEW.Canvas = c;
-$MEW.CTX = c.getContext("2d");
-// width height of screen
-$MEW.WIDTH = 800;
-$MEW.HEIGHT = 600;
-// retry counter for getting scripts
-$MEW.ScriptsRetryCounter = 0;
+
 
 // DEBUG
 (function () {
@@ -208,6 +200,16 @@ $MEW.GetGameLoader = function() {
 };
 
 $MEW.onDocLoad = function() {
+
+    // get our canvas
+    var c = document.getElementById("MEWGame");
+    $MEW.Canvas = c;
+    $MEW.CTX = c.getContext("2d");
+    // width height of screen
+    $MEW.WIDTH = 800;
+    $MEW.HEIGHT = 600;
+    // retry counter for getting scripts
+    $MEW.ScriptsRetryCounter = 0;
 
     var loadGameflag = false;
 
