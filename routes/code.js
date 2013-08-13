@@ -4,9 +4,40 @@ var mime = require('mime');
 function CodeController(){
     var self = this;
     
+    self.cacheThis = function(req, res, filepath){
+      fs.stat(filepath, function (err, stat) {
+        if (err) {
+          console.log(err.stack)
+          res.send(500, 'Internal Server Error')
+        }
+        else {
+          etag = stat.size + '-' + Date.parse(stat.mtime);
+          re.set('Last-Modified', stat.mtime);
+
+          if (req.get('if-none-match') === etag) {
+            res.send(304, 'Not Modified')
+          }
+          else {
+            fs.readFile(filepath, function(err,data){
+              if (err) {
+                console.log(err.stack)
+                res.send(500, 'Internal Server Error')
+              };
+              res.set('ETag', etag);
+              res.send(data);
+            });
+          }
+        }
+      })
+    }
+    
     self.includes = function(req, res){
         var filepath = global.APP_DIR + "/resources/Code/Include/";
         fs.readdir(filepath, function(err, files){
+            if (err) {
+              console.log(err.stack)
+              res.send(500, 'Internal Server Error')
+            }
             res.set('Content-Type', "application/json"); 
             res.json(files);
         });
@@ -17,15 +48,9 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err,data){
-                    if (err) {
-                        console.log(filepath);
-                        throw err;
-                    }
-                    res.send(data);
-                });
+                self.cacheThis(req, res, filepath);
             }else{
-              res.send(404, "Bootstrap Not Found");
+              res.send(404, "Not Found");
             }
         });  
     }
@@ -35,15 +60,9 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err,data){
-                    if (err) {
-                        console.log(filepath);
-                        throw err;
-                    }
-                    res.send(data);
-                });
+                self.cacheThis(req, res, filepath);
             }else{
-              res.send(404, "GameLoader Not Found");
+              res.send(404, "Not Found");
             }
         });  
     }
@@ -53,15 +72,9 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err,data){
-                    if (err) {
-                        console.log(filepath);
-                        throw err;
-                    }
-                    res.send(data);
-                });
+                self.cacheThis(req, res, filepath);
             }else{
-              res.send(404, "Engine Not Found");
+              res.send(404, "Not Found");
             }
         });  
     }
@@ -72,15 +85,9 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err, data){
-                    if (err) {
-                        console.log(filepath);
-                        throw err;
-                    }
-                    res.send(data);
-                });
+                self.cacheThis(req, res, filepath);
             }else{
-                res.send(404, Name + " Not Found");
+                res.send(404, "Not Found");
             }
         });
     }
@@ -92,14 +99,14 @@ function CodeController(){
             if(exists){
                fs.stat(filepath, function(err, stats){
                     if (err) {
-                        console.log(filepath);
-                        throw err;
+                      console.log(err.stack)
+                      res.send(500, 'Internal Server Error')
                     }
                     res.set("Content-Type", "application/json");
                     res.json(stats.mtime);
               });
             }else{
-                res.send(404, Name + " Not Found");
+                res.send(404, "Not Found");
             }
         });
     }
@@ -110,15 +117,9 @@ function CodeController(){
         fs.exists(filepath, function(exists){
             if(exists){
                 res.set('Content-Type', 'text/javascript');
-                fs.readFile(filepath, function(err,data){
-                    if (err) {
-                        console.log(filepath);
-                        throw err;
-                    }
-                    res.send(data);
-                });
+                self.cacheThis(req, res, filepath);
             }else{
-                res.send(404, Name + " Not Found");
+                res.send(404, "Not Found");
             }
         });
     }

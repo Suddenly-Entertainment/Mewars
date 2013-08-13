@@ -9,33 +9,30 @@ function ResourceController(){
     }
     
     self.cacheThis = function(req, res, filepath){
-        var httpModified = req.get('HTTP_IF_MODIFIED_SINCE');
-        if(typeof httpModified !== 'undefined'){
-            var httpModifiedDate = new Date(httpModified);
-            fs.stat(filepath, function(err, stats){
-                if (err) throw err;
-                if(stats.mtime <= httpModifiedDate){
-                  res.send(304, "Not Modified");
-                }else{
-                    res.set('Cache-Control', 'max-age=432000, must-revalidate');
-                    res.set('Last-Modified', stats.mtime);
-                    fs.readFile(filepath, function(err,data){
-                        if (err) throw err;
-                        res.send(data);
-                    });
-                }
-            });
-        } else {
-            fs.stat(filepath, function(err, stats){
-                if (err) throw err;
-                res.set('Cache-Control', 'max-age=432000, must-revalidate');
-                res.set('Last-Modified', stats.mtime);
-                fs.readFile(filepath, function(err,data){
-                    if (err) throw err;
-                    res.send(data);
-                });
-            });
+      fs.stat(filepath, function (err, stat) {
+        if (err) {
+          console.log(err.stack)
+          res.send(500, 'Internal Server Error')
         }
+        else {
+          etag = stat.size + '-' + Date.parse(stat.mtime);
+          re.set('Last-Modified', stat.mtime);
+
+          if (req.get('if-none-match') === etag) {
+            res.send(304, 'Not Modified')
+          }
+          else {
+            fs.readFile(filepath, function(err,data){
+              if (err) {
+                console.log(err.stack)
+                res.send(500, 'Internal Server Error')
+              };
+              res.set('ETag', etag);
+              res.send(data);
+            });
+          }
+        }
+      })
     }
     
     self.image = function(req, res){

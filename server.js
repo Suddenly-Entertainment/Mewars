@@ -24,12 +24,12 @@ var MewApp = function() {
      *  @param {string} sig  Signal to terminate on.
      */
     self.terminator = function(sig){
-        if (typeof sig === "string") {
-           console.log('%s: Received %s - terminating MEW ...',
-                       Date(Date.now()), sig);
-           process.exit(1);
-        }
-        console.log('%s: Node server stopped.', Date(Date.now()) );
+      if (typeof sig === "string") {
+         console.log('%s: Received %s - terminating MEW ...',
+                     Date(Date.now()), sig);
+         process.exit(1);
+      }
+      console.log('%s: Node server stopped.', Date(Date.now()) );
     };
 
 
@@ -37,15 +37,15 @@ var MewApp = function() {
      *  Setup termination handlers (for exit and a list of signals).
      */
     self.setupTerminationHandlers = function(){
-        //  Process on exit and signals.
-        process.on('exit', function() { self.terminator(); });
+      //  Process on exit and signals.
+      process.on('exit', function() { self.terminator(); });
 
-        // Removed 'SIGPIPE' from the list - bugz 852598.
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-        ].forEach(function(element, index, array) {
-            process.on(element, function() { self.terminator(element); });
-        });
+      // Removed 'SIGPIPE' from the list - bugz 852598.
+      ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
+       'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
+      ].forEach(function(element, index, array) {
+          process.on(element, function() { self.terminator(element); });
+      });
     };
 
 
@@ -54,51 +54,52 @@ var MewApp = function() {
      *  the handlers.
      */
     self.initializeServer = function() {
-        self.app = express();
-        self.server = http.createServer(self.app);
-        self.socket = io.listen(self.server, {'flash policy port': -1});
+      self.app = express();
+      self.server = http.createServer(self.app);
+      self.socket = io.listen(self.server, {'flash policy port': -1});
 
     };
 
     self.configServer = function() {
 
-        self.app.configure('development', function(){
-            self.app.use(express.static(__dirname + '/public'));
-            self.app.use(express.logger());
-        });
+      self.app.configure('development', function(){
+        self.app.use(express.compress());
+        self.app.use(express.static(__dirname + '/public'));
+        self.app.use(express.logger());
+      });
 
-        self.app.configure('production', function(){
-            self.app.use(express.static(__dirname + '/public'));
-            self.app.use(express.logger());
-        });
-            
-        self.socket.configure('production', function(){
-            /**
-            self.socket.enable('browser client minification');  // send minified client
-            self.socket.enable('browser client etag');          // apply etag caching logic based on version number
-            self.socket.enable('browser client gzip');          // gzip the file
-            self.socket.set('log level', 1);                    // reduce logging
-            **/
-            self.socket.set('transports', [
-                'xhr-polling',
-                'websocket'
-            //  , 'flashsocket'
-            //  , 'htmlfile'
-            //  , 'jsonp-polling'
-            ]);
-        });
+      self.app.configure('production', function(){
+        self.app.use(express.static(__dirname + '/public'));
+        self.app.use(express.logger());
+      });
+          
+      self.socket.configure('production', function(){
+        /**
+        self.socket.enable('browser client minification');  // send minified client
+        self.socket.enable('browser client etag');          // apply etag caching logic based on version number
+        self.socket.enable('browser client gzip');          // gzip the file
+        self.socket.set('log level', 1);                    // reduce logging
+        **/
+        self.socket.set('transports', [
+            'xhr-polling',
+            'websocket'
+        //  , 'flashsocket'
+        //  , 'htmlfile'
+        //  , 'jsonp-polling'
+        ]);
+      });
 
-        self.socket.configure('development', function(){
-          self.socket.set('transports', [
-                'xhr-polling',
-                'websocket'
-            //  , 'flashsocket'
-            //  , 'htmlfile'
-            //  , 'jsonp-polling'
-            ]);
-        });
+      self.socket.configure('development', function(){
+        self.socket.set('transports', [
+              'xhr-polling',
+              'websocket'
+          //  , 'flashsocket'
+          //  , 'htmlfile'
+          //  , 'jsonp-polling'
+          ]);
+      });
 
-        Router.route(self.app);
+      Router.route(self.app);
 
     };
 
@@ -107,11 +108,11 @@ var MewApp = function() {
      *  Initializes the sample application.
      */
     self.initialize = function() {
-        self.setupTerminationHandlers();
+      self.setupTerminationHandlers();
 
-        // Create the express server and routes.
-        self.initializeServer();
-        self.configServer();
+      // Create the express server and routes.
+      self.initializeServer();
+      self.configServer();
     };
 
 
@@ -119,11 +120,11 @@ var MewApp = function() {
      *  Start the server (starts up the sample application).
      */
     self.start = function() {
-        //  Start the app on the specific interface (and port).
-        self.server.listen(CONFIG.port, CONFIG.ip, function() {
-            console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now() ), CONFIG.ip, CONFIG.port);
-        });
+      //  Start the app on the specific interface (and port).
+      self.server.listen(CONFIG.port, CONFIG.ip, function() {
+          console.log('%s: Node server started on %s:%d ...',
+                      Date(Date.now() ), CONFIG.ip, CONFIG.port);
+      });
     };
 
 };   /*  Sample Application.  */

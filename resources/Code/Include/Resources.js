@@ -84,6 +84,7 @@ $MEW.LoadResources = function(progress_cb) {
     function onGetXML(xml) {
         var resourceParser = new XMLResourceParser(xml);
         var urls = resourceParser.getResourceURLS();
+        console.log('[RESOURCE LOADING] IMAGE URLS: ', urls)
         localStorage.setItem('MEWResourceURLSList', JSON.stringify(urls));
         loadImages(function(){
             resourceParser.setUpResources(resourseSetupCallback, storeResources);
