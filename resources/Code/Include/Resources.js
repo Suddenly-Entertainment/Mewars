@@ -116,15 +116,6 @@ $MEW.LoadResources = function(progress_cb) {
     function onGetDateError(e) {
         console.log(e);
     }
-    
-
-    var InterfaceResourceURL = $MEW.RESOURCE_URL + "/resource/image/2/";
-    Crafty.sprite(800, 600, InterfaceResourceURL + 'world_map_concept_mysticalpha-800.jpg', {
-        WorldMapConcept: [0, 0]
-    });
-    Crafty.sprite(800, 600, InterfaceResourceURL + 'mew_login_screen.png', {
-        LoginScreenBackground: [0, 0]
-    });
 
     $MEW.SkermishTerrainSprites = {};
     $MEW.Network = Crafty.e("NetworkResourceAccessor");

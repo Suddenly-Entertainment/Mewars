@@ -4,9 +4,9 @@ $MEW.Routes = {
     "UsersRegester":        ['API',       'POST',   '/api/users',               'JSON'],
     "MapsGetChunks":        ['API',       'POST',   '/api/get_map_chunks',      'JSON'],
     "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
-    "GetResourceXML":       ['RESOURCE',  'GET',    '/xml/file/Resources.xml',  'XML' ],
-    "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/xml/date/Resources.xml',  'JSON'],
-    "GetSceneUserXML":       ['RESOURCE',  'GET',    '/xml/file/SceneUser.xml',  'XML' ],
+    "GetResourceXML":       ['RESOURCE',  'GET',    '/XML/file/Resources.xml',  'XML' ],
+    "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/XML/date/Resources.xml',  'JSON'],
+    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ],
 };
 
 Crafty.c("Network", {
