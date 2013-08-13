@@ -502,7 +502,7 @@ Crafty.scene("Load", function () {
 
     $MEW.Viewport.bindTo($MEW.Scene.loading_dots, x, y);
 
-    var interfaceImagesURL = $MEW.RESOURCE_URL + "/resource/image/2/";
+    var interfaceImagesURL = $MEW.RESOURCE_URL + "/image/2/";
     var loadingImages = ['loadinggraphic_background.png', 'loadinggraphic_barempty.png', 'loadinggraphic_barfull.png', 'loadinggraphic_border.png'];
     var ImageURLS = [];
     for (var key in loadingImages) {

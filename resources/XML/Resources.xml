@@ -2,9 +2,9 @@
 <resources>
 
     <!-- URLS -->
-    <url name="TileResourceURL" value="%(RESOURCE_URL)s/resource/image/0/" />
-    <url name="SpriteResourceURL" value="%(RESOURCE_URL)s/resource/image/1/" />
-    <url name="InterfaceResourceURL" value="%(RESOURCE_URL)s/resource/image/2/" />
+    <url name="TileResourceURL" value="%(RESOURCE_URL)s/image/0/" />
+    <url name="SpriteResourceURL" value="%(RESOURCE_URL)s/image/1/" />
+    <url name="InterfaceResourceURL" value="%(RESOURCE_URL)s/image/2/" />
     <type name="sprite" url="SpriteResourceURL" />
     <type name="tile" url="TileResourceURL" />
     <type name="interface" url="InterfaceResourceURL" />
