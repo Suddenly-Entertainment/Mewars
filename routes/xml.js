@@ -41,6 +41,7 @@ function XmlController() {
                     if (err) throw err;
                     res.set("Content-Type", "application/json");
                     res.json(stats.mtime);
+                    
                 });
             }else{
                 res.send(404, name + " Not Found");

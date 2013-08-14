@@ -82,8 +82,10 @@ $MEW.LoadResources = function(progress_cb) {
         setUpResources();
     }
     function onGetXML(xml) {
+        
         var resourceParser = new XMLResourceParser(xml);
         var urls = resourceParser.getResourceURLS();
+        console.log(xml, resourceParser); //testing
         console.log('[RESOURCE LOADING] IMAGE URLS: ', urls)
         localStorage.setItem('MEWResourceURLSList', JSON.stringify(urls));
         loadImages(function(){
@@ -98,10 +100,20 @@ $MEW.LoadResources = function(progress_cb) {
     function onGetDate(data) {
         var needReload = false;
         if (localStorage.getItem('MEWResourceXMLDate')){
-            console.log('[RESOURCES] XML Last M Time: ',  JSON.parse(localStorage.getItem('MEWResourceXMLDate')), data.time);
-            if (!(JSON.parse(localStorage.getItem('MEWResourceXMLDate')) >= data.time)) {
-                needReload = true;
-            } 
+            try{
+                  console.log('[RESOURCES] XML Last M Time: ',  JSON.parse(localStorage.getItem('MEWResourceXMLDate')), data.time); //Cannot parse that through json, it errors out.
+                  if (!(JSON.parse(localStorage.getItem('MEWResourceXMLDate')) >= data.time)) { //No data.time anymore, only data, and I don't think it is formatted properly, atleast it doesn't seem to be.
+                      needReload = true;
+                  }
+            }catch(err){
+                console.log(err);
+                console.log('[RESOURCES] XML Last M Time: ',  localStorage.getItem('MEWResourceXMLDate'), data);
+                if (!(localStorage.getItem('MEWResourceXMLDate') >= data)) {
+                    needReload = true;
+                }
+            }
+        }else{
+            needReload = true; //Spencer(Robo) added this
         }
         
         if (needReload) {
