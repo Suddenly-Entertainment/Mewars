@@ -1,5 +1,5 @@
 // load library
-var fs = require('fs');
+var fs = require('fs'); //This is the file system library
 
 function HomeController() {
     // define controller data

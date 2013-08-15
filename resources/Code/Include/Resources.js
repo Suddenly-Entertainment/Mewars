@@ -118,7 +118,7 @@ $MEW.LoadResources = function(progress_cb) {
         
         if (needReload) {
             //load and setup resources form network
-            localStorage.setItem('MEWResourceXMLDate', JSON.stringify(data.time))
+            localStorage.setItem('MEWResourceXMLDate', JSON.stringify(data))
             $MEW.Network.GetResourceXML();
         } else {
             //load resource setup from local storage

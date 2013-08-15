@@ -37,7 +37,7 @@ Crafty.c("Network", {
             } else if (datatype === 'XML') {
                 try {
                     var parser = new DOMParser();
-                    responce = parser.parseFromString(data, "text/xml");
+                    responce = parser.parseFromString(data, "application/xml");
                 } catch (e) {
                     responce = data;
                 }
