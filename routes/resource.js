@@ -16,7 +16,7 @@ function ResourceController(){
         }
         else {
           etag = stat.size + '-' + Date.parse(stat.mtime);
-          re.set('Last-Modified', stat.mtime);
+          res.set('Last-Modified', stat.mtime);
 
           if (req.get('if-none-match') === etag) {
             res.send(304, 'Not Modified')
