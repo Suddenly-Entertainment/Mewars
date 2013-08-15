@@ -43,7 +43,8 @@ function XmlController() {
                 fs.stat(filepath, function(err, stats){
                     if (err) throw err;
                     res.set("Content-Type", "application/json");
-                    res.json(stats.mtime);
+                    
+                    res.json(stats.mtime.getTime());
                     
                 });
             }else{

@@ -35,12 +35,13 @@ Crafty.c("Network", {
                     responce = data;
                 }
             } else if (datatype === 'XML') {
-                try {
+                /*try { //parser.parseFromString doesn't throw an error when parsing, it just returns an error document.
                     var parser = new DOMParser();
-                    responce = parser.parseFromString(data, "application/xml");
+                    responce = parser.parseFromString(data, "text/xml");
                 } catch (e) {
                     responce = data;
-                }
+                }*/
+                responce = data;
             } else {
                 responce = data;
             }

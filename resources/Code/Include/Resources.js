@@ -101,8 +101,8 @@ $MEW.LoadResources = function(progress_cb) {
         var needReload = false;
         if (localStorage.getItem('MEWResourceXMLDate')){
             try{
-                  console.log('[RESOURCES] XML Last M Time: ',  JSON.parse(localStorage.getItem('MEWResourceXMLDate')), data.time); //Cannot parse that through json, it errors out.
-                  if (!(JSON.parse(localStorage.getItem('MEWResourceXMLDate')) >= data.time)) { //No data.time anymore, only data, and I don't think it is formatted properly, atleast it doesn't seem to be.
+                  console.log('[RESOURCES] XML Last M Time: ',  JSON.parse(localStorage.getItem('MEWResourceXMLDate')), data); //Cannot parse that through json, it errors out.
+                  if (!(JSON.parse(localStorage.getItem('MEWResourceXMLDate')) >= data)) { //No data.time anymore, only data, and I don't think it is formatted properly, atleast it doesn't seem to be.
                       needReload = true;
                   }
             }catch(err){
