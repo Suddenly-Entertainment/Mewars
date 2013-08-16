@@ -300,6 +300,9 @@ Crafty.scene("User", function() {
     $MEW.Scene = {};
 
     if (!confirm('Do you want to try out the XML interface?')) {
+        XMLInterfaceSetup();
+        return;
+    }
         console.log("Loaded User Scene");
         
         //set the viewport
@@ -400,8 +403,9 @@ Crafty.scene("User", function() {
         $MEW.Viewport.bindTo($MEW.Scene.border, 0, 0);
         
         $MEW.toggleScrolling(0);
-    } else {
-        var onXMLReturn = function(data){
+        
+    var XMLInterfaceSetup = function(){
+      var onXMLReturn = function(data){
             var XMLParser = new XMLInterfaceParser(data);
             var XMLInterface = XMLParser.getInterface("LoginForm");
             XMLInterface.layout($MEW.Viewport);
