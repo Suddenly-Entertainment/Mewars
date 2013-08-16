@@ -83,9 +83,13 @@ $MEW.LoadResources = function(progress_cb) {
  
     function storeResources(resources){
         //sends resources and last modified date to storage
-        if(cacheOn){
+        try{
           localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));
-        }    
+        }catch(err){
+            console.log("Caching failed!", err);
+            localStorage.removeItem('MEWResourceXMLDate');
+            localStorage.removeItem('MEWResourceXMLURLSList');
+        }
     }
     
     function reloadResourceSetup(resources) {
