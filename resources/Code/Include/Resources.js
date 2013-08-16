@@ -89,7 +89,10 @@ $MEW.LoadResources = function(progress_cb) {
             console.log("Caching failed!", err);
             localStorage.removeItem('MEWResourceXMLDate');
             localStorage.removeItem('MEWResourceXMLURLSList');
+            
+           
         }
+         $MEW.UseXMLInterface();
     }
     
     function reloadResourceSetup(resources) {
