@@ -74,15 +74,18 @@ $MEW.LoadResources = function(progress_cb) {
             $MEW.DefaultWindowSkin = null;
             // loop for craft sprite setup
             //Crafty.sprite(params.mapw, params.maph, params.url, params.map);
+            
         } else {
             //error
             console.log("error obtaining resource setup")
         }   
     }
-    
+ 
     function storeResources(resources){
         //sends resources and last modified date to storage
-        localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));    
+        if(cacheOn){
+          localStorage.setItem('MEWResourceXMLSetup', JSON.stringify(resources));
+        }    
     }
     
     function reloadResourceSetup(resources) {
@@ -97,7 +100,7 @@ $MEW.LoadResources = function(progress_cb) {
         console.log('[RESOURCE LOADING] IMAGE URLS: ', urls)
         localStorage.setItem('MEWResourceURLSList', JSON.stringify(urls));
         loadImages(function(){
-            resourceParser.setUpResources(resourseSetupCallback, storeResources);
+            resourceParser.setupResources(resourseSetupCallback, storeResources);
         })       
     }
     
