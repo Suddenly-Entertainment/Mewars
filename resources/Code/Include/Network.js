@@ -42,10 +42,15 @@ Crafty.c("Network", {
                 } catch (e) {
                     responce = data;
                 }*/
-                
-                responce = data;
                 var parser = new DOMParser();
                 test = parser.parseFromString(data, "text/xml");
+                if(test.documentElement.localName == "html"){
+                    responce = data;
+                }else{
+                    responce = test;
+                }
+                //responce = data;
+
                 console.log(test);
                
             } else {

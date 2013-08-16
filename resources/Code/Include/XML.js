@@ -727,9 +727,10 @@ function XMLResourceParser(xml) {
     };
 
     this.setupResources = function (progress_cb, call_after) {
+    console.log(that.sprintfmap);
         function setupChain(resources) {
-            // a rather intrcate loop set up as a delayed recursion intended to allow the browser to update in the middle 
-            // there is no garentee that the loop has finsihed when the function returns
+            // a rather intricate loop set up as a delayed recursion intended to allow the browser to update in the middle 
+            // there is no garuntee that the loop has finsihed when the function returns
             var this_fn = arguments.callee;
             var i = this_fn.start || 0;
             resources[i].exec(that.sprintfmap);

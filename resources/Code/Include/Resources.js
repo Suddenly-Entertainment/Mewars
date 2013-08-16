@@ -27,7 +27,15 @@ $MEW.LoadResources = function(progress_cb) {
     }
     
     function loadImages(call_after) {
-        var urls = localStorage.getItem('MEWResourceURLSList');
+        console.log("Is in loadImages, before Crafty.load(urls, function(){...})")
+        var urls; 
+        try{
+            urls = localStorage.getItem('MEWResourceURLSList');
+            urls = JSON.parse(urls);
+        }catch(err){
+            urls = localStorage.getItem('MEWResourceURLSList');
+            console.log(err);
+        }
         Crafty.load(urls, function() {
             //when loaded
             console.log("Loaded Resources");
