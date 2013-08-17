@@ -40,7 +40,7 @@ Crafty.c("Network", {
                 } else {
                     var parser = new DOMParser();
                     responce = parser.parseFromString(data, "text/xml");
-                }
+                }         
             } else {
                 responce = data;
             }

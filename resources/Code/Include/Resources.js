@@ -30,6 +30,7 @@ $MEW.LoadResources = function(progress_cb) {
         Crafty.scene('User')
     }
     
+
     self.have_local_cache = function() {
         var flag = false
         if (localStorage.getItem('MEWResourceURLSList') && 

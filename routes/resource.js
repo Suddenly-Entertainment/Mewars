@@ -6,6 +6,8 @@ function ResourceController(){
     
     self.index = function(req, res){
             res.send(404, "Not found");
+            
+            
     }
     
     self.cacheThis = function(req, res, filepath){

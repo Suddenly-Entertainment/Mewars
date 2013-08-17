@@ -8,6 +8,7 @@ function XmlController() {
         res.send(404, "Not Found");
     }
     
+    //dir command
     self.includes = function(req, res) {
         var filepath = global.APP_DIR + '/resources/XML/';
         fs.readdir(filepath, function(err, files){
@@ -16,6 +17,7 @@ function XmlController() {
         });
     }
     
+    //sends requested file
     self.file = function(req, res) {
         var name = req.params.name;
         var filepath = global.APP_DIR + '/resources/XML/' + name;
@@ -32,6 +34,7 @@ function XmlController() {
         });
     }
     
+    //sends last modified time of requested object
     self.date = function(req, res) {
         var name = req.params.name;
         var filepath = global.APP_DIR + "/resources/XML/" + name;
@@ -40,7 +43,9 @@ function XmlController() {
                 fs.stat(filepath, function(err, stats){
                     if (err) throw err;
                     res.set("Content-Type", "application/json");
-                    res.json(stats.mtime);
+                    
+                    res.json(stats.mtime.getTime());
+                    
                 });
             }else{
                 res.send(404, name + " Not Found");
