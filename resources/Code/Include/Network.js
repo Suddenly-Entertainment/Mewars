@@ -6,13 +6,13 @@ $MEW.Routes = {
     "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
     "GetResourceXML":       ['RESOURCE',  'GET',    '/XML/file/Resources.xml',  'XML' ],
     "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/XML/date/Resources.xml',  'JSON'],
-    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ],
+    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ]
 };
 
 Crafty.c("Network", {
 
     init: function () {
-        this.csrf_token = $('meta[name="csrf-token"]').attr('content');
+        this.requires('Persist')
     },
     
     GetHeaders: function(type) {
@@ -35,11 +35,11 @@ Crafty.c("Network", {
                     responce = data;
                 }
             } else if (datatype === 'XML') {
-                try {
+                if (data.nodeType) {
+                    responce = data;
+                } else {
                     var parser = new DOMParser();
                     responce = parser.parseFromString(data, "text/xml");
-                } catch (e) {
-                    responce = data;
                 }
             } else {
                 responce = data;
@@ -71,10 +71,6 @@ Crafty.c("Network", {
                     context: this,
                     xhrFields: {
                         withCredentials: true
-                    },
-                    headers: {
-                        'X-Transaction': headers[1] + ' ' + type,
-                        'X-CSRF-Token': this.csrf_token
                     }
                 }
             );
@@ -87,7 +83,7 @@ Crafty.c("Network", {
                     context: this,
                     xhrFields: {
                         withCredentials: true
-                    },
+                    }
                 }
             );
         } else if (headers[0] === 'NODE') {

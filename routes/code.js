@@ -12,7 +12,7 @@ function CodeController(){
         }
         else {
           etag = stat.size + '-' + Date.parse(stat.mtime);
-          re.set('Last-Modified', stat.mtime);
+          res.set('Last-Modified', stat.mtime);
 
           if (req.get('if-none-match') === etag) {
             res.send(304, 'Not Modified')
@@ -22,7 +22,8 @@ function CodeController(){
               if (err) {
                 console.log(err.stack)
                 res.send(500, 'Internal Server Error')
-              };
+              }
+              res.set('Cache-Control', 'max-age=0, must-revalidate');
               res.set('ETag', etag);
               res.send(data);
             });
@@ -136,7 +137,7 @@ exports.verbs = {
         '/resource/code/engine' : controller.engine,
         '/resource/code/file/:name' : controller.file,
         '/resource/code/date/:name' : controller.date,
-        '/resource/code/worker/:name' : controller.worker,
+        '/resource/code/worker/:name' : controller.worker
     },
     'post': {
 

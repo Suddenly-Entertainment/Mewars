@@ -16,7 +16,7 @@ function ResourceController(){
         }
         else {
           etag = stat.size + '-' + Date.parse(stat.mtime);
-          re.set('Last-Modified', stat.mtime);
+          res.set('Last-Modified', stat.mtime);
 
           if (req.get('if-none-match') === etag) {
             res.send(304, 'Not Modified')
@@ -26,7 +26,8 @@ function ResourceController(){
               if (err) {
                 console.log(err.stack)
                 res.send(500, 'Internal Server Error')
-              };
+              }
+              res.set('Cache-Control', 'max-age=0, must-revalidate');
               res.set('ETag', etag);
               res.send(data);
             });
@@ -84,12 +85,14 @@ var controller = new ResourceController();
 // define routes we handle here
 exports.verbs = {
     'get':  {
-        '/resource/image/:type/:name' : controller.image,
+
+        '/resource/image/:type/:name' : controller.image,
         '/resource/audio/:name' : controller.audio
     },
     'post': {
 
-    },
+    }
+
 
 };
 
