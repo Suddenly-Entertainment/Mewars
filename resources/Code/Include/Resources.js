@@ -56,11 +56,11 @@ $MEW.LoadResources = function(progress_cb) {
             setTimeout(function(){
 
                 var resources = {}
-                resources.WindowSkins = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('MEWResourceXMLSetupWindowSkins')))
-                resources.PonyPartSprites = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('MEWResourceXMLSetupPonyPartSprites')))
-                resources.DefaultWindowSkin = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('MEWResourceXMLSetupDefaultWindowSkin')))
-                resources.SkermishTerrainSprites = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('MEWResourceXMLSetupSkermishTerrainSprites')))
-                resources.Sprites = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem('MEWResourceXMLSetupSprites')))
+                resources.WindowSkins = JSON.parse(LZString.decompress(localStorage.getItem('MEWResourceXMLSetupWindowSkins')))
+                resources.PonyPartSprites = JSON.parse(LZString.decompress(localStorage.getItem('MEWResourceXMLSetupPonyPartSprites')))
+                resources.DefaultWindowSkin = JSON.parse(LZString.decompress(localStorage.getItem('MEWResourceXMLSetupDefaultWindowSkin')))
+                resources.SkermishTerrainSprites = JSON.parse(LZString.decompress(localStorage.getItem('MEWResourceXMLSetupSkermishTerrainSprites')))
+                resources.Sprites = JSON.parse(LZString.decompress(localStorage.getItem('MEWResourceXMLSetupSprites')))
 
                 $MEW.WindowSkins = resources.WindowSkins
                 $MEW.PonyPartSprites = resources.PonyPartSprites
@@ -111,11 +111,13 @@ $MEW.LoadResources = function(progress_cb) {
             var worker = new Worker($MEW.RESOURCE_URL + '/code/worker/ResourceParserWorker.js')
 
             function done() {
-                localStorage.setItem('MEWResourceXMLSetupWindowSkins', LZString.compressToUTF16(JSON.stringify(resources.WindowSkins)))
-                localStorage.setItem('MEWResourceXMLSetupPonyPartSprites', LZString.compressToUTF16(JSON.stringify(resources.PonyPartSprites)))
-                localStorage.setItem('MEWResourceXMLSetupDefaultWindowSkin', LZString.compressToUTF16(JSON.stringify(resources.DefaultWindowSkin)))
-                localStorage.setItem('MEWResourceXMLSetupSkermishTerrainSprites', LZString.compressToUTF16(JSON.stringify(resources.SkermishTerrainSprites)))
-                localStorage.setItem('MEWResourceXMLSetupSprites', LZString.compressToUTF16(JSON.stringify(resources.Sprites)))
+                localStorage.setItem('MEWResourceXMLSetupWindowSkins', LZString.compress(JSON.stringify(resources.WindowSkins)))
+                localStorage.setItem('MEWResourceXMLSetupPonyPartSprites', LZString.compress(JSON.stringify(resources.PonyPartSprites)))
+                localStorage.setItem('MEWResourceXMLSetupDefaultWindowSkin', LZString.compress(JSON.stringify(resources.DefaultWindowSkin)))
+                console.log(JSON.stringify(resources.SkermishTerrainSprites))
+                console.log(LZString.decompress(LZString.compress(JSON.stringify(resources.SkermishTerrainSprites))))
+                localStorage.setItem('MEWResourceXMLSetupSkermishTerrainSprites', LZString.compress(JSON.stringify(resources.SkermishTerrainSprites)))
+                localStorage.setItem('MEWResourceXMLSetupSprites', LZString.compress(JSON.stringify(resources.Sprites)))
 
                 $MEW.WindowSkins = resources.WindowSkins
                 $MEW.PonyPartSprites = resources.PonyPartSprites
@@ -232,8 +234,8 @@ $MEW.LoadResources = function(progress_cb) {
     self.onGetDate = function(data) {
         if (self.have_local_cache()) {
             var needReload = false;
-            ourTime = Date.parse(localStorage.getItem('MEWResourceXMLDate'))
-            theirTime = Date.parse(data)
+            ourTime = new Date(parseInt(localStorage.getItem('MEWResourceXMLDate')))
+            theirTime = new Date(parseInt(data))
             console.log('[RESOURCES] XML Last M Time: ',  theirTime, ourTime);
             if (theirTime > ourTime) {
                 needReload = true
