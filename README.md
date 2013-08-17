@@ -1,3 +1,19 @@
+Mock Equestrian Wars
+
+
+Powered by Node.js http://nodejs.org/
+
+**Useing modules** 
+
+Express http://expressjs.com/
+Passport http://passportjs.org/
+socket.io http://socket.io/
+sequelize http://sequelizejs.com/
+async https://github.com/caolan/async
+mime https://github.com/broofa/node-mime
+
+==============================
+
 The OpenShift `nodejs` cartridge documentation can be found at:
 
 Running a custom/latest Node[.js] version on RedHat's OpenShift PaaS
