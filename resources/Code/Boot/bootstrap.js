@@ -20,7 +20,7 @@ if (location.hostname === "localhost") {
     $MEW.RESOURCE_URL = "http://re.equestrianwars.com";
 }
 
-console.log($MEW.API_URL, $MEW.NODE_URL, $MEW.RESOURCE_URL);
+console.log('CLIENT URLS:', $MEW.API_URL, $MEW.NODE_URL, $MEW.RESOURCE_URL);
 
 
 

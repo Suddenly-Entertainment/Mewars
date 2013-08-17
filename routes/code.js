@@ -1,5 +1,7 @@
+
 var fs = require('fs'); //This is the file system, it does everything for the filesytem, accessing files, directories, reading files, ect.
 var mime = require('mime');//This gets the mime type for files, as node.js doesn't normally have this functionality.
+
 
 
 //This code controller contains functions for getting the code files, the client side javascript files.
@@ -23,11 +25,12 @@ function CodeController(){
           else {
             fs.readFile(filepath, function(err,data){ //This will read a file asychronously
               if (err) {
-                console.log(err.stack);
-                res.send(500, 'Internal Server Error');
-              };
+                console.log(err.stack)
+                res.send(500, 'Internal Server Error')
+              }
+              res.set('Cache-Control', 'max-age=0, must-revalidate');
               res.set('ETag', etag);
-              res.send(data);//Sends the file to the client.
+              res.send(data);
             });
           }
         }
@@ -137,6 +140,7 @@ function CodeController(){
 
 var controller = new CodeController();//Creates a new code controller.
 
+
 //Sets up the urls to call to call these functions.
 exports.verbs = {
     'get':  { //For get requests.
@@ -147,7 +151,7 @@ exports.verbs = {
         '/resource/code/engine' : controller.engine,
         '/resource/code/file/:name' : controller.file,
         '/resource/code/date/:name' : controller.date,
-        '/resource/code/worker/:name' : controller.worker,
+        '/resource/code/worker/:name' : controller.worker
     },
     'post': {
 

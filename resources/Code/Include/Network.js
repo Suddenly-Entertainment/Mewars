@@ -6,13 +6,13 @@ $MEW.Routes = {
     "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
     "GetResourceXML":       ['RESOURCE',  'GET',    '/XML/file/Resources.xml',  'XML' ],
     "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/XML/date/Resources.xml',  'JSON'],
-    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ],
+    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ]
 };
 
 Crafty.c("Network", {
 
     init: function () {
-        this.csrf_token = $('meta[name="csrf-token"]').attr('content');
+        this.requires('Persist')
     },
     
     GetHeaders: function(type) {
@@ -35,24 +35,12 @@ Crafty.c("Network", {
                     responce = data;
                 }
             } else if (datatype === 'XML') {
-                /*try { //parser.parseFromString doesn't throw an error when parsing, it just returns an error document.
+                if (data.nodeType) {
+                    responce = data;
+                } else {
                     var parser = new DOMParser();
                     responce = parser.parseFromString(data, "text/xml");
-                    console.log(responce);
-                } catch (e) {
-                    responce = data;
-                }*/
-                var parser = new DOMParser();
-                test = parser.parseFromString(data, "text/xml");
-                if(test.documentElement.localName == "html"){
-                    responce = data;
-                }else{
-                    responce = test;
-                }
-                //responce = data;
-
-                console.log(test);
-               
+                }         
             } else {
                 responce = data;
             }
@@ -83,10 +71,6 @@ Crafty.c("Network", {
                     context: this,
                     xhrFields: {
                         withCredentials: true
-                    },
-                    headers: {
-                        'X-Transaction': headers[1] + ' ' + type,
-                        'X-CSRF-Token': this.csrf_token
                     }
                 }
             );
@@ -99,7 +83,7 @@ Crafty.c("Network", {
                     context: this,
                     xhrFields: {
                         withCredentials: true
-                    },
+                    }
                 }
             );
         } else if (headers[0] === 'NODE') {

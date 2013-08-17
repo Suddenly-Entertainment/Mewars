@@ -298,8 +298,34 @@ Crafty.scene("User", function() {
     // lets make a scene upbject so we can store tings out of scope and always get them (sidesteping closure hell)
     // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
     $MEW.Scene = {};
-
-    if (!confirm('Do you want to try out the XML interface?')) {
+     var XMLInterfaceSetup = function(){
+      var onXMLReturn = function(data){
+            var XMLParser = new XMLInterfaceParser(data);
+            var XMLInterface = XMLParser.getInterface("LoginForm");
+            XMLInterface.layout($MEW.Viewport);
+            $("#_MEW_login_btn").click(function(e){
+                 var Obj = { user_login: { login: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() } };
+                 $MEW.Network.pBind('UsersLogin', loginReturn);
+                 $MEW.Network.pBind('UsersLoginError', loginReturnError);
+                 $MEW.NEtwork.Send('UsersLogin', Obj);
+            });
+        }
+        var onXMLReturnError = function(err){
+            console.log(err);
+        }
+        
+        var loginReturn = function(data){
+            console.log(data);
+        }
+        
+        var loginReturnError = function(err){
+            console.log(err);
+        }
+        $MEW.Network.pBind('GetSceneUserXML', onXMLReturn);
+        $MEW.Network.pBind('GetSceneUserXMLError', onXMLReturnError);
+        $MEW.Network.Send('GetSceneUserXML');
+    }
+    if (confirm('Do you want to try out the XML interface?')) {
         XMLInterfaceSetup();
         return;
     }
@@ -404,33 +430,7 @@ Crafty.scene("User", function() {
         
         $MEW.toggleScrolling(0);
         
-    var XMLInterfaceSetup = function(){
-      var onXMLReturn = function(data){
-            var XMLParser = new XMLInterfaceParser(data);
-            var XMLInterface = XMLParser.getInterface("LoginForm");
-            XMLInterface.layout($MEW.Viewport);
-            $("#_MEW_login_btn").click(function(e){
-                 var Obj = { user_login: { login: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() } };
-                 $MEW.Network.pBind('UsersLogin', loginReturn);
-                 $MEW.Network.pBind('UsersLoginError', loginReturnError);
-                 $MEW.NEtwork.Send('UsersLogin', Obj);
-            });
-        }
-        var onXMLReturnError = function(err){
-            console.log(err);
-        }
-        
-        var loginReturn = function(data){
-            console.log(data);
-        }
-        
-        var loginReturnError = function(err){
-            console.log(err);
-        }
-        $MEW.Network.pBind('GetSceneUserXML', onXMLReturn);
-        $MEW.Network.pBind('GetSceneUserXMLError', onXMLReturnError);
-        $MEW.Network.Send('GetSceneUserXML');
-    }
+   
 }, function () {
     $MEW.Viewport.detach();
     $MEW.Scene = {};

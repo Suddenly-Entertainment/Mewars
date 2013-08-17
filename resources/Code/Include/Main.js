@@ -5,13 +5,11 @@
 //Crafty.canvas._canvas = $MEW.Canvas;
 //Crafty.scene("Load");
 
-$MEW.LOADINGFUNCTIONS.LoadResourcesCallBack = function(p) {
-    $MEW.LOADINGFUNCTIONS.updateProgress("Loading Resources", p, (p / 3) + (1 / 3) )
-};
-
 //$MEW.LoadResources(callback);
+
 $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () { 
-	setTimeout(function () {
-        $MEW.LoadResources($MEW.LOADINGFUNCTIONS.LoadResourcesCallBack);
+    setTimeout(function () {
+        $MEW.Network = Crafty.e('Network')
+        $MEW.LoadResources($MEW.LOADINGFUNCTIONS.updateProgress);
     }, 10); 
 };
