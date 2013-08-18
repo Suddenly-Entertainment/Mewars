@@ -25,7 +25,8 @@
     "pg": "*",
     "sequelize": "2.x.x",
     "mime": "1.2.x",
-    "async": "0.2.x"
+    "async": "0.2.x",
+    "png-js": "0.1.x"
   },
 
   "devDependencies": {},
