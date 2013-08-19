@@ -368,6 +368,7 @@ function XMLInterface (xml) {
             DEPTH++;
             ////var cnode = that.delayNodes[i];
             var cnode = delayNodes[i];
+            console.log("cnode", cnode);
             try {
                 console.log("Before:",delayNodes);
                 //setTimeout(function() {
