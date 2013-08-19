@@ -321,9 +321,11 @@ function XMLInterface (xml) {
     this.xml        = xml;
 
     this.parseNode = function (xml, basex, basey, basez, width, height) {
-
+        
         var node = new XMLInterfaceNode(xml);
-
+        console.log(xml, node);
+        
+        var delayNodes = [];
         // get child nodes and figure out how to parse them
         var base = {basex: basex, basey: basey, basez: basez, width: width, height: height};
         var that = this;
@@ -333,7 +335,8 @@ function XMLInterface (xml) {
                 $XMLInterfaceNodeParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, node, base);
             }
             if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                that.delayNodes.push(cnode);
+                //that.delayNodes.push(cnode);
+                delayNodes.push(cnode);
             }
         });
 
@@ -356,16 +359,22 @@ function XMLInterface (xml) {
         });
 
         // set attributes in sub nodes
-        var length = that.delayNodes.length
+        
+        //var length = that.delayNodes.length
+        var length = delayNodes.length;
+        
         for (var i = 0; i < length; i++) {
             if (DEPTH > 10) continue;
             DEPTH++;
-            var cnode = that.delayNodes[i];
+            ////var cnode = that.delayNodes[i];
+            var cnode = delayNodes[i];
             try {
-                console.log(that.delayNodes);
+                console.log("Before:",delayNodes);
                 //setTimeout(function() {
                     $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
-                //}, 10);
+                    console.log("After:", delayNodes);
+                    
+                //},conscons 10);
             } catch (e) {
                 var errortxt = "Error Parasing Interface " + this.name + "on node: " + node.ent.name + ":" + cnode.nodeName.toLowerCase();
                 console.log(errortxt, e.message, e);
