@@ -329,21 +329,13 @@ function XMLInterfaceNode (xml) {
     this.xml         = xml;
     this.interface = null;   
 
-<<<<<<< HEAD
+
     this.parseNode = function (basex, basey, basez, width, height, interface) {
         var self = this
         DEPTH++
 
         self.interface = interface
 
-=======
-    this.parseNode = function (xml, basex, basey, basez, width, height) {
-        
-        var node = new XMLInterfaceNode(xml);
-        console.log(xml, node);
-        
-        var delayNodes = [];
->>>>>>> 194a7b0569938d8710fb9d78b3686e21eb40648c
         // get child nodes and figure out how to parse them
         var base = {basex: basex, basey: basey, basez: basez, width: width, height: height}
         var self = this
@@ -352,14 +344,8 @@ function XMLInterfaceNode (xml) {
             if ($XMLInterfaceNodeParsers.hasOwnProperty(node.nodeName.toLowerCase())) {
                 $XMLInterfaceNodeParsers[node.nodeName.toLowerCase()](self, self.ent, self.entities, node, base);
             }
-<<<<<<< HEAD
             if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(node.nodeName.toLowerCase())) {
                 self.delayNodes.push(node);
-=======
-            if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                //that.delayNodes.push(cnode);
-                delayNodes.push(cnode);
->>>>>>> 194a7b0569938d8710fb9d78b3686e21eb40648c
             }
         })
 
@@ -382,29 +368,9 @@ function XMLInterfaceNode (xml) {
         })
 
         // set attributes in sub nodes
-<<<<<<< HEAD
         _(self.delayNodes).each(function(node, index, delayNodes) {
             try {
                 $XMLInterfaceNodeDelayParsers[node.nodeName.toLowerCase()](self, self.ent, self.entities, node, base);
-=======
-        
-        //var length = that.delayNodes.length
-        var length = delayNodes.length;
-        
-        for (var i = 0; i < length; i++) {
-            if (DEPTH > 10) continue;
-            DEPTH++;
-            ////var cnode = that.delayNodes[i];
-            var cnode = delayNodes[i];
-            console.log("cnode", cnode);
-            try {
-                console.log("Before:",delayNodes);
-                //setTimeout(function() {
-                    $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
-                    console.log("After:", delayNodes);
-                    
-                //},conscons 10);
->>>>>>> 194a7b0569938d8710fb9d78b3686e21eb40648c
             } catch (e) {
                 var errortxt = "Error Parasing Interface '" + self.name + "' on node: " + self.ent._entityName + ":" + node.nodeName.toLowerCase();
                 console.log(errortxt, e.message, e.stack);
