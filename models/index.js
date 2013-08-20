@@ -53,9 +53,7 @@ if (!global.hasOwnProperty('db')) {
 
     //MapTile
     global.db.MapTile.belongsTo(global.db.Map);
-    global.db.MapTile.hasMany(global.db.MapChunk);
-
-
+    global.db.MapTile.belongsTo(global.db.MapChunk);
 
 
     if (CONFIG.database_sync_on_start) {
@@ -70,7 +68,6 @@ if (!global.hasOwnProperty('db')) {
     } else if (CONFIG.database_auto_migrate) {
         migrate(sequelize);
     }
-
 }
 
 module.exports = global.db;
