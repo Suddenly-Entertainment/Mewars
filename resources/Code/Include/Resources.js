@@ -103,7 +103,7 @@ $MEW.LoadResources = function(progress_cb) {
         function startWorker(xml) {
             var resources = {
                  SkermishTerrainSprites: {},
-                 WindowSkins: [],
+                 WindowSkins: {},
                  PonyPartSprites: {},
                  DefaultWindowSkin: '',
                  Sprites: []

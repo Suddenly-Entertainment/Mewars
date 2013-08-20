@@ -103,6 +103,7 @@ Crafty.c("MEWLoginForm", {
     },
     
     MEWLoginForm: function(x, y, z, w, h) {
+        console.log("Login Form Loaded")
         this.attr({x: x, y: y, z: z, w: w, h: h});
         
         this.submitting = false;
@@ -272,9 +273,15 @@ Crafty.c("MEWLoginWindow", {
     },
     
     MEWLoginWindow: function (x, y, w, h) {
+        h = h || 250
+        w = w || 500
+        x = x || ($MEW.WIDTH - w) / 2
+        y = y || ($MEW.HEIGHT - h) / 2 + h / 4
+
+
         this.Window(x, y, 100, w, h);
         // avatar
-        this.defaultavatarURL = $MEW.RESOURCE_URL + "/resource/image/2/anonavatar.png";
+        this.defaultavatarURL = $MEW.RESOURCE_URL + "/image/2/anonavatar.png";
         $MEW.Scene.avatar = Crafty.e("UserAvatarWrapper").UserAvatarWrapper(x + 10, y + 30, 100, 150, 150, this.defaultavatarURL);
         // login form
         $MEW.Scene.loginForm = Crafty.e("MEWLoginForm").MEWLoginForm(x + 158, y + 30, 100, 220, 150);

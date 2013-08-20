@@ -486,7 +486,7 @@ Crafty.c( "LoadingDots", {
 Crafty.scene( "Load", function( ) {
 
     // lets make a permate componant that will mark the viewport so we can attach other components to it and not worry about maintaing their positions
-    $MEW.Viewport = Crafty.e( "Viewport" );
+    $MEW.Viewport = Crafty.e( "Viewport" ).setName('Network')
 
     // lets make a scene upbject so we can store tings out of scope and always get them (sidesteping closure hell)
     // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected

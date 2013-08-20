@@ -9,7 +9,7 @@
 
 $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () { 
     setTimeout(function () {
-        $MEW.Network = Crafty.e('Network')
+        $MEW.Network = Crafty.e('Network').setName('Network')
         $MEW.LoadResources($MEW.LOADINGFUNCTIONS.updateProgress);
     }, 10); 
 };

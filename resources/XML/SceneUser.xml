@@ -3,16 +3,22 @@
     <!-- Login form interface -->
     <interface name="LoginForm">
 
+        <!--
+        <e name="MEWLoginWindow" component="MEWLoginWindow"> 
+            <init><![CDATA[MEWLoginWindow]]></init>
+
+        </e>
+        -->
+
         <e name="MEWLoginFormInterface" component="MEWLoginForm" >
             
             <init><![CDATA[MEWLoginForm]]></init>
 
-            <!-- children -->
             <sizer type="verticle">
                 <e name="GreetingText" component="DOM, Text">
-                    <text>
+                    <craftytext>
                         <value>Welcome Guest!</value>
-                    </text>
+                    </craftytext>
                 </e>
 
 
@@ -22,8 +28,8 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <html><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></html>
-                    <css><![CDATA[{background: "rgb(196, 183, 135)"}]]></css>
+                    <craftyhtml><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></craftyhtml>
+                    <css><![CDATA[{"background": "rgb(196, 183, 135)"}]]></css>
                 </e>
 
                 <e name="PasswordInput" component="HTML_INPUT">
@@ -32,8 +38,8 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <html><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></html>
-                    <css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>
+                    <craftyhtml><![CDATA[ <input id="_MEW_login_password" type="password" class="input_password" value="Password" /> ]]></craftyhtml>
+                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
                 
     
@@ -44,12 +50,13 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <html><![CDATA[]]></html>
-                    <!--<css><![CDATA[ {background: "rgb(196, 183, 135)"} ]]></css>-->
+                    <craftyhtml><![CDATA[]]></craftyhtml>
+                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
             </sizer>
 
         </e>
+
 
     </interface>
 </interfaces>

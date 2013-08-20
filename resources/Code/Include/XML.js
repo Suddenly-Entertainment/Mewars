@@ -12,28 +12,28 @@ function clone(obj) {
  var DEPTH = 0;
 
 var $XMLInterfaceAttrParsers = {
-    component: function (that, ent, attr, base){
+    component: function (self, ent, attr, base){
         ent.requires(attr.nodeValue);
     },
-    name: function (that, ent, attr, base) {
+    name: function (self, ent, attr, base) {
         ent.setName(attr.nodeValue);
-        that.name = attr.nodeValue;
+        self.name = attr.nodeValue;
     },
-    x: function (that, ent, attr, base) {
+    x: function (self, ent, attr, base) {
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
         ent.x = val + base.basex || base.basex;
     },
-    y: function (that, ent, attr, base) {
+    y: function (self, ent, attr, base) {
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
         ent.y = val + base.basey || base.basey;
     },
-    z: function (that, ent, attr, base) {
+    z: function (self, ent, attr, base) {
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val); 
@@ -43,38 +43,41 @@ var $XMLInterfaceAttrParsers = {
 };
 
 var $XMLInterfaceNodeParsers = {
-    e: function (that, ent, entities, nodes, node, base){
-        var entity = new XMLEntityNode(node);
-        entity.passAttrs(ent);
-        nodes.push(entity);
-    },
-    sizer: function (that, ent, entities, nodes, node, base) {
-        var sizer = new XMLSizerNode(node);
-        ent.requires("sizer");
-        sizer.passAttrs(ent);
-        nodes.push(sizer);
-    }
+
 };
 
+var IGNORE_NODETYPES = [3, 7, 8]
+
 var $XMLInterfaceNodeDelayParsers = {
-    e: function (that, ent, entities, node, base){
-        //console.log(node);
-        var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
+    e: function (self, ent, entities, node, base){
+        var pnode = new XMLInterfaceNode(node)
+        pnode.parseNode(base.basex, base.basey, base.basez, base.width, base.height, self.interface)
+        var entity = new XMLEntityNode(node);
+        entity.passAttrs(pnode.ent);
         entities.push(pnode.ent);
     },
-    sizer: function (that, ent, entities, node, base) {
-        //console.log(node);
-        var pnode = that.parseNode(node, base.basex, base.basey, base.basez, base.width, base.height);
+    sizer: function (self, ent, entities, node, base) {
+        var pnode = new XMLInterfaceNode(node)
+        pnode.parseNode(base.basex, base.basey, base.basez, base.width, base.height, self.interface)
+        var sizer = new XMLSizerNode(node);
+        pnode.ent.requires("Sizer");
+        sizer.passAttrs(pnode.ent);
+        pnode.ent.Sizer(pnode.entities);
         entities.push(pnode.ent);
-        node.sizer(pnode.entities);
     },
-    init: function (that, ent, entities, node, base) {
-        //console.log(node);
-        ent[node.childNodes[0].nodeValue]();
+    init: function (self, ent, entities, node, base) {
+        //if it's CDATA we need to treat it differently
+        if (node.childNodes[0].nodeType == 4) {
+            ent[node.childNodes[0].data]();
+        } else {
+            ent[node.childNodes[0].nodeValue]();
+        }
     },
-    attr: function (that, ent, entities, node, base) {
-       // console.log(node);
+    attr: function (self, ent, entities, node, base) {
         _(node.childNodes).each( function( attr, index, attributes) {
+            // skip if we want to ignore this node type
+            if (IGNORE_NODETYPES.inArray(attr.nodeType)) return
+
             var val = attr.childNodes[0].nodeValue;
             if(!isNaN(val)) {
                 val = parseFloat(val);
@@ -82,16 +85,23 @@ var $XMLInterfaceNodeDelayParsers = {
             ent.attr(attr.nodeName.toLowerCase(), val);
         });
     },
-    craftyhtml: function (that, ent, entities, node, base) {
-        //console.log(node);
-        ent.replace(node.childNodes[0].nodeValue);
+    craftyhtml: function (self, ent, entities, node, base) {
+        //if it's CDATA we need to treat it differently
+        if (node.childNodes[0].nodeType == 4) {
+            ent.replace(node.childNodes[0].data);
+        } else {
+            ent.replace(node.childNodes[0].nodeValue);
+        }
     },
-    css: function (that, ent, entities, node, base) {
-        //console.log(node);
-        ent.css(JSON.parse(node.childNodes[0].nodeValue));
+    css: function (self, ent, entities, node, base) {
+        //if it's CDATA we need to treat it differently
+        if (node.childNodes[0].nodeType == 4) {
+            ent.css(JSON.parse(node.childNodes[0].data));
+        } else {
+            ent.css(JSON.parse(node.childNodes[0].nodeValue));
+        }
     },
-    craftytext: function (that, ent, entities, node, base) {
-        //console.log(node);
+    craftytext: function (self, ent, entities, node, base) {
         _(node.childNodes).each( function( cnode, index, nodes) {
             if (cnode.nodeName.toLowerCase() === 'value') {
                 var text = cnode.childNodes[0].nodeValue;
@@ -107,10 +117,11 @@ var $XMLInterfaceNodeDelayParsers = {
     }
 };
 
-Crafty.c("sizer", {
+Crafty.c("Sizer", {
     init: function () {
-        this.requires("2D");
-        this.attr({
+        var self = this;
+        self.requires("2D");
+        self.attr({
             type: 'verticle',
             ptop: 0,
             pbottom: 0,
@@ -124,19 +135,20 @@ Crafty.c("sizer", {
             hgap: 0
         });
     },
-    sizer: function(nodes) {
-        this.nodes = nodes;
-        var that = this;
-        this.bind("Change", function(e) {
-            if (e.hasOwnProperty("w") || e.hasOwnProperty("h")) {
-                var w = e.w || that.w,
-                    h = e.h || that.h;
-                that.layout(that.x, that.y, w, h);
+    Sizer: function(nodes) {
+        var self = this;
+        self.nodes = nodes;
+        self.bind("Change", function(e) {
+            if (e) {
+                var w = e.w || self.w,
+                    h = e.h || self.h;
+                self.layout(self.x, self.y, w, h);
             }
         });
         return this;
     },
     layout: function (basex, basey, width, height) {
+        var self = this;
         var x              = 0,
             y              = 0,
             maxwidth       = 0,
@@ -151,9 +163,9 @@ Crafty.c("sizer", {
             lessminHeight  = 0,
             minweight      = 0;
             
-        if (this.type === 'verticle') {
+        if (self.type === 'verticle') {
             // get the height avalible for expantion and section it
-            _(this.nodes).each( function( node, index, nodes ) {
+            _(self.nodes).each( function( node, index, nodes ) {
                 heightportions += node.portion;
                 minheight      += (node.minheight || 0);
                 minheight      += node.ptop + node.pbottom;
@@ -163,18 +175,19 @@ Crafty.c("sizer", {
                 heightportion = Math.round(lessminHeight / heightportions);
             }
             // distribute the available height
-            _(this.nodes).each( function( entity, index, entities ) {
+            _(self.nodes).each( function( entity, index, entities ) {
                 var subheight = heightportion * entity.portion + entity.minheight,
                     subwidth  = width - entity.pleft - entity.pright;
                 if (subwidth < entity.minwidth) subwidth = entity.minwidth;
                 y += entity.ptop;
+                console.log({x: basex + x, y: basey + entity.ptop, w: subwidth, h: subheight})
                 entity.attr({x: basex + entity.pleft, y: basey + y, w: subwidth, h: subheight});
                 y += subheight + entity.pbottom;
             });
 
-        } else if (this.type === 'horizontal') {
+        } else if (self.type === 'horizontal') {
             // get the width avalible for expantion and section it
-            _(this.nodes).each( function( node, index, nodes ) {
+            _(self.nodes).each( function( node, index, nodes ) {
                 widthportions += node.portion;
                 minweight     += (node.minwidth || 0);
                 minweight     += node.pleft + node.pright;
@@ -184,18 +197,19 @@ Crafty.c("sizer", {
                 widthportion = Math.round(lessminwidth / widthportions);
             }
             // distribute the available width
-            _(this.nodes).each( function( entity, index, entities ) {
+            _(self.nodes).each( function( entity, index, entities ) {
                 var subheight = height - entity.ptop - entity.pbottom,
                     subwidth  = widthportion * entity.portion + entity.minwidth;
                 if (subheight < entity.minheight) subheight = entity.minheight;
                 x += entity.pleft;
+                console.log({x: basex + x, y: basey + entity.ptop, w: subwidth, h: subheight})
                 entity.attr({x: basex + x, y: basey + entity.ptop, w: subwidth, h: subheight});
                 x += subwidth + entity.pright;
             });
 
-        } else if (this.type === 'grid') {
+        } else if (self.type === 'grid') {
             // divide the available width by the num of cols
-            maxwidth = Math.round(width / this.cols);
+            maxwidth = Math.round(width / self.cols);
             //TODO: finish grid layout
         }
     }
@@ -203,53 +217,55 @@ Crafty.c("sizer", {
 
 
 function XMLSizerNode (xml) {
-    this.name    = '';
-    this.type    = 'verticle';
-    this.x       = 0;
-    this.y       = 0;
-    this.z       = 0;
-    this.portion = 0;
-    this.width   = 0;
-    this.height  = 0;
-    this.xml     = xml;
-    this.ptop    = 0;
-    this.pbottom = 0;
-    this.pleft   = 0;
-    this.pright  = 0;
-    this.align   = 'left';
-    this.expand  = true;
-    this.rows    = 1;
-    this.cols    = 1;
-    this.vgap    = 0;
-    this.hgap    = 0;
+    var self = this
+    self.name    = '';
+    self.type    = 'verticle';
+    self.x       = 0;
+    self.y       = 0;
+    self.z       = 0;
+    self.portion = 0;
+    self.width   = 0;
+    self.height  = 0;
+    self.xml     = xml;
+    self.ptop    = 0;
+    self.pbottom = 0;
+    self.pleft   = 0;
+    self.pright  = 0;
+    self.align   = 'left';
+    self.expand  = true;
+    self.rows    = 1;
+    self.cols    = 1;
+    self.vgap    = 0;
+    self.hgap    = 0;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        self[atter.nodeName.toLowerCase()] = val;
     });
-    this.passAttrs = function (ent) {
+    self.passAttrs = function (ent) {
+        var self = this
         ent.attr({
-            name: this.name,
-            type: this.type,
-            x: this.x,
-            y: this.y,
-            z: this.z,
-            portion: this.portion,
-            width: this.width,
-            height: this.height,
-            xml: this.xml,
-            ptop: this.ptop,
-            pbottom: this.pbottom,
-            pleft: this.pleft,
-            pright: this.pright,
-            align: this.align,
-            expand: this.expand,
-            rows: this.rows,
-            cols: this.cols,
-            vgap: this.vgap,
-            hgap: this.hgap
+            name: self.name,
+            type: self.type,
+            x: self.x,
+            y: self.y,
+            z: self.z,
+            portion: self.portion,
+            width: self.width,
+            height: self.height,
+            xml: self.xml,
+            ptop: self.ptop,
+            pbottom: self.pbottom,
+            pleft: self.pleft,
+            pright: self.pright,
+            align: self.align,
+            expand: self.expand,
+            rows: self.rows,
+            cols: self.cols,
+            vgap: self.vgap,
+            hgap: self.hgap
         });
     };
 }
@@ -280,114 +296,121 @@ function XMLEntityNode (xml) {
         this[atter.nodeName.toLowerCase()] = val;
     });
     this.passAttrs = function (ent) {
+        var self = this
         ent.attr({
-            name: this.name,
-            component: this.component,
-            minwidth: this.minwidth,
-            minheight: this.minheight,
-            x: this.x,
-            y: this.y,
-            z: this.z,
-            portion: this.portion,
-            width: this.width,
-            height: this.height,
-            xml: this.xml,
-            ptop: this.ptop,
-            pbottom: this.pbottom,
-            pleft: this.pleft,
-            pright: this.pright,
-            align: this.align,
-            expand: this.expand
+            name: self.name,
+            component: self.component,
+            minwidth: self.minwidth,
+            minheight: self.minheight,
+            x: self.x,
+            y: self.y,
+            z: self.z,
+            portion: self.portion,
+            width: self.width,
+            height: self.height,
+            xml: self.xml,
+            ptop: self.ptop,
+            pbottom: self.pbottom,
+            pleft: self.pleft,
+            pright: self.pright,
+            align: self.align,
+            expand: self.expand
         });
+        ent.requires(self.component)
     };
 }
 
 function XMLInterfaceNode (xml) {
     this.entities    = [];
-    this.delay_nodes = [];
-    this.nodes       = [];
+    this.delayNodes = [];
     this.children    = xml.childNodes;
     this.attributes  = xml.attributes;
     this.ent         = Crafty.e("2D");
     this.xml         = xml;
-}
+    this.interface = null;   
 
+    this.parseNode = function (basex, basey, basez, width, height, interface) {
+        var self = this
+        DEPTH++
 
-function XMLInterface (xml) {
-    this.name       = "";
-    this.delayNodes = [];
-    this.ent        = null;
-    this.entities   = [];
-    this.xml        = xml;
-
-    this.parseNode = function (xml, basex, basey, basez, width, height) {
-
-        var node = new XMLInterfaceNode(xml);
+        self.interface = interface
 
         // get child nodes and figure out how to parse them
-        var base = {basex: basex, basey: basey, basez: basez, width: width, height: height};
-        var that = this;
+        var base = {basex: basex, basey: basey, basez: basez, width: width, height: height}
+        var self = this
 
-        _(node.children).each( function( cnode, index, children ) {
-            if ($XMLInterfaceNodeParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                $XMLInterfaceNodeParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, node, base);
+        _(self.children).each( function( node, index, children ) {
+            if ($XMLInterfaceNodeParsers.hasOwnProperty(node.nodeName.toLowerCase())) {
+                $XMLInterfaceNodeParsers[node.nodeName.toLowerCase()](self, self.ent, self.entities, node, base);
             }
-            if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(cnode.nodeName.toLowerCase())) {
-                that.delayNodes.push(cnode);
+            if ($XMLInterfaceNodeDelayParsers.hasOwnProperty(node.nodeName.toLowerCase())) {
+                self.delayNodes.push(node);
             }
-        });
+        })
 
         // parse attributes
-        _(node.attributes).each( function( attr, index, attributes ) {
+        _(self.attributes).each( function( attr, index, attributes ) {
             if ($XMLInterfaceAttrParsers.hasOwnProperty(attr.nodeName.toLowerCase())){
-                $XMLInterfaceAttrParsers[attr.nodeName.toLowerCase()](that, node.ent, attr, base);
+                $XMLInterfaceAttrParsers[attr.nodeName.toLowerCase()](self, self.ent, attr, base);
             } else {
                 var val = attr.nodeValue;
                 if(!isNaN(val)) {
                     val = parseFloat(val);
                 }
-                node.ent.attr(attr.nodeName.toLowerCase(), val);
+                self.ent.attr(attr.nodeName.toLowerCase(), val);
             }
-        });
+        })
 
-        // attach the entities so that relative movements will propagate
-        _(node.entities).each( function( e, index, entities ) {
-            node.ent.attach(e);
-        });
+        // attach the entities so self relative movements will propagate
+        _(self.entities).each( function( e, index, entities ) {
+            self.ent.attach(e);
+        })
 
         // set attributes in sub nodes
-        var length = that.delayNodes.length
-        for (var i = 0; i < length; i++) {
-            if (DEPTH > 10) continue;
-            DEPTH++;
-            var cnode = that.delayNodes[i];
+        _(self.delayNodes).each(function(node, index, delayNodes) {
             try {
-                console.log(that.delayNodes);
-                //setTimeout(function() {
-                    $XMLInterfaceNodeDelayParsers[cnode.nodeName.toLowerCase()](that, node.ent, node.entities, node.nodes, cnode, base);
-                //}, 10);
+                $XMLInterfaceNodeDelayParsers[node.nodeName.toLowerCase()](self, self.ent, self.entities, node, base);
             } catch (e) {
-                var errortxt = "Error Parasing Interface " + this.name + "on node: " + node.ent.name + ":" + cnode.nodeName.toLowerCase();
-                console.log(errortxt, e.message, e);
+                var errortxt = "Error Parasing Interface '" + self.name + "' on node: " + self.ent._entityName + ":" + node.nodeName.toLowerCase();
+                console.log(errortxt, e.message, e.stack);
             }  
-        }
+        })
 
-        return node;
-    };
+        self.interface.entities.extend(self.entities);
+        
+        DEPTH--
+    }
+}
 
-    this.layout = function (base) {
+
+function XMLInterface (xml) {
+    var self = this
+    self.name       = ""
+    self.delayNodes = []
+    self.ent        = null
+    self.entities   = []
+    self.xml        = xml
+
+    self.layout = function (base) {
+        var self = this
         var basex = base.x,
             basey = base.y,
             width = base.w,
             height = base.h,
             basez = base.z;
-        var inter = this.parseNode(this.xml, basex, basey, basez, width, height);
-        base.attach(inter.ent);
+
+        var inter = new XMLInterfaceNode(self.xml)
+        inter.parseNode(basex, basey, basez, width, height, self)
+        self.entities.push(inter.ent)
+        base.attach(inter.ent)
+        _(self.entities).each(function(entity, index, entities) {
+            entity.trigger('Change', true);
+        });
     };
     
-    this.destroy = function() {
-        var that = this;
-        _(this.entities).each(function(entity, index, entities) {
+    self.destroy = function() {
+        var self = this
+        _(self.entities).each(function(entity, index, entities) {
             entity.destroy();
         });
     }
@@ -395,27 +418,29 @@ function XMLInterface (xml) {
 
 
 function XMLInterfaceParser(xml) {
-
-    this.interfaces = [];
-    this.map = [];
-    var that = this;
-    this.parseInterfaces = function (xml) {
+    var self = this
+    self.interfaces = []
+    self.map = []
+    var self = this
+    self.parseInterfaces = function (xml) {
+        var self = this
         var interfaces = xml.getElementsByTagName('interface');
 
         _(interfaces).each( function( interfaceXML, index, interfaces ) {
-            var inter = new XMLInterface(interfaceXML);
-            inter.name = interfaceXML.attributes['name'].nodeValue;
-            that.interfaces.push(inter);
-            that.map[inter.name] = inter;
-        });
-    };
+            var inter = new XMLInterface(interfaceXML)
+            inter.name = interfaceXML.attributes['name'].nodeValue
+            self.interfaces.push(inter)
+            self.map[inter.name] = inter
+        })
+    }
 
-    this.parseInterfaces(xml);
+    self.parseInterfaces(xml)
 
-    //this.getInterface = function (name) {
-    this.getInterface = function (name) {
-        var inter = that.map[name] || null ;
-        return inter;
-    };
+    //self.getInterface = function (name) {
+    self.getInterface = function (name) {
+        var self = this
+        var inter = self.map[name] || null 
+        return inter
+    }
 
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- DATE 8/19/2013 -->
+
     <!-- URLS -->
     <url name="TileResourceURL" value="%(RESOURCE_URL)s/image/0/" />
     <url name="SpriteResourceURL" value="%(RESOURCE_URL)s/image/1/" />
