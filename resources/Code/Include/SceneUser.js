@@ -330,8 +330,7 @@ Crafty.scene("User", function() {
         return;
     }
     $MEW.DefaultWindowSkin = "default"
-    $MEW.WindowSkins.default = Crafty.e("WindowSkin").WindowSkin(0, 800, 0, 600, 800, 600, "http://localhost:3000/resource/image/2/loadinggraphic_background.png");
-
+    $MEW.WindowSkins.default = Crafty.e("WindowSkin").WindowSkin(0, 800, 0, 600, 800, 600, "http://mew-mew.rhcloud.com/resource/image/2/loadinggraphic_background.png"); //Just a quick fix, will only work on the openshift server.
         console.log("Loaded User Scene");
         
         //set the viewport
