@@ -97,5 +97,3 @@ exports.verbs = {
 
 
 };
-
-var co

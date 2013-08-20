@@ -14,8 +14,12 @@
             
             <init><![CDATA[MEWLoginForm]]></init>
 
-            <sizer type="verticle">
+            <!--<sizer type="verticle">-->
                 <e name="GreetingText" component="DOM, Text">
+                  <attr>
+                    <x>100</x>
+                    <y>100</y>
+                  </attr>
                     <craftytext>
                         <value>Welcome Guest!</value>
                     </craftytext>
@@ -53,7 +57,7 @@
                     <craftyhtml><![CDATA[]]></craftyhtml>
                     <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
-            </sizer>
+            <!--</sizer>-->
 
         </e>
 
