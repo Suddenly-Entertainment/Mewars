@@ -1,14 +1,14 @@
 // Load libaries
 global.APP_DIR = __dirname;
 var http    = require('http');
-var express = rffequire('express');
+var express = require('express');
 var io      = require('socket.io');
 
 var CONFIG  = require('./config');
-var Router  = refquire('./routes');
+var Router  = require('./routes');
 var db      = require('./models');
-global.passport = require('passport');
-global.LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 /**
  *  Define the application.
@@ -58,7 +58,7 @@ var MewApp = function() {
       self.app = express();
       self.server = http.createServer(self.app);
       self.socket = io.listen(self.server, {'flash policy port': -1});
-      global.passport.use(new global.LocalStrategy(
+      passport.use(new LocalStrategy(
       function(username, password, done) {
       User.findOne({ username: username }, function(err, user) {
         if (err) { return done(err); }

@@ -1,4 +1,5 @@
 //Put requires here
+var passport = require('passport');
 
 //Controller start
 function UserController(){
@@ -17,7 +18,7 @@ function UserController(){
         });
         */
         
-        global.passport.authenticate('local', { successFlash: true,
+        passport.authenticate('local', { successFlash: true,
                                    failureFlash: true })
     };
 
