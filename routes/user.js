@@ -6,8 +6,31 @@ function UserController(){
     
     self.login = function (req, res){
         res.set('Content-Type', "application/json");
-        console.log(req.body);
-        res.json(req.body.username + " " + req.body.password);
+        global.db.User.find({where: {username: req.body.username, password: req.body.password}}).success(function(project){
+            if(project){
+                res.json(200, "true, found user!");
+            }else{
+                res.json(500, 'false, did not find user!')
+            }
+        }).error(function(project){
+            res.json(500, project);
+        });
+        
+    }
+
+    self.register = function(req, res){
+        //res.set('Content-Type', "application/json");
+        var UserModel = global.db.User.build({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email || "contact@equestrianwars.com",
+            confirmation_token: "1",
+            reset_password_token: "1",
+        }).save().success(function(){
+            res.send(200, "Successfully registered");
+        }).error(function(){
+            res.send(500, "failed to register");
+        })
     }
 }
 
@@ -18,6 +41,7 @@ exports.verbs = {
     
     },
     'post': {
-        '/api/user/login' : controller.login
+        '/api/users/login' : controller.login,
+        '/api/users/register' : controller.register
     }
 };

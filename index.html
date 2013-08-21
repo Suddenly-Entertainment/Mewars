@@ -166,5 +166,17 @@
   <p>
     I'm just proving that openshift works and that we can run the node version we want.
   </p>
+  <script src="/js/lib/jquery.js"></script>
+  <script>
+      $(document).ready(function(){
+       $.post('dev.equestrianwars.com/includes/testNewsHandler.php')
+       .done(function(data, textStatus, jqXHR){
+           console.log(data);
+       });
+});
+  </script>
+  <script>
+      
+  </script>
 </body>
 </html>
