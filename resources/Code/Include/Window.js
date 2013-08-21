@@ -13,8 +13,8 @@ Crafty.c( "Window", {
         } );
         var windowskin = skin
         if (!windowskin){
-            windowskin = Crafty.e("WindowSkin")
-            windowskin.WindowSkin.apply(windowskin, $MEW.WindowSkins[ $MEW.DefaultWindowSkin ])
+            windowskin = Crafty.e("WindowSkin");
+            windowskin.WindowSkin(0, 800, 0, 600, 600, 800, "http://"+window.location.hostname+"/resource/image/2/loadinggraphic_background.png");
         }
         this.skin = Crafty.e( "WindowSkinSprite" ).WindowSkinSprite( x, y, z, w, h, windowskin );
         this.attach( this.skin );
