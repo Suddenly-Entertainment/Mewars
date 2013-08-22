@@ -222,9 +222,22 @@ Crafty.c("MEWLoginForm", {
         //only one submit request at a time to prevent spam protention from kicking us out
         if (!this.submitting) {
             //send network request
-            $MEW.User.Login(username, password, function (result) {that.processResult(result);});
+            var obj = {
+                username : username,
+                password : password
+            }
+            //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
+            $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
+            $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
+            $MEW.Network.Send('UsersLogin', obj);
+            
+            $MEW.Network.pBind('UsersCheckLogin', function(result){console.log(result);});
+            $MEW.Network.pBind('UsersCheckLoginError', function(result){console.log(result);});
+            $MEW.Network.Send('UsersCheckLogin');
             this.submitting = true;
         }
+        
+        return this;
         
         return this;
     },

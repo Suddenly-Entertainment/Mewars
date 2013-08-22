@@ -8,7 +8,7 @@ var CONFIG  = require('./config');
 var Router  = require('./routes');
 var db      = require('./models');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+//var LocalStrategy = require('passport-local').Strategy;
 
 /**
  *  Define the application.
@@ -58,20 +58,7 @@ var MewApp = function() {
       self.app = express();
       self.server = http.createServer(self.app);
       self.socket = io.listen(self.server, {'flash policy port': -1});
-      passport.use(new LocalStrategy(
-      function(username, password, done) {
-      User.findOne({ username: username }, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-    });
-  }
-));
+
     };
 
     self.configServer = function() {
@@ -81,13 +68,22 @@ var MewApp = function() {
         self.app.use(express.static(__dirname + '/public'));
         self.app.use(express.logger());
         self.app.use(express.bodyParser());
-
+        self.app.use(express.cookieParser());
+        self.app.use(express.session({ secret: CONFIG.secret}));
+        self.app.use(passport.initialize());
+        self.app.use(passport.session());
+        self.app.use(self.app.router);
       });
 
       self.app.configure('production', function(){
+        self.app.use(express.compress());
         self.app.use(express.static(__dirname + '/public'));
         //self.app.use(express.logger());
         self.app.use(express.bodyParser());
+        self.app.use(express.session({ secret: CONFIG.secret}));
+        self.app.use(passport.initialize());
+        self.app.use(passport.session());
+        self.app.use(self.app.router);
 
       });
           

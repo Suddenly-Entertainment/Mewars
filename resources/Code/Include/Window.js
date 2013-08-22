@@ -14,7 +14,11 @@ Crafty.c( "Window", {
         var windowskin = skin
         if (!windowskin){
             windowskin = Crafty.e("WindowSkin");
-            windowskin.WindowSkin(0, 800, 0, 600, 600, 800, "http://"+window.location.hostname+"/resource/image/2/loadinggraphic_background.png");
+           if(window.location.hostname === "localhost")
+                windowskin.WindowSkin(0, 800, 0, 600, 600, 800, "http://"+window.location.hostname+":"+window.location.port+"/resource/image/2/loadinggraphic_background.png");
+            else
+               windowskin.WindowSkin(0, 800, 0, 600, 600, 800, "http://"+window.location.hostname+"/resource/image/2/loadinggraphic_background.png");
+
         }
         this.skin = Crafty.e( "WindowSkinSprite" ).WindowSkinSprite( x, y, z, w, h, windowskin );
         this.attach( this.skin );
