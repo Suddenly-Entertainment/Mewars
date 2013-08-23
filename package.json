@@ -29,7 +29,7 @@
     "mime": "1.2.x",
     "async": "0.2.x",
     "png-js": "0.1.x",
-    "nodemailer":"*",
+"nodemailer":"0.5.",
   },
 
   "devDependencies": {},

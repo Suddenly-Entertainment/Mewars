@@ -1,5 +1,5 @@
 //Put requires here
-var auth = require('./auth');
+var auth = require(global.APP_DIR+ + '/auth');
 
 //Controller start
 
@@ -9,8 +9,7 @@ function UserController(){
 
     self.login = function (req, res){
         
-    }
-;
+    };
     
 
     self.register = function(req, res){
