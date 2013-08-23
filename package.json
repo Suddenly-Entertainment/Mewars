@@ -22,14 +22,14 @@
     "express": "3.x",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
-    "bcrypt": "*"
+    "bcrypt-nodejs": "0.0.x"
     "socket.io": "0.9.x",
     "pg": "*",
     "sequelize": "2.x.x",
     "mime": "1.2.x",
     "async": "0.2.x",
     "png-js": "0.1.x",
-"nodemailer":"0.5.",
+    "nodemailer":"0.5.x"
   },
 
   "devDependencies": {},
