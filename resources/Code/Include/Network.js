@@ -1,7 +1,7 @@
 /*global $MEW, Crafty*/
 $MEW.Routes = {
     "UsersLogin":           ['API',       'POST',   '/api/users/login',         'JSON'],
-    "UsersRegester":        ['API',       'POST',   '/api/users/register',               'JSON'],
+    "UsersRegister":        ['API',       'POST',   '/api/users/register',               'JSON'],
     "UsersCheckLogin":      ['API',       'POST',   '/api/users/checkLogin',         'JSON'],
     "MapsGetChunks":        ['API',       'POST',   '/api/get_map_chunks',      'JSON'],
     "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
