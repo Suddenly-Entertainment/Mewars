@@ -228,7 +228,7 @@ Crafty.c("MEWLoginForm", {
 
         this.bind('KeyDown', function (e) {
             var active = document.activeElement;
-            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password") && this.isDown('ENTER')){
+            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password" || active.id ==="_MEW_login_email") && this.isDown('ENTER')){
                 that.submit();
             }
             if ((active.id === "_MEW_login_password") && this.isDown('TAB')){
@@ -247,6 +247,7 @@ Crafty.c("MEWLoginForm", {
     },
     
     switchReg : function(){
+    var that = this;
         if(this.isLogin){
            this.isLogin = false;
            this.set_visible_email(true);
