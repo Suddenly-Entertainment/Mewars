@@ -1,5 +1,5 @@
 //Put requires here
-var auth = require(global.APP_DIR+ + '/auth');
+var auth = require(global.APP_DIR + '/auth');
 
 //Controller start
 
@@ -16,8 +16,10 @@ function UserController(){
         //res.set('Content-Type', "application/json");
         auth.generateSaltAndHash(20, req.body.password, function(err, hash){
             if(err) res.send(500, "Error hashing password.");
-            while(self.checkConfirmToken(confirmToken)){
-                var confirmToken = auth.generateConfirmToken();
+            
+            var confirmToken = auth.generateConfirmToken();
+
+                
                 while(auth.checkConfirmToken(confirmToken)){
                     confirmToken = auth.generateConfirmToken();
                 }
@@ -33,13 +35,18 @@ function UserController(){
                 });
                 
                 auth.sendConfirm(req, res, confirmToken);
-            }
+            
         });
 
     }
     
     self.confirmAccount = function(req, res){
-        
+        var confirmToken = req.params.confirmToken;
+        if(auth.confirmAccount(confirmToken)){
+            res.json(true);
+        }else{
+            res.json(false);
+        }
     }
 
     self.checkLogin = function(req, res){

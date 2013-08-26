@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
@@ -15,7 +15,7 @@ var CONFIG = require("./config");
         bcrypt.compare(password, user.password, function(err, res) {
             if(err) return done(err, false);
             if(res){
-                return done(null, user.username);
+                return done(null, user);
             }else{
                 return done(null, false, { message: 'Password is incorrect.' });
             }
@@ -41,8 +41,8 @@ var CONFIG = require("./config");
 var auth = {
     passport: passport,
     checkConfirmToken : function(confirmToken){
-        global.db.User.find({where: {confirmation_token: confirmToken}}).success(function(confirmToken){
-          if(confirmToken){
+        global.db.User.find({where: {confirmation_token: confirmToken}}).success(function(confirmsToken){
+          if(confirmsToken){
             return true;
           }else{
             return false;
@@ -94,8 +94,8 @@ var auth = {
        global.db.User.find({where: {confirmation_token: confirmToken}}).success(function(user){
           if(user){
               user.updateAttributes({
-                title: 'a very different title now'
-              }).success(function() {});
+                confirmed : true
+              }).success(function() {return true;}).error(function(){return false;});
           }else{
             return false;
           }
