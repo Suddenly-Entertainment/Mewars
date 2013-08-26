@@ -178,7 +178,7 @@ Crafty.c("MEWLoginForm", {
             h : 20,
             z : this.z + 1
         }).color("#00000")
-        .bind("Click", this.SwitchReg);
+        .bind("Click", this.switchReg);
         
         $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
         $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
@@ -189,7 +189,7 @@ Crafty.c("MEWLoginForm", {
 
                 //Password box
         this.email = Crafty.e("2D, HTML_INPUT")
-            .attr({x: x, y: y + 24, z: z, w: w, h: 20})
+            .attr({x: x, y: y + 48, z: z, w: w, h: 20})
             .css({background: "#3d3c3c"});
             
         var emailHTMLText = ' <input id="_MEW_login_email" type="text" class="input_email" value="email@email.com"  /> ';
@@ -205,7 +205,7 @@ Crafty.c("MEWLoginForm", {
         
         $("#_MEW_login_email").blur(onBlurDefaultTextReplace('email@email.com'));
         $("#_MEW_login_email").focus(onFocusDefaultTextReplace('email@email.com'));
-        
+        this.email.visible = false;
         //Result HTML
         this.resultHTML = Crafty.e("2D, HTML")
             .attr({x: x, y: y + 96, z: z, w: w, h: 20})
@@ -219,6 +219,7 @@ Crafty.c("MEWLoginForm", {
         // bind to wrapper to maintian relative positions
         this.bindTo(this.username, 0, 0);
         this.bindTo(this.password, 0, 24);
+        this.bindTo(this.email, 0, 48)
         this.bindTo(this.switchForms, 0, 72);
         this.bindTo(this.resultHTML, 0, 96);
         
