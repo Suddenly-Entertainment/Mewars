@@ -88,7 +88,7 @@ var auth = {
     generateSaltAndHash: function(length, password, cb){
        bcrypt.genSalt(length, function(err2, salt){
             if(err)cb(err2, null);
-            bcrypt.hash(password, salt, function(err, hash){cb(err,hash);});
+            bcrypt.hash(password, salt, null, cb);
        });
     },
     
