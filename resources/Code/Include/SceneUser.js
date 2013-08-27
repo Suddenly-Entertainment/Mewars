@@ -240,11 +240,20 @@ Crafty.c("MEWLoginForm", {
             if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password" || active.id ==="_MEW_login_email") && this.isDown('ENTER')){
                 that.submit();
             }
+            if(that.isLogin){
             if ((active.id === "_MEW_login_password") && this.isDown('TAB')){
                 // prevent it from tabing to the rest of the page
                 e.stopPropagation();
                 if(e.preventDefault) e.preventDefault();
                 else e.returnValue = false;
+            }
+            }else{
+                if ((active.id === "_MEW_login_email") && this.isDown('TAB')){
+                // prevent it from tabing to the rest of the page
+                    e.stopPropagation();
+                    if(e.preventDefault) e.preventDefault();
+                    else e.returnValue = false;
+                }
             }
         });
         
