@@ -12,9 +12,9 @@ var CONFIG = require("./config");
             return done(null, false, { message: 'Username not found.' });
         }
         
-        bcrypt.compare(password, user.password, function(err, res) {
+        bcrypt.compare(password, user.password, function(err, result) {
             if(err) return done(err, false);
-            if(res){
+            if(result){
                 return done(null, user);
             }else{
                 return done(null, false, { message: 'Password is incorrect.' });
