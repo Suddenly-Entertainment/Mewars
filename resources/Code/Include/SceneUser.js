@@ -132,6 +132,15 @@ Crafty.c("MEWLoginForm", {
             };
         }
         
+        function switchReg(){
+            if(this.isLogin){
+               this.isLogin = false;
+               this.set_visible_email(true);
+            }else{
+               this.isLogin = true;
+               this.set_visible_email(false);
+            }
+        }
         var userHTMLText = '<input id="_MEW_login_username" type="text" class="input_text" value="username" />';
                          
         this.username.replace(userHTMLText);
@@ -178,7 +187,7 @@ Crafty.c("MEWLoginForm", {
             h : 20,
             z : this.z + 1
         }).color("#00000")
-        .bind("Click", this.switchReg);
+        .bind("Click", switchReg);
         
         $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
         $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
@@ -248,13 +257,7 @@ Crafty.c("MEWLoginForm", {
     
     switchReg : function(){
     var that = this;
-        if(this.isLogin){
-           this.isLogin = false;
-           this.set_visible_email(true);
-        }else{
-           this.isLogin = true;
-           this.set_visible_email(false);
-        }
+
     },
     
     //bind component relative positions
