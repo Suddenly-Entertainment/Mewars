@@ -8,7 +8,7 @@ function UserController(){
     
 
     self.login = function (req, res){
-        
+        res.send(200);
     };
     
 
