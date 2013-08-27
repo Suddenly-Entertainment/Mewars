@@ -14,6 +14,7 @@ function UserController(){
 
     self.register = function(req, res){
     var returnObj = {};
+    returnObj.success = true;
         //res.set('Content-Type', "application/json");
         auth.generateSaltAndHash(10, req.body.password, function(err, hash){
             returnObj.err = err;
@@ -50,8 +51,10 @@ function UserController(){
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
             auth.sendConfirm(req, res, confirmToken, returnObj);
-}).error(function(){
+}).error(function(err){
+                    returnObj.err = err;
                     returnObj.userCreateSuccess = false;
+                    returnObj.success = false;
                     res.json(returnObj);
                 });
                 
