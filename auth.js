@@ -20,6 +20,8 @@ var CONFIG = require("./config");
                 return done(null, false, { message: 'Password is incorrect.' });
             }
         });
+    }).error(function(error){
+      return done(error, false);
     });
     }));
       
@@ -102,6 +104,8 @@ var auth = {
           }else{
             return false;
           }
+        }).error(function(err){
+          return false;
         });
     },
     
