@@ -6,7 +6,7 @@ var CONFIG = require("./config");
 
  passport.use(new LocalStrategy(
       function(username, password, done) {
-      global.db.User.find({where: {username: username}}).success(function(user){
+      global.db.User.find({where: {username: username, confirmed: true}}).success(function(user){
         
         if (!user) {
             return done(null, false, { message: 'Username not found.' });
