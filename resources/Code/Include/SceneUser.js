@@ -111,7 +111,7 @@ Crafty.c("MEWLoginForm", {
         this.username = Crafty.e("2D, HTML_INPUT")
             .attr({x: x, y: y, z: z, w: w, h: 20})
             .css({background: "#3d3c3c"});
-        
+        var that = this;
         function onBlurDefaultTextReplace(text) {
             return function () {
                 if ( $(this).val() === '' ) {
@@ -133,12 +133,12 @@ Crafty.c("MEWLoginForm", {
         }
         
         function switchReg(){
-            if(this.isLogin){
-               this.isLogin = false;
-               this.set_visible_email(true);
+            if(that.isLogin){
+               that.isLogin = false;
+               that.set_visible_email(true);
             }else{
-               this.isLogin = true;
-               this.set_visible_email(false);
+               that.isLogin = true;
+               that.set_visible_email(false);
             }
         }
         var userHTMLText = '<input id="_MEW_login_username" type="text" class="input_text" value="username" />';
@@ -232,7 +232,7 @@ Crafty.c("MEWLoginForm", {
         this.bindTo(this.switchForms, 0, 72);
         this.bindTo(this.resultHTML, 0, 96);
         
-        var that = this;
+        
         //bind events
 
         this.bind('KeyDown', function (e) {
@@ -253,12 +253,7 @@ Crafty.c("MEWLoginForm", {
         
         
         return this;
-    },
-    
-    switchReg : function(){
-    var that = this;
-
-    },
+    }, 
     
     //bind component relative positions
     bindTo: function(ent, x, y) {
