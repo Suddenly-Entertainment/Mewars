@@ -45,8 +45,12 @@ var auth = {
         });
     },
     
-    sendConfirm : function(req, res, confirmToken){
+    sendConfirm : function(req, res, confirmToken, returnObj){
+    var returnObj = {};
+    
       var link = CONFIG.hostname + "api/users/confirmAccount/"+confirmToken;
+      
+      
       var smtpTransport = nodemailer.createTransport("SMTP",{
          service: "Gmail",
          auth: {
@@ -62,14 +66,16 @@ var auth = {
         text: "Hello, To complete your registration click this link "+link+" Your username is: "+ req.body.username + " Your password is: "+req.body.password, // plaintext body
         html: "<b>Hello,</b> <br/> To complete your registration click this link <a href'"+link+"'>"+link+"</a> <br/> Your username is: "+req.body.username+" <br/> Your password is: "+req.body.password+" <br/> " // html body
       }
-
+      returnObj.mailOptions = mailOptions;      returnObj.mailOptions = mailOptions;
       
       smtpTransport.sendMail(mailOptions, function(error, response){
-         smtpTransport.close()
+         smtpTransport.close();;
          if(error){
-            res.send(500, "error sending");
+            
+            
+            returnObj.returnObj.res.send(500, "error sending");
           }else{
-            res.send(200, "true sending");
+            res.send(200, "success sending");
           }
       });
     },
@@ -80,9 +86,9 @@ var auth = {
     },
     
     generateSaltAndHash: function(length, password, cb){
-       bcrypt.genSalt(length, function(err, salt){
-            if(err)cb(err, null);
-            bcrypt.hash(password, salt, cb);
+       bcrypt.genSalt(length, function(err2, salt){
+            if(err)cb(err2, null);
+            bcrypt.hash(password, salt, function(err, hash){cb(err,hash);});
        });
     },
     

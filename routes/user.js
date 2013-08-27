@@ -13,9 +13,17 @@ function UserController(){
     
 
     self.register = function(req, res){
+    var returnObj = {};
         //res.set('Content-Type', "application/json");
         auth.generateSaltAndHash(20, req.body.password, function(err, hash){
-            if(err) res.send(500, "Error hashing password.");
+            returnObj.err = err;
+            returnObj.hash = hash;
+            if(err){
+              returnObj.saltSuccess = false;
+              returnObj.success = false;
+              res.json( returnObj);
+            } 
+            returnObj.saltSuccess = true;
             
             var confirmToken = auth.generateConfirmToken();
 
@@ -23,7 +31,10 @@ function UserController(){
                 while(auth.checkConfirmToken(confirmToken)){
                     confirmToken = auth.generateConfirmToken();
                 }
-                
+            returnObj.confirmTokenSuccess = true;
+            returnObj.username = req.body.username;
+            returnObj.email = req.body.email;
+            
                 var UserModel = global.db.User.build({
                   username: req.body.username,
                   password: hash,
@@ -31,9 +42,11 @@ function UserController(){
                   confirmation_token: confirmToken,
                   reset_password_token: "0",
                 }).save().success(function(){
-            auth.sendConfirm(req, res, confirmToken);
+                returnObj.userCreateSuccess = true;
+            auth.sendConfirm(req, res, confirmToken, returnObj);
 }).error(function(){
-                    res.send(500, "Failed to register");
+                    returnObj.userCreateSuccess = false;
+                    res.json(returnObj);
                 });
                 
                 
