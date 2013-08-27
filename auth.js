@@ -20,11 +20,6 @@ var CONFIG = require("./config");
                 return done(null, false, { message: 'Password is incorrect.' });
             }
         });
-        
-
-
-          
-    
     });
     }));
       
@@ -86,6 +81,7 @@ var auth = {
     
     generateSaltAndHash: function(length, password, cb){
        bcrypt.genSalt(length, function(err, salt){
+            if(err)cb(err, null);
             bcrypt.hash(password, salt, cb);
        });
     },

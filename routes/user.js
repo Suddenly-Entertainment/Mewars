@@ -30,11 +30,13 @@ function UserController(){
                   email: req.body.email,
                   confirmation_token: confirmToken,
                   reset_password_token: "0",
-                }).save().error(function(){
+                }).save().success(function(){
+            auth.sendConfirm(req, res, confirmToken);
+}).error(function(){
                     res.send(500, "Failed to register");
                 });
                 
-                auth.sendConfirm(req, res, confirmToken);
+                
             
         });
 
