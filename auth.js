@@ -68,11 +68,10 @@ var auth = {
       returnObj.mailOptions = mailOptions;
       
       smtpTransport.sendMail(mailOptions, function(error, response){
-         smtpTransport.close();;
+         smtpTransport.close();
          if(error){
             returnObj.sendSuccess = false;
             returnObj.success = false;
-            
             res.json(returnObj);
           }else{
             returnObj.sendSuccess = true;
@@ -104,7 +103,17 @@ var auth = {
             return false;
           }
         });
-    }
+    },
+    
+    checkResetToken : function(passwordToken){
+        global.db.User.find({where: {reset_password_token: passwordToken}}).success(function(confirmsToken){
+          if(confirmsToken){
+            return true;
+          }else{
+            return false;
+          }
+        });
+    },
 };
 
 module.exports = auth;

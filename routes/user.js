@@ -15,7 +15,7 @@ function UserController(){
     self.register = function(req, res){
     var returnObj = {};
         //res.set('Content-Type', "application/json");
-        auth.generateSaltAndHash(20, req.body.password, function(err, hash){
+        auth.generateSaltAndHash(10, req.body.password, function(err, hash){
             returnObj.err = err;
             returnObj.hash = hash;
             if(err){
@@ -31,6 +31,12 @@ function UserController(){
                 while(auth.checkConfirmToken(confirmToken)){
                     confirmToken = auth.generateConfirmToken();
                 }
+           
+            var passwordToken = auth.generateConfirmToken();
+            
+            while(auth.checkResetToken(passwordToken)){
+                passwordToken = auth.generateConfirmToken();
+            }
             returnObj.confirmTokenSuccess = true;
             returnObj.username = req.body.username;
             returnObj.email = req.body.email;
@@ -40,7 +46,7 @@ function UserController(){
                   password: hash,
                   email: req.body.email,
                   confirmation_token: confirmToken,
-                  reset_password_token: "0",
+                  reset_password_token: passwordToken,
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
             auth.sendConfirm(req, res, confirmToken, returnObj);
