@@ -67,9 +67,9 @@ var auth = {
       smtpTransport.sendMail(mailOptions, function(error, response){
          smtpTransport.close()
          if(error){
-            res.send(500, error);
+            res.send(500, "error sending");
           }else{
-            res.json(200, true);
+            res.send(200, "true sending");
           }
       });
     },
