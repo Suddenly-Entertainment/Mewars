@@ -15,18 +15,14 @@
             <init><![CDATA[MEWLoginForm]]></init>
 
             <!--<sizer type="verticle">-->
-                <e name="GreetingText" component="DOM, Text">
-                  <attr>
-                    <x>100</x>
-                    <y>100</y>
-                  </attr>
+                <e name="GreetingText" component="DOM, Text" x="0" y="0">
                     <craftytext>
                         <value>Welcome Guest!</value>
                     </craftytext>
                 </e>
 
 
-                <e name="LoginInput" component="HTML_INPUT">
+                <e name="LoginInput" component="HTML_INPUT" x="10" y="10">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>
@@ -36,7 +32,7 @@
                     <css><![CDATA[{"background": "rgb(196, 183, 135)"}]]></css>
                 </e>
 
-                <e name="PasswordInput" component="HTML_INPUT">
+                <e name="PasswordInput" component="HTML_INPUT" x="20" y="20">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>
@@ -48,7 +44,7 @@
                 
     
 
-                <e name="LoginResult" component="HTML">
+                <e name="LoginResult" component="HTML" x="30" y="30">
                     <attr>
                         <minwidth>50</minwidth>
                         <minheight>20</minheight>

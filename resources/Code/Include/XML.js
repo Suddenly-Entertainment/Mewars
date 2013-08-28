@@ -24,7 +24,9 @@ var $XMLInterfaceAttrParsers = {
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
+        console.log("Before",ent.x);
         ent.x = val + base.basex || base.basex;
+        console.log("After",ent.x);
     },
     y: function (self, ent, attr, base) {
         var val = attr.nodeValue;

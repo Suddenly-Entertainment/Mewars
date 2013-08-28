@@ -124,7 +124,7 @@ Crafty.c("MEWLoginForm", {
         
         function onFocusDefaultTextReplace(text) {
             return function () {
-                $(this).css('color','#FFF'); 
+                $(this).css('color','#999'); 
                 if ($(this).val() === text ) { 
                     $(this).val('');
                 }
