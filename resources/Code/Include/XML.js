@@ -295,6 +295,7 @@ function XMLEntityNode (xml) {
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
+        console.log("val recieved: ", val, " atter: ", atter, " this: ", this);
         this[atter.nodeName.toLowerCase()] = val;
     });
     this.passAttrs = function (ent) {
