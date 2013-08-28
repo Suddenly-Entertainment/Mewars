@@ -409,6 +409,7 @@ function XMLInterface (xml) {
         inter.parseNode(basex, basey, basez, width, height, self);
         self.entities.push(inter.ent)
         base.attach(inter.ent)
+        base.bindTo(inter.ent, 0, 0);
         console.log(inter);
         _(self.entities).each(function(entity, index, entities) {
             entity.trigger('Change', true);

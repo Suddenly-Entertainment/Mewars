@@ -445,8 +445,9 @@ Crafty.scene("User", function() {
                 y = ($MEW.HEIGHT - h) / 2 + h / 4;
             
             // create the backgournd window
-            $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
             
+            $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
+            console.log($MEW.Scene.loginWindow);
             $MEW.Viewport.bindTo($MEW.Scene.loginWindow, x, y);
             
             // login updating of the interface
@@ -491,9 +492,9 @@ Crafty.scene("User", function() {
                 Crafty.scene("Map");
             }
             
-            $MEW.Scene.testButton = Crafty.e("Window, Mouse")
+            $MEW.Scene.testButton = Crafty.e("Window, Mouse, 2D, Color, Canvas")
                 .Window(x, y, 100, 100, 40)
-                .setName("TestsButton")
+                .setName("TestsButton").color("#000000")
                 .bind("Click", viewTest);
             
             $MEW.Scene.testButtonText = Crafty.e("2D, Canvas, Text, Mouse")
