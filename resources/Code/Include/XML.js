@@ -273,6 +273,7 @@ function XMLSizerNode (xml) {
 }
 
 function XMLEntityNode (xml) {
+//This is overwritten every entity
     this.name      = '';
     this.component = '';
     this.minwidth  = 0;
@@ -300,6 +301,7 @@ function XMLEntityNode (xml) {
     });
     this.passAttrs = function (ent) {
         var self = this
+        
         ent.attr({
             name: self.name,
             component: self.component,
@@ -404,9 +406,10 @@ function XMLInterface (xml) {
             basez = base.z;
 
         var inter = new XMLInterfaceNode(self.xml)
-        inter.parseNode(basex, basey, basez, width, height, self)
+        inter.parseNode(basex, basey, basez, width, height, self);
         self.entities.push(inter.ent)
         base.attach(inter.ent)
+        console.log(inter);
         _(self.entities).each(function(entity, index, entities) {
             entity.trigger('Change', true);
         });
