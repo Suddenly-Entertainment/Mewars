@@ -35,18 +35,18 @@ var CONFIG = require("./config");
         });
       });
       
-      var smtpTransport = nodemailer.createTransport("SMTP",{
+       
+
+
+var auth = {
+    passport: passport,
+    smptTransport: nodemailer.createTransport("SMTP",{
          service: "Gmail",
          auth: {
            user: "contact@equestrianwars.com",
            pass: "ponyCOntact796"
          }
-      });
-
-
-var auth = {
-    passport: passport,
-    smptTransport: smptTransport,
+      }),
     checkConfirmToken : function(confirmToken){
         global.db.User.find({where: {confirmation_token: confirmToken}}).success(function(confirmsToken){
           if(confirmsToken){
@@ -73,8 +73,8 @@ var auth = {
       }
       returnObj.mailOptions = mailOptions;
       
-      smtpTransport.sendMail(mailOptions, function(error, response){
-         smtpTransport.close();
+      this.smtpTransport.sendMail(mailOptions, function(error, response){
+         
          returnObj.sendMailResponse = response;
          if(error){
             returnObj.sendSuccess = false;
