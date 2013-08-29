@@ -34,9 +34,19 @@ var CONFIG = require("./config");
           done(null, user);
         });
       });
+      
+      var smtpTransport = nodemailer.createTransport("SMTP",{
+         service: "Gmail",
+         auth: {
+           user: "contact@equestrianwars.com",
+           pass: "ponyCOntact796"
+         }
+      });
+
 
 var auth = {
     passport: passport,
+    smptTransport: smptTransport,
     checkConfirmToken : function(confirmToken){
         global.db.User.find({where: {confirmation_token: confirmToken}}).success(function(confirmsToken){
           if(confirmsToken){
@@ -52,13 +62,7 @@ var auth = {
       var link = CONFIG.hostname + "api/users/confirmAccount/"+confirmToken;
       
       
-      var smtpTransport = nodemailer.createTransport("SMTP",{
-         service: "Gmail",
-         auth: {
-           user: "contact@equestrianwars.com",
-           pass: "ponyCOntact796"
-         }
-      });
+
       
       var mailOptions = {
         from: "No Reply <noreply@equestrianwars.com>", // sender address
@@ -71,9 +75,12 @@ var auth = {
       
       smtpTransport.sendMail(mailOptions, function(error, response){
          smtpTransport.close();
+         returnObj.sendMailResponse = response;
          if(error){
             returnObj.sendSuccess = false;
             returnObj.success = false;
+            returnObj.err = error;
+            
             res.json(returnObj);
           }else{
             returnObj.sendSuccess = true;

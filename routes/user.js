@@ -76,6 +76,22 @@ function UserController(){
     self.checkLogin = function(req, res){
         res.json(req.user);
     }
+    self.resendConfirm = function(req, res){
+        var returnObj = {};
+        var username = req.params.username;
+        returnObj.username = username;
+        returnObj.err = null;
+        global.db.User.find({where: {username: username}}).success(function(user){
+            var confirmToken = user.confirmation_token;
+            auth.sendConfirm(req, res, confirmToken, returnObj);
+            
+        }).error(function(err){
+             returnObj.err = err;
+             returnObj.success = false;
+             returnObj.findUserSuccess = false;
+             res.json(returnObj);
+        });
+    }
 }
 
 var controller = new UserController();
@@ -83,6 +99,7 @@ var controller = new UserController();
 exports.verbs = {
     'get':  {
         '/api/users/confirmAccount/:confirmToken' : controller.confirmAccount,
+        '/api/users/resendCofirm/:username' : controller.resendConfirm,
     },
     'post': {
         '/api/users/login' : [auth.passport.authenticate('local', { successRedirect:"/",
