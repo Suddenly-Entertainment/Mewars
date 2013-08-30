@@ -50,6 +50,7 @@ function UserController(){
                   reset_password_token: passwordToken,
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
+                returnObj.userModel = UserModel;
             auth.sendConfirm(req, res, confirmToken, returnObj);
 }).error(function(err){
                     returnObj.err = err;
