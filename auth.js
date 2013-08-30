@@ -82,15 +82,17 @@ var auth = {
             returnObj.err = error;
             returnObj.userModel.destroy().success(function(thing){
               returnObj.userModel = null;
-              returnObj.destroyResponse = thing;
+              returnObj.destroySuccess = true;
               res.json(returnObj);
             }).error(function(thing){
               returnObj.userModel = null;
               returnObj.destroyErr = thing;
+              returnObj.destroySuccess = false;
               res.json(returnObj);
             });
             
           }else{
+            returnObj.userModel = null;
             returnObj.sendSuccess = true;
             returnObj.success = true;
             res.json(returnObj);
