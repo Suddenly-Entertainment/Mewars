@@ -33,11 +33,6 @@ function UserController(){
                     confirmToken = auth.generateConfirmToken();
                 }
            
-            var passwordToken = auth.generateConfirmToken();
-            
-            while(auth.checkResetToken(passwordToken)){
-                passwordToken = auth.generateConfirmToken();
-            }
             returnObj.confirmTokenSuccess = true;
             returnObj.username = req.body.username;
             returnObj.email = req.body.email;
@@ -47,7 +42,6 @@ function UserController(){
                   password: hash,
                   email: req.body.email,
                   confirmation_token: confirmToken,
-                  reset_password_token: passwordToken,
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
                 returnObj.userModel = UserModel;
@@ -72,10 +66,11 @@ function UserController(){
     
     self.confirmAccount = function(req, res){
         var confirmToken = req.params.confirmtoken;
-        if(auth.confirmAccount(confirmToken)){
-            res.json(true);
+        var returnRes = auth.confirmAccount(confirmToken);
+        if(returnRes == true){
+            res.json(confirmToken);
         }else{
-            res.json(false);
+            res.json(returnRes);
         }
     }
 
