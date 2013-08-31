@@ -33,7 +33,7 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <craftyhtml><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username or Email" /> ]]></craftyhtml>
+                    <craftyhtml><![CDATA[ <input id="_MEW_login_username" type="text" class="input_text" value="Username" /> ]]></craftyhtml>
                     <css><![CDATA[{"background": "rgb(196, 183, 135)"}]]></css>
                 </e>
 
@@ -93,7 +93,93 @@
 
     </interface>
     <interface name="RegisterForm">
-    
+        <e name="MEWRegisterFormInterface" component="MEWRegisterForm" x="350" y="250" z="100">
+            
+            <init><![CDATA[MEWRegisterForm]]></init>
+
+            <!--<sizer type="verticle">-->
+              <e name="GreetingText" component="DOM, Text" x="365" y="235" z="1">
+                <attr>
+                    <w>120</w>
+                    <h>20</h>
+                </attr>
+                    <craftytext>
+                        <value>Welcome guest, please register!</value>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "12px"}]]></textfont>
+                    </craftytext>
+                </e> 
+
+
+                <e name="RegisterInput" component="HTML_INPUT" x="350" y="275" z="1" >
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[ <input id="_MEW_register_username" type="text" class="input_text" value="Username" /> ]]></craftyhtml>
+                    <css><![CDATA[{"background": "rgb(196, 183, 135)"}]]></css>
+                </e>
+
+                <e name="PasswordInput" component="HTML_INPUT" x="350" y="305" z="1">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[ <input id="_MEW_register_password" type="password" class="input_password" value="" /> ]]></craftyhtml>
+                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
+                </e>
+                
+                <e name="EmailInput" component="HTML_INPUT" x="350" y="335" z="1">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[ <input id="_MEW_register_email" type="text" class="input_email" value="email@email.com" /> ]]></craftyhtml>
+                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
+                </e>
+
+                <e name="RegisterResult" component="HTML" x="350" y="365" z="1">
+                    <attr>
+                        <minwidth>50</minwidth>
+                        <minheight>20</minheight>
+                        <z>1</z>
+                    </attr>
+                    <craftyhtml><![CDATA[]]></craftyhtml>
+                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
+                </e>
+                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="385" z="1">
+                    <attr>
+                        <w>150</w>
+                        <h>30</h>
+                        <z>1</z>
+                    </attr>
+                    <craftycolor>#000000</craftycolor>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[switchForm]]></callback>
+                    </craftybind>
+
+                </e>
+                <e name="SwitchFormsButtonText" component="2D, Canvas, Text, Mouse, SwitchToLoginButton" x="355" y="390" z="102">
+                    <attr>
+                        <w>120</w>
+                        <h>20</h>
+                    </attr>
+                    <craftytext>
+                        <value>Go to login form!</value>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "16px"}]]></textfont>
+                        <textcolor><![CDATA[{"color": "#FFFFFF", "opacity": 1}]]></textcolor>
+                    </craftytext>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[switchForm]]></callback>
+                    </craftybind>
+                </e>
+            <!--</sizer>-->
+
+        </e>
     </interface>
     <inteface name="LoggedInForm">
 

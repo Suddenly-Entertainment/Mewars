@@ -129,16 +129,6 @@ Crafty.c("MEWLoginForm", {
                 return true;
             };
         }
-        
-        this.switchReg = function switchReg(){
-            if(that.isLogin){
-               that.isLogin = false;
-               that.set_visible_email(true);
-            }else{
-               that.isLogin = true;
-               that.set_visible_email(false);
-            }
-        }
         if($MEW.isXMLInterface == false){
             //Username Box            
             this.username = Crafty.e("2D, HTML_INPUT")
@@ -224,44 +214,36 @@ Crafty.c("MEWLoginForm", {
         $("#_MEW_login_username").blur(onBlurDefaultTextReplace('Username or Email'));
         $("#_MEW_login_username").focus(onFocusDefaultTextReplace('Username or Email'));
         
-        $("#_MEW_login_password").blur(onBlurDefaultTextReplace('password'));
-        $("#_MEW_login_password").focus(onFocusDefaultTextReplace('password'));
         
         $("#_MEW_login_email").blur(onBlurDefaultTextReplace('email@email.com'));
         $("#_MEW_login_email").focus(onFocusDefaultTextReplace('email@email.com'));
 
-
-        this.isLogin = true;
         
         //Binding callbacks to network calls
         $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
         $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
         $MEW.Network.pBind('UsersCheckLogin', function(result){console.log(result);});
         $MEW.Network.pBind('UsersCheckLoginError', function(result){console.log(result);});
-        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});
-        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});   
         //bind events
 
         this.bind('KeyDown', function (e) {
             var active = document.activeElement;
-            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password" || active.id ==="_MEW_login_email") && this.isDown('ENTER')){
+            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password") && this.isDown('ENTER')){
                 that.submit();
             }
-            if(that.isLogin){
+           
             if ((active.id === "_MEW_login_password") && this.isDown('TAB')){
                 // prevent it from tabing to the rest of the page
                 e.stopPropagation();
                 if(e.preventDefault) e.preventDefault();
                 else e.returnValue = false;
             }
-            }else{
                 if ((active.id === "_MEW_login_email") && this.isDown('TAB')){
                 // prevent it from tabing to the rest of the page
                     e.stopPropagation();
                     if(e.preventDefault) e.preventDefault();
                     else e.returnValue = false;
                 }
-            }
         });
         
         //triger change and draw
@@ -285,11 +267,9 @@ Crafty.c("MEWLoginForm", {
         //collect values via JQuery with IDs
         var username = $("#_MEW_login_username").val(),
             password = $("#_MEW_login_password").val(),
-            email = $("#_MEW_login_email").val(),
             that = this;
         //only one submit request at a time to prevent spam protention from kicking us out
         if (!this.submitting) {
-          if(this.isLogin){
             //send network request
               var obj = {
                   username : username,
@@ -300,22 +280,7 @@ Crafty.c("MEWLoginForm", {
               $MEW.Network.Send('UsersLogin', obj);
               
   
-              $MEW.Network.Send('UsersCheckLogin');
               this.submitting = true;
-            }else{
-                          //send network request
-              var obj = {
-                  username : username,
-                  password : password
-,
-                  email : email,
-              }
-              //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
-  
-              $MEW.Network.Send('UsersRegister', obj);
-              this.submitting = true;
-
-            }
         }
         
         return this;
@@ -359,9 +324,151 @@ Crafty.c("MEWLoginForm", {
         this.password.visible = v;
     },
     
-    set_visible_email: function(v){
+    
+});
+
+Crafty.c("MEWRegisterForm", {
+    init: function () {
+        this.requires("2D, Keyboard");
+    },
+    
+    MEWRegisterForm: function(x, y, z, w, h) {
+        console.log("Register Form Loaded")
+        this.attr({x: x, y: y, z: z, w: w, h: h});
+        
+        this.submitting = false;
+
+        
+        var that = this;
+        function onBlurDefaultTextReplace(text) {
+            return function () {
+                if ( $(this).val() === '' ) {
+                    $(this).css('color','#999'); 
+                    $(this).val(text); 
+                } 
+                return true;
+            };
+        }
+        
+        function onFocusDefaultTextReplace(text) {
+            return function () {
+                $(this).css('color','#999'); 
+                if ($(this).val() === text ) { 
+                    $(this).val('');
+                }
+                return true;
+            };
+        }
+        
+       
+                         
+        //Blur and focus effects on boxes
+        $("#_MEW_register_username").blur(onBlurDefaultTextReplace('Username'));
+        $("#_MEW_register_username").focus(onFocusDefaultTextReplace('Username'));
+        
+        
+        $("#_MEW_register_email").blur(onBlurDefaultTextReplace('email@email.com'));
+        $("#_MEW_register_email").focus(onFocusDefaultTextReplace('email@email.com'));
+        
+        //Binding callbacks to network calls
+        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});
+        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});   
+        //bind events
+
+        this.bind('KeyDown', function (e) {
+            var active = document.activeElement;
+            if ((active.id === "_MEW_register_username" || active.id === "_MEW_register_password" || active.id ==="_MEW_register_email") && this.isDown('ENTER')){
+                that.submit();
+            }
+            if ((active.id === "_MEW_register_email") && this.isDown('TAB')){
+                // prevent it from tabing to the rest of the page
+                e.stopPropagation();
+                if(e.preventDefault) e.preventDefault();
+                else e.returnValue = false;
+            }
+            
+        });
+        
+        //triger change and draw
+        this.trigger("Change");
+        
+        
+        return this;
+    }, 
+    
+    //bind component relative positions
+    bindTo: function(ent, x, y) {
+    
+        ent.attr({x: this.x + x, y: this.y + y});
+        this.attach(ent);
+        return this;
+    },
+    
+    //submit login request
+    submit: function () {
+        
+        //collect values via JQuery with IDs
+        var username = $("#_MEW_register_username").val(),
+            password = $("#_MEW_register_password").val(),
+            email = $("#_MEW_register_email").val(),
+            that = this;
+        //only one submit request at a time to prevent spam protention from kicking us out
+        if (!this.submitting) {
+            //send network request
+              var obj = {
+                  username : username,
+                  password : password,
+                  email: email
+              }
+              //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
+  
+              $MEW.Network.Send('UsersRegister', obj);
+              
+  
+              this.submitting = true;
+        }
+        
+        return this;
+        
+        return this;
+    },
+    
+    set_successCB: function(cb) {
+        this.successCB = cb;
+    },
+    
+    processResult: function (result) {
+        // ok we arn't submitting anymore 
+        this.submitting = false;
+        // lets see what the result was
+        if (!this.resultHTML) {
+            console.log(result);
+        } else {
+            this.resultHTML.replace(result.message);
+            if (result.success) {
+                this.resultHTML.css({
+                    'align': 'left',
+                    'float': 'left',
+                    'color': 'green'
+                });
+                if (!(typeof(this.successCB)==='undefined')) this.successCB();
+            } else {
+                this.resultHTML.css({
+                    'align': 'left',
+                    'float': 'left',
+                    'color': 'red'
+                });
+            }
+        }
+        return this;
+    },
+    
+    set_visible: function(v) {
+        this.resultHTML.visible = v;
+        this.username.visible = v;
+        this.password.visible = v;
         this.email.visible = v;
-    }
+    },
     
 });
 Crafty.c("SwitchToRegisterButton", {
@@ -369,7 +476,21 @@ Crafty.c("SwitchToRegisterButton", {
 
     },
     switchForm: function(){
-        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!")
+        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!");
+        $MEW.Interface.destroy();
+        $MEW.Interface = $MEW.XMLParser.getInterface("RegisterForm");
+        $MEW.Interface.layout($MEW.Viewport);
+    }
+});
+Crafty.c("SwitchToLoginButton", {
+    init: function(){
+
+    },
+    switchForm: function(){
+        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!");
+        $MEW.Interface.destroy();
+        $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
+        $MEW.Interface.layout($MEW.Viewport);
     }
 });
 Crafty.c("MEWLoginWindow", {
@@ -406,14 +527,10 @@ Crafty.c("MEWLoginWindow", {
 });
 Crafty.scene("User", function() {
     
-    // lets make a scene upbject so we can store tings out of scope and always get them (sidesteping closure hell)
-    // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
-    $MEW.Scene = {};
-
-    //set the viewport
-    Crafty.viewport.x = 0;    
-    Crafty.viewport.y = 0;
-
+    $MEW.ResetScene()
+    $MEW.ResetNetwork()
+    
+    
     function viewTest() {
         console.log("Calling Test Scene");
         Crafty.scene("Map");
@@ -424,15 +541,15 @@ Crafty.scene("User", function() {
 
      var XMLInterfaceSetup = function(){
       var onXMLReturn = function(data){
-            var XMLParser = new XMLInterfaceParser(data);
-            var XMLInterface = XMLParser.getInterface("LoginForm");
-            XMLInterface.layout($MEW.Viewport);
-            $("#_MEW_login_btn").click(function(e){
+            $MEW.XMLParser = new XMLInterfaceParser(data);
+            $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
+            $MEW.Interface.layout($MEW.Viewport);
+           /* $("#_MEW_login_btn").click(function(e){
                  var Obj = { username: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() };
                  $MEW.Network.pBind('UsersLogin', loginReturn);
                  $MEW.Network.pBind('UsersLoginError', loginReturnError);
                  $MEW.NEtwork.Send('UsersLogin', Obj);
-            });
+            });*/
         }
         var onXMLReturnError = function(err){
             console.log(err);

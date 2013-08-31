@@ -7,9 +7,15 @@
 
 //$MEW.LoadResources(callback);
 
+$MEW.ResetNetwork = function() {
+    // recreat the network object
+    $MEW.Network = Crafty.e('Network').setName('Network')
+}
+
+
 $MEW.LOADINGFUNCTIONS.PostLoadCallBack = function () { 
     setTimeout(function () {
-        $MEW.Network = Crafty.e('Network').setName('Network')
+        $MEW.ResetNetwork()
         $MEW.LoadResources($MEW.LOADINGFUNCTIONS.updateProgress);
     }, 10); 
 };

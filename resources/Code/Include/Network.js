@@ -1,19 +1,23 @@
 /*global $MEW, Crafty*/
-$MEW.Routes = {
-    "UsersLogin":           ['API',       'POST',   '/api/users/login',         'JSON'],
-    "UsersRegister":        ['API',       'POST',   '/api/users/register',               'JSON'],
-    "UsersCheckLogin":      ['API',       'POST',   '/api/users/checkLogin',         'JSON'],
-    "MapsGetChunks":        ['API',       'POST',   '/api/get_map_chunks',      'JSON'],
-    "GetGameByID":          ['API',       'POST',   '/api/get_game_by_id',      'JSON'],
-    "GetResourceXML":       ['RESOURCE',  'GET',    '/XML/file/Resources.xml',  'XML' ],
-    "GetResourceXMLDate":   ['RESOURCE',  'GET',    '/XML/date/Resources.xml',  'JSON'],
-    "GetSceneUserXML":      ['RESOURCE',  'GET',    '/XML/file/SceneUser.xml',  'XML' ]
-};
+$MEW.Routes = {}
+$MEW.AddRoute = function(name, headers) {
+  $MEW.Routes[name] = headers
+}
+
+
+// These eventualy need to be moved to their apropreate network controller
+$MEW.AddRoute("UsersLogin",      ['API', 'POST', '/api/users/login',      'JSON'])   
+$MEW.AddRoute("UsersRegister",   ['API', 'POST', '/api/users/register',   'JSON'])    
+$MEW.AddRoute("UsersCheckLogin", ['API', 'POST', '/api/users/checkLogin', 'JSON'])    
+$MEW.AddRoute("MapsGetChunks",   ['API', 'POST', '/api/get_map_chunks',   'JSON'])      
+$MEW.AddRoute("GetGameByID",     ['API', 'POST', '/api/get_game_by_id',   'JSON'])         
+     
+
 
 Crafty.c("Network", {
 
     init: function () {
-        this.requires('Persist')
+        this.requires('')
     },
     
     GetHeaders: function(type) {

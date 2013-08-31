@@ -41,7 +41,7 @@ function UserController(){
             returnObj.confirmTokenSuccess = true;
             returnObj.username = req.body.username;
             returnObj.email = req.body.email;
-            
+            try{
                 var UserModel = global.db.User.build({
                   username: req.body.username,
                   password: hash,
@@ -58,7 +58,12 @@ function UserController(){
                     returnObj.success = false;
                     res.json(returnObj);
                 });
-                
+            }catch(err){
+              returnObj.err = err;
+              returnObj.userCreateSuccess = false;
+              returnObj.success = false;
+              res.json(returnObj);
+            }
                 
             
         });

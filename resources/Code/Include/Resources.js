@@ -5,6 +5,11 @@ $MEW.ResourceRetryCounter = 0;
 Crafty.c("NetworkResourceAccessor", {
     init: function() {
         this.requires("Network");
+        
+        //Add Routes
+        $MEW.AddRoute("GetResourceXML",     ['RESOURCE', 'GET',  '/XML/file/Resources.xml', 'XML' ])     
+        $MEW.AddRoute("GetResourceXMLDate", ['RESOURCE', 'GET',  '/XML/date/Resources.xml', 'JSON'])    
+        $MEW.AddRoute("GetSceneUserXML",    ['RESOURCE', 'GET',  '/XML/file/SceneUser.xml', 'XML' ])
     },
 
     GetResourceXML: function() {

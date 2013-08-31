@@ -67,9 +67,11 @@ Crafty.c("LobbyBar", {
 );
 
 Crafty.scene("Lobby", function() {
-	console.log("Lobby scene Loaded");
+	  console.log("Lobby scene Loaded");
+    $MEW.ResetScene()
+    $MEW.ResetNetwork()
 	
-	$MEW.Lobby.rooms.push(Crafty.e("LobbyBar").makeBar(0, 0, function(bar){
+	  $MEW.Lobby.rooms.push(Crafty.e("LobbyBar").makeBar(0, 0, function(bar){
         console.log("Joined " + bar.host.text + " in " + bar.room.text);}));
 }
 );

@@ -133,6 +133,7 @@ var $XMLInterfaceNodeDelayParsers = {
                 break;
 
                 default:
+                    if(cnode.nodeName.toLowerCase() !== "#text")
                     console.log(cnode.nodeName.toLowerCase() + " is not implemented, so we are doing nothing with it.");
                 break;
             }

@@ -33,6 +33,11 @@ $MEW.scripts = [
     ];
 **/
 
+
+/* *********************************************************************
+ *  LOADING FUNCTIONS
+ * *********************************************************************/
+
 $MEW.LOADINGFUNCTIONS = {};
 
 $MEW.CurrentLoadingScript = 0;
@@ -99,7 +104,75 @@ $MEW.LOADINGFUNCTIONS.loadScripts = function( ) {
     $MEW.LOADINGFUNCTIONS.getNextScriptAJAX( $MEW.CurrentLoadingScript );
 };
 
+
+
+/* *********************************************************************
+ *  SCENE FUNCTIONS
+ * *********************************************************************/
+
+
+$MEW.ResetScene = function() {
+
+    //set the viewport
+    Crafty.viewport.x = 0;    
+    Crafty.viewport.y = 0;
+
+
+    // lets make a componant that will mark the viewport so we can attach other components to it and not worry about maintaing their positions
+    $MEW.Viewport = Crafty.e( "Viewport" ).setName('Viewport')
+
+    // lets make a scene object so we can store things out of scope and always get them (sidesteping closure hell)
+    // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
+    $MEW.Scene = {};
+}
+
+
+
+/* *********************************************************************
+ *  Crafty Basics
+ * *********************************************************************/
+
+/* *********************************************************************
+ *  Viewport
+ *  - Ataches itself to the craft viewport and acts as an ancore
+ *    should be remade with each new scene
+ * *********************************************************************/
+Crafty.c( "Viewport", {
+    init: function( ) {
+
+        this.requires( "2D" );
+
+        this.attr( {
+            x: Crafty.viewport.x,
+            y: Crafty.viewport.y
+        } );
+
+        this.bind( "EnterFrame", function( ) {
+            this.attr( {
+                x: Crafty.viewport.x,
+                y: Crafty.viewport.y
+            } );
+        } );
+    },
+
+    bindTo: function( ent, x, y ) {
+
+        ent.attr( {
+            x: this.x + x,
+            y: this.y + y
+        } );
+        this.attach( ent );
+        return this;
+    }
+} );
+
+
 // Some tools for displaying the loading scene
+
+/* *********************************************************************
+ *  Dynamic Sprite
+ *  - Used to maintain a sprite drawn form a hidden canvas
+ * *********************************************************************/
 Crafty.c( "DynamicSprite", {
     __tile: 0,
     __tileh: 0,
@@ -156,6 +229,11 @@ Crafty.c( "DynamicSprite", {
     }
 } );
 
+/* *********************************************************************
+ *  Loading Bar
+ *  - Uses a Dynamic Sprite to  diplay a progress bar drawn from an 
+ *    empty and full bar image
+ * *********************************************************************/
 Crafty.c( "LoadingBar", {
     init: function( ) {
         this.requires( "2D, Canvas, DynamicSprite" );
@@ -192,6 +270,10 @@ Crafty.c( "LoadingBar", {
     }
 } );
 
+/* *********************************************************************
+ *  Loading Bar
+ *  - Uses a Dynamic Sprite to draw shadowed text
+ * *********************************************************************/
 Crafty.c( "ShadowTextCanvas", {
     _text: "",
     _textFont: {
@@ -327,34 +409,10 @@ Crafty.c( "ShadowTextCanvas", {
     }
 } );
 
-Crafty.c( "Viewport", {
-    init: function( ) {
-
-        this.requires( "2D, Persist" );
-
-        this.attr( {
-            x: Crafty.viewport.x,
-            y: Crafty.viewport.y
-        } );
-
-        this.bind( "EnterFrame", function( ) {
-            this.attr( {
-                x: Crafty.viewport.x,
-                y: Crafty.viewport.y
-            } );
-        } );
-    },
-
-    bindTo: function( ent, x, y ) {
-
-        ent.attr( {
-            x: this.x + x,
-            y: this.y + y
-        } );
-        this.attach( ent );
-        return this;
-    }
-} );
+/* *********************************************************************
+ *  Circle Sprite
+ *  - A simple circle drawn on a canvas
+ * *********************************************************************/
 
 Crafty.c( "CircleSprite", {
     init: function( ) {
@@ -390,6 +448,12 @@ Crafty.c( "CircleSprite", {
     }
 } );
 
+
+/* *********************************************************************
+ *  Loading Dots
+ *  - A series of dots that fade in and out to indicate progress is 
+ *    being made, with no indication of % compleation
+ * *********************************************************************/
 Crafty.c( "LoadingDots", {
 
     init: function( ) {
@@ -483,14 +547,15 @@ Crafty.c( "LoadingDots", {
 
 } );
 
+
+
+/* *********************************************************************
+ *  Loading Scene
+ *  - The loading scene, loads game code, images, ect.
+ * *********************************************************************/
 Crafty.scene( "Load", function( ) {
 
-    // lets make a permate componant that will mark the viewport so we can attach other components to it and not worry about maintaing their positions
-    $MEW.Viewport = Crafty.e( "Viewport" ).setName('Network')
-
-    // lets make a scene upbject so we can store tings out of scope and always get them (sidesteping closure hell)
-    // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
-    $MEW.Scene = {};
+   
 
     var h = 16,
         w = 160,

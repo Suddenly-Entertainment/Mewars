@@ -122,25 +122,23 @@ $MEW.Chat = {
 };
 
 
-Crafty.scene("Chat", 
-function() {
+Crafty.scene("Chat", function() {
+
+    $MEW.ResetScene()
+    $MEW.ResetNetwork()
     
     console.log("Loaded Chat Scene");
     
     // Make the network interface for this scene
-    $MEW.Network = Crafty.e("NetworkChat");
+    $MEW.Network.requires("NetworkChat");
      
     // set up the Chat interface
-	$MEW.Chat.id = 1;
-	$MEW.Chat.lastid = 0;
-	$MEW.Chat.melemid = null;
+	  $MEW.Chat.id = 1;
+	  $MEW.Chat.lastid = 0;
+	  $MEW.Chat.melemid = null;
 	
-	// bind the interface to the network
-	$MEW.Chat.bind();
-	
-	// reset the viewport
-    Crafty.viewport.x = 0;    
-    Crafty.viewport.y = 0;
+	  // bind the interface to the network
+    $MEW.Chat.bind();
 
     // build the chat box
     var chat_html = '' /
