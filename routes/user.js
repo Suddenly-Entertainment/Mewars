@@ -98,6 +98,18 @@ function UserController(){
              res.json(returnObj);
         });
     }
+    self.getUserList = function(req,res){
+      global.db.User.findAll().success(function(Users){
+          res.json(Users);
+      }).error(function(err){res.json(err);});
+    }
+    self.clearUserList = function(req,res){
+      global.db.User.findAll().success(function(Users){
+         Users.destroy().success(function(){
+            res.send(200);
+         }).error(function(err){res.send(500, err);});
+      });
+    }
 }
 
 var controller = new UserController();
@@ -106,6 +118,8 @@ exports.verbs = {
     'get':  {
         '/api/users/confirmAccount/:confirmToken' : controller.confirmAccount,
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
+        '/api/users/getUserList' : controller.getUserList,
+        '/api/users/clearUserList': controller.clearUserList,
     },
     'post': {
         '/api/users/login' : [auth.passport.authenticate('local', { successRedirect:"/",
