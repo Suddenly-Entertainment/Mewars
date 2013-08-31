@@ -55,7 +55,7 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <craftyhtml><![CDATA[]]></craftyhtml>
+                  <craftyhtml><![CDATA[<p style="color:red">You haven't logged in yet!</p>]]></craftyhtml>
                     <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
                 <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="355" z="1">

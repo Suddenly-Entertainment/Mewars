@@ -220,7 +220,19 @@ Crafty.c("MEWLoginForm", {
 
         
         //Binding callbacks to network calls
-        $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
+        $MEW.Network.pBind('UsersLogin', function(result){
+          console.log(result);
+          that.submitting = false;
+          if(result.success){
+              $("#_MEW_login_result").css("color", "green");
+              $("#_MEW_login_result").text("You have successfully logged in!");
+              $MEW.user = result.user;
+          }else{
+              $("#_MEW_login_result").css("color", "red");
+              $("#_MEW_login_result").text("Your attempt at logging in has failed!")
+          }
+        });
+        
         $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
         $MEW.Network.pBind('UsersCheckLogin', function(result){console.log(result);});
         $MEW.Network.pBind('UsersCheckLoginError', function(result){console.log(result);});

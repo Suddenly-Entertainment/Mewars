@@ -8,7 +8,14 @@ function UserController(){
     
 
     self.login = function (req, res){
-        res.json(req.user);
+        var returnObj = {};
+        if(req.user){
+           returnObj.success = true;
+           returnObj.user = req.user;
+        }else{
+           returnObj.success = false; 
+        }
+        res.json(returnObj);
     };
     
 
@@ -120,8 +127,9 @@ exports.verbs = {
         '/api/users/clearUserList': controller.clearUserList,
     },
     'post': {
-        '/api/users/login' : [auth.passport.authenticate('local', { successRedirect:"/",
-                                   faiureRedirect:"/" }),controller.login],
+        '/api/users/login' : [auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'
+                                   })],
+        '/api/users/loginCheck': controller.login,
         '/api/users/register' : controller.register,
         '/api/users/checkLogin': controller.checkLogin
     }
