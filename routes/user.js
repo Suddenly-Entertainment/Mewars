@@ -108,6 +108,7 @@ function UserController(){
        }
        res.json(successArr);
       });
+  }
 }
 
 var controller = new UserController();
