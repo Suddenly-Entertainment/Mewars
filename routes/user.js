@@ -32,15 +32,20 @@ function UserController(){
                 while(auth.checkConfirmToken(confirmToken)){
                     confirmToken = auth.generateConfirmToken();
                 }
-           
+            var resetPasswordToken = auth.generateConfirmToken();
+
+            while(auth.checkResetToken(resetPasswordToken)){
+              resetPasswordToken = auth.generateConfirmToken();
+            }
+
             returnObj.confirmTokenSuccess = true;
             returnObj.username = req.body.username;
             returnObj.email = req.body.email;
-            try{
                 var UserModel = global.db.User.build({
                   username: req.body.username,
                   password: hash,
                   email: req.body.email,
+                  reset_password_token: resetPasswordToken,
                   confirmation_token: confirmToken,
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
@@ -52,12 +57,6 @@ function UserController(){
                     returnObj.success = false;
                     res.json(returnObj);
                 });
-            }catch(err){
-              returnObj.err = err;
-              returnObj.userCreateSuccess = false;
-              returnObj.success = false;
-              res.json(returnObj);
-            }
                 
             
         });
