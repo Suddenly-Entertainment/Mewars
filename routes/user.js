@@ -26,16 +26,16 @@ function UserController(){
             } 
             returnObj.saltSuccess = true;
             
-            var confirmToken = auth.generateConfirmToken();
+            var confirmToken = auth.generateConfirmToken(32);
 
                 
                 while(auth.checkConfirmToken(confirmToken)){
-                    confirmToken = auth.generateConfirmToken();
+                    confirmToken = auth.generateConfirmToken(32);
                 }
-            var resetPasswordToken = auth.generateConfirmToken();
+            var resetPasswordToken = auth.generateConfirmToken(32);
 
             while(auth.checkResetToken(resetPasswordToken)){
-              resetPasswordToken = auth.generateConfirmToken();
+              resetPasswordToken = auth.generateConfirmToken(32);
             }
 
             returnObj.confirmTokenSuccess = true;

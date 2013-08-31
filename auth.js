@@ -100,9 +100,15 @@ var auth = {
       });
     },
     
-    generateConfirmToken : function(){
-        var now = new Date();
-        return Math.floor(Math.random() * 10) + parseInt(now.getTime()).toString(36).toUpperCase();
+    generateConfirmToken : function(length){
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for( var i=0; i < length; i++ )
+       {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return text;
+
     },
     
     generateSaltAndHash: function(length, password, cb){
