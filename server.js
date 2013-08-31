@@ -63,18 +63,6 @@ var MewApp = function() {
 
     self.configServer = function() {
 
-<<<<<<< HEAD
-      self.app.configure('development', function(){
-        self.app.use(express.compress());
-        self.app.use(express.static(__dirname + '/public'));
-        self.app.use(express.logger());
-      });
-
-      self.app.configure('production', function(){
-        self.app.use(express.compress());
-        self.app.use(express.static(__dirname + '/public'));
-        //self.app.use(express.logger());
-=======
       self.app.configure('development', function(){
         self.app.use(express.compress());
         self.app.use(express.static(__dirname + '/public'));
@@ -97,7 +85,6 @@ var MewApp = function() {
         self.app.use(passport.session());
         self.app.use(self.app.router);
 
->>>>>>> 3cd3b9b5cf1dd02790db204552103d9776f72293
       });
           
       self.socket.configure('production', function(){
