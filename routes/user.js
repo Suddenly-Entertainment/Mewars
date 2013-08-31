@@ -69,7 +69,6 @@ function UserController(){
         if(returnRes == true){
             res.json(confirmToken);
         }else{
-            returnRes.success = false;
             res.json(returnRes);
         }
     }
