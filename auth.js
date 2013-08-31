@@ -58,7 +58,6 @@ var auth = {
     },
     
     sendConfirm : function(req, res, confirmToken, returnObj){
-      try{
       var link = CONFIG.hostname + "api/users/confirmAccount/"+confirmToken;
       
       
@@ -99,12 +98,6 @@ var auth = {
             res.json(returnObj2);
           }
       });
-      }catch(err){
-        returnObj.err = err;
-        returnObj.success = false;
-        returnObj.userModel = null;
-        res.json(returnObj);
-      }
     },
     
     generateConfirmToken : function(){
