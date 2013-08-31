@@ -125,10 +125,10 @@ exports.verbs = {
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
         '/api/users/getUserList' : controller.getUserList,
         '/api/users/clearUserList': controller.clearUserList,
+        '/apu/users/checkLogin': controller.login,
     },
     'post': {
         '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'}),
-        '/api/users/loginCheck': controller.login,
         '/api/users/register' : controller.register,
         '/api/users/checkLogin': controller.checkLogin
     }
