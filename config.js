@@ -1,3 +1,14 @@
+function makeSecret(length){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i=0; i < length; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
+global.MEWSESSIONSECRET = global.MEWSESSIONSECRET || makeSecret(32)
+
 var config = {
   hostname:       "http://mew-mew.rhcloud.com/",
   ip:             process.env.OPENSHIFT_NODEJS_IP || process.env.VCAP_APP_HOST || 'localhost',
@@ -11,6 +22,7 @@ var config = {
   db_logging:     console.log, // remember to turn this off in production mode
   database_auto_migrate:   true,
   database_sync_on_start:  true, // creates tables if they do not exist, if assoceations change we'll need to go in and force this  (WARNING FORCING WILL DROP TABLES AND LOSE ALL DATA)
+  secret: global.MEWSESSIONSECRET
 };
 
 module.exports = config;

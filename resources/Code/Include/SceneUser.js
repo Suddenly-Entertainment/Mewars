@@ -107,11 +107,9 @@ Crafty.c("MEWLoginForm", {
         this.attr({x: x, y: y, z: z, w: w, h: h});
         
         this.submitting = false;
-        //Username Box
-        this.username = Crafty.e("2D, HTML_INPUT")
-            .attr({x: x, y: y, z: z, w: w, h: 20})
-            .css({background: "#3d3c3c"});
-            
+
+        
+        var that = this;
         function onBlurDefaultTextReplace(text) {
             return function () {
                 if ( $(this).val() === '' ) {
@@ -124,7 +122,7 @@ Crafty.c("MEWLoginForm", {
         
         function onFocusDefaultTextReplace(text) {
             return function () {
-                $(this).css('color','#FFF'); 
+                $(this).css('color','#999'); 
                 if ($(this).val() === text ) { 
                     $(this).val('');
                 }
@@ -132,68 +130,137 @@ Crafty.c("MEWLoginForm", {
             };
         }
         
-        var userHTMLText = '<input id="_MEW_login_username" type="text" class="input_text" value="username" />';
+        this.switchReg = function switchReg(){
+            if(that.isLogin){
+               that.isLogin = false;
+               that.set_visible_email(true);
+            }else{
+               that.isLogin = true;
+               that.set_visible_email(false);
+            }
+        }
+        if($MEW.isXMLInterface == false){
+            //Username Box            
+            this.username = Crafty.e("2D, HTML_INPUT")
+            .attr({x: x, y: y, z: z, w: w, h: 20})
+            .css({background: "#3d3c3c"});
+
+            var userHTMLText = '<input id="_MEW_login_username" type="text" class="input_text" value="username" />';
+
+            this.username.replace(userHTMLText);
+            $("#_MEW_login_username").css({
+                background: 'rgba(0, 0, 0, 0.0)', 
+                color: 'rgb(196, 183, 135)',
+                border: 'none',
+                outline: 'none',
+                'font-family': 'Arial',
+                'font-weight': 'bold'
+            });
+
+            //Password box
+            this.password = Crafty.e("2D, HTML_INPUT")
+                .attr({x: x, y: y + 24, z: z, w: w, h: 20})
+                .css({background: "#3d3c3c"});
+                
+            var passHTMLText = ' <input id="_MEW_login_password" type="password" class="input_password" value="password"  /> ';
+            
+            this.password.replace(passHTMLText).css({
+                background: 'rgba(0, 0, 0, 0.0)',
+                color: 'rgb(196, 183, 135)',
+                border: 'none',
+                outline: 'none',
+                'font-family': 'Arial',
+                'font-weight': 'bold',
+            });
+
+            //Email box (for registration)
+            this.email = Crafty.e("2D, HTML_INPUT")
+                .attr({x: x, y: y + 48, z: z, w: w, h: 20})
+                .css({background: "#3d3c3c"});
+                
+            var emailHTMLText = ' <input id="_MEW_login_email" type="text" class="input_email" value="email@email.com"  /> ';
+            
+            this.email.replace(emailHTMLText).css({
+                background: 'rgba(0, 0, 0, 0.0)',
+                color: 'rgb(196, 183, 135)',
+                border: 'none',
+                outline: 'none',
+                'font-family': 'Arial',
+                'font-weight': 'bold',
+            });
+
+            this.email.visible = false;
+            //Switch Forms button
+            this.switchForms = Crafty.e("2D, Canvas, Color, Mouse")
+            .attr({
+                x : x,
+                y : y + 72,
+                w : w,
+                h : 20,
+                z : this.z + 1
+            }).color("#00000")
+            .bind("Click", switchReg);
+
+            //Result HTML
+            this.resultHTML = Crafty.e("2D, HTML")
+                .attr({x: x, y: y + 96, z: z, w: w, h: 20})
+                .replace("")
+                .css({
+                    'align': 'left',
+                    'float': 'left',
+                    'color': 'white'
+                });
+            
+            // bind to wrapper to maintian relative positions
+            this.bindTo(this.username, 0, 0);
+            this.bindTo(this.password, 0, 24);
+            this.bindTo(this.email, 0, 48)
+            this.bindTo(this.switchForms, 0, 72);
+            this.bindTo(this.resultHTML, 0, 96);
+
+        }
                          
-        this.username.replace(userHTMLText);
-        $("#_MEW_login_username").css({
-            background: 'rgba(0, 0, 0, 0.0)', 
-            color: 'rgb(196, 183, 135)',
-            border: 'none',
-            outline: 'none',
-            'font-family': 'Arial',
-            'font-weight': 'bold'
-        });
-        
+        //Blur and focus effects on boxes
         $("#_MEW_login_username").blur(onBlurDefaultTextReplace('Username or Email'));
         $("#_MEW_login_username").focus(onFocusDefaultTextReplace('Username or Email'));
-        
-        //Password box
-        this.password = Crafty.e("2D, HTML_INPUT")
-            .attr({x: x, y: y + 24, z: z, w: w, h: 20})
-            .css({background: "#3d3c3c"});
-            
-        var passHTMLText = ' <input id="_MEW_login_password" type="password" class="input_password" value="password"  /> ';
-        
-        this.password.replace(passHTMLText).css({
-            background: 'rgba(0, 0, 0, 0.0)',
-            color: 'rgb(196, 183, 135)',
-            border: 'none',
-            outline: 'none',
-            'font-family': 'Arial',
-            'font-weight': 'bold',
-        });
         
         $("#_MEW_login_password").blur(onBlurDefaultTextReplace('password'));
         $("#_MEW_login_password").focus(onFocusDefaultTextReplace('password'));
         
-        //Result HTML
-        this.resultHTML = Crafty.e("2D, HTML")
-            .attr({x: x, y: y + 48, z: z, w: w, h: 20})
-            .replace("")
-            .css({
-                'align': 'left',
-                'float': 'left',
-                'color': 'white'
-            });
+        $("#_MEW_login_email").blur(onBlurDefaultTextReplace('email@email.com'));
+        $("#_MEW_login_email").focus(onFocusDefaultTextReplace('email@email.com'));
+
+
+        this.isLogin = true;
         
-        // bind to wrapper to maintian relative positions
-        this.bindTo(this.username, 0, 0);
-        this.bindTo(this.password, 0, 24);
-        this.bindTo(this.resultHTML, 0, 48);
-        
-        var that = this;
+        //Binding callbacks to network calls
+        $MEW.Network.pBind('UsersLogin', function(result){console.log(result);that.submitting = false;});
+        $MEW.Network.pBind('UsersLoginError', function(result, result2, result3){console.log(result,result2,result3);that.submitting = false;});
+        $MEW.Network.pBind('UsersCheckLogin', function(result){console.log(result);});
+        $MEW.Network.pBind('UsersCheckLoginError', function(result){console.log(result);});
+        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});
+        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});   
         //bind events
 
         this.bind('KeyDown', function (e) {
             var active = document.activeElement;
-            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password") && this.isDown('ENTER')){
+            if ((active.id === "_MEW_login_username" || active.id === "_MEW_login_password" || active.id ==="_MEW_login_email") && this.isDown('ENTER')){
                 that.submit();
             }
+            if(that.isLogin){
             if ((active.id === "_MEW_login_password") && this.isDown('TAB')){
                 // prevent it from tabing to the rest of the page
                 e.stopPropagation();
                 if(e.preventDefault) e.preventDefault();
                 else e.returnValue = false;
+            }
+            }else{
+                if ((active.id === "_MEW_login_email") && this.isDown('TAB')){
+                // prevent it from tabing to the rest of the page
+                    e.stopPropagation();
+                    if(e.preventDefault) e.preventDefault();
+                    else e.returnValue = false;
+                }
             }
         });
         
@@ -202,7 +269,7 @@ Crafty.c("MEWLoginForm", {
         
         
         return this;
-    },
+    }, 
     
     //bind component relative positions
     bindTo: function(ent, x, y) {
@@ -218,13 +285,40 @@ Crafty.c("MEWLoginForm", {
         //collect values via JQuery with IDs
         var username = $("#_MEW_login_username").val(),
             password = $("#_MEW_login_password").val(),
+            email = $("#_MEW_login_email").val(),
             that = this;
         //only one submit request at a time to prevent spam protention from kicking us out
         if (!this.submitting) {
+          if(this.isLogin){
             //send network request
-            $MEW.User.Login(username, password, function (result) {that.processResult(result);});
-            this.submitting = true;
+              var obj = {
+                  username : username,
+                  password : password
+              }
+              //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
+  
+              $MEW.Network.Send('UsersLogin', obj);
+              
+  
+              $MEW.Network.Send('UsersCheckLogin');
+              this.submitting = true;
+            }else{
+                          //send network request
+              var obj = {
+                  username : username,
+                  password : password
+,
+                  email : email,
+              }
+              //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
+  
+              $MEW.Network.Send('UsersRegister', obj);
+              this.submitting = true;
+
+            }
         }
+        
+        return this;
         
         return this;
     },
@@ -263,10 +357,21 @@ Crafty.c("MEWLoginForm", {
         this.resultHTML.visible = v;
         this.username.visible = v;
         this.password.visible = v;
+    },
+    
+    set_visible_email: function(v){
+        this.email.visible = v;
     }
     
 });
+Crafty.c("SwitchToRegisterButton", {
+    init: function(){
 
+    },
+    switchForm: function(){
+        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!")
+    }
+});
 Crafty.c("MEWLoginWindow", {
     init: function () {
         this.requires("Window");
@@ -299,19 +404,31 @@ Crafty.c("MEWLoginWindow", {
     }
     
 });
-
 Crafty.scene("User", function() {
     
     // lets make a scene upbject so we can store tings out of scope and always get them (sidesteping closure hell)
     // we recreate this in every scene to remove refrences and clear the name space the old scene should be compleatly garbage collected
     $MEW.Scene = {};
+
+    //set the viewport
+    Crafty.viewport.x = 0;    
+    Crafty.viewport.y = 0;
+
+    function viewTest() {
+        console.log("Calling Test Scene");
+        Crafty.scene("Map");
+    }
+            
+
+    
+
      var XMLInterfaceSetup = function(){
       var onXMLReturn = function(data){
             var XMLParser = new XMLInterfaceParser(data);
             var XMLInterface = XMLParser.getInterface("LoginForm");
             XMLInterface.layout($MEW.Viewport);
             $("#_MEW_login_btn").click(function(e){
-                 var Obj = { user_login: { login: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() } };
+                 var Obj = { username: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() };
                  $MEW.Network.pBind('UsersLogin', loginReturn);
                  $MEW.Network.pBind('UsersLoginError', loginReturnError);
                  $MEW.NEtwork.Send('UsersLogin', Obj);
@@ -332,18 +449,52 @@ Crafty.scene("User", function() {
         $MEW.Network.pBind('GetSceneUserXMLError', onXMLReturnError);
         $MEW.Network.Send('GetSceneUserXML');
     }
-    if (confirm('Do you want to try out the XML interface?')) {
-        XMLInterfaceSetup();
-        return;
-    }
-    $MEW.DefaultWindowSkin = "default"
-    $MEW.WindowSkins.default = Crafty.e("WindowSkin").WindowSkin(0, 800, 0, 600, 800, 600, "http://mew-mew.rhcloud.com/resource/image/2/loadinggraphic_background.png"); //Just a quick fix, will only work on the openshift server.
+    //if (confirm('Do you want to try out the XML interface?')) {
+        $MEW.isXMLInterface = true;
+
+        $MEW.Scene.testButton = Crafty.e("Window, Mouse, 2D, Color, Canvas")
+            .Window(($MEW.WIDTH - 500) / 2, ($MEW.HEIGHT - 250) / 2 + 250 / 4, 100, 100, 40)
+            .setName("TestsButton").color("#000000")
+            .bind("Click", viewTest);
+        
+        $MEW.Scene.testButtonText = Crafty.e("2D, Canvas, Text, Mouse")
+            .textFont({ family: 'sans-serif', size: '16px' })
+            .textColor('#FFFFFF', 1.0)
+            .text("View Tests")  
+            .attr({z:110, w: 100, h: 20})
+            .bind("Click", viewTest);
+                
+            
+        $MEW.Viewport.bindTo($MEW.Scene.testButton, $MEW.WIDTH - 140, $MEW.HEIGHT - 85);
+        $MEW.Viewport.bindTo($MEW.Scene.testButtonText, $MEW.WIDTH - 140 + 5, $MEW.HEIGHT - 85 + 5);
+
+        $MEW.Scene.background_old = Crafty.e("2D, Canvas, LoadingBackgroundGraphic, Tween")
+            .attr({x:0, y:0, z:10, alpha: 1.0,})
+            .tween({alpha: 0.0}, 100);
+                
+        $MEW.Scene.background = Crafty.e("2D, Canvas, LoginScreenBackground, Tween")
+            .attr({x:0, y:0, z:10, alpha: 0.0,})
+            .tween({alpha: 1.0}, 50)
+            .bind("TweenEnd", XMLInterfaceSetup);
+
+        $MEW.Scene.border = Crafty.e("2D, Canvas, BorderGraphic").attr({x:0, y:0, z:10, alpha: 1.0,});
+
+        $MEW.Viewport.bindTo($MEW.Scene.background_old, 0, 0);
+        $MEW.Viewport.bindTo($MEW.Scene.background, 0, 0);
+        $MEW.Viewport.bindTo($MEW.Scene.border, 0, 0);
+        //XMLInterfaceSetup();
+
+        $MEW.toggleScrolling(0);
+
         console.log("Loaded User Scene");
-        
-        //set the viewport
-        Crafty.viewport.x = 0;    
-        Crafty.viewport.y = 0;
-        
+
+        return;
+    //}
+
+    //This is here for reference of the old way we did the login form, pre-XML.  DO NOT REMOVE
+    /*$MEW.isXMLInterface = false;
+
+        console.log("Loaded User Scene");
         //create network object
         $MEW.Network = Crafty.e("NetworkUser")
         
@@ -353,10 +504,10 @@ Crafty.scene("User", function() {
                 w = 500,
                 x = ($MEW.WIDTH - w) / 2,
                 y = ($MEW.HEIGHT - h) / 2 + h / 4;
-            
+            console.log(x, y);
             // create the backgournd window
-            $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
             
+            $MEW.Scene.loginWindow = Crafty.e("MEWLoginWindow").MEWLoginWindow(x, y, w, h).setName("UserWelcomeWindow");
             $MEW.Viewport.bindTo($MEW.Scene.loginWindow, x, y);
             
             // login updating of the interface
@@ -401,9 +552,9 @@ Crafty.scene("User", function() {
                 Crafty.scene("Map");
             }
             
-            $MEW.Scene.testButton = Crafty.e("Window, Mouse")
+            $MEW.Scene.testButton = Crafty.e("Window, Mouse, 2D, Color, Canvas")
                 .Window(x, y, 100, 100, 40)
-                .setName("TestsButton")
+                .setName("TestsButton").color("#000000")
                 .bind("Click", viewTest);
             
             $MEW.Scene.testButtonText = Crafty.e("2D, Canvas, Text, Mouse")
@@ -437,7 +588,7 @@ Crafty.scene("User", function() {
         $MEW.Viewport.bindTo($MEW.Scene.background, 0, 0);
         $MEW.Viewport.bindTo($MEW.Scene.border, 0, 0);
         
-        $MEW.toggleScrolling(0);
+        $MEW.toggleScrolling(0);*/
         
    
 }, function () {

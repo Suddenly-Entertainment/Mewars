@@ -4,12 +4,13 @@ Crafty.c("NetworkChat", {
 	},
 	
 	SendChatMessage: function (chat_id, message) {
-		this.Send("ChatMessagesAdd", "ChatMessages", "add", 
+		/*this.Send("ChatMessagesAdd", "ChatMessages", "add", 
 			{
 	        	'pass' : [chat_id], 
 	            'post' : {body: message}, 
 			}
-		);
+		);*/
+    
 	},
 	
 	GetChatMessages: function (chat_id, last_id) {
@@ -123,6 +124,7 @@ $MEW.Chat = {
 
 Crafty.scene("Chat", 
 function() {
+    
     console.log("Loaded Chat Scene");
     
     // Make the network interface for this scene

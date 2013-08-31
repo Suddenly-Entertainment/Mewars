@@ -9,31 +9,31 @@ function clone(obj) {
  * Interface Parsing
  ******************************************************************/
  
- var DEPTH = 0;
+ var DEPTH = 0; //This is to stop infinite loops, or too much recursian
 
 var $XMLInterfaceAttrParsers = {
-    component: function (self, ent, attr, base){
+    component: function (self, ent, attr, base){ //This is for the component attributes, might look something like this component="2D, DOM, HTML"
         ent.requires(attr.nodeValue);
     },
-    name: function (self, ent, attr, base) {
+    name: function (self, ent, attr, base) { //The name of the node
         ent.setName(attr.nodeValue);
         self.name = attr.nodeValue;
     },
-    x: function (self, ent, attr, base) {
+    x: function (self, ent, attr, base) { //It's x position on the screen
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
         ent.x = val + base.basex || base.basex;
     },
-    y: function (self, ent, attr, base) {
+    y: function (self, ent, attr, base) { //IT's y position on the screen
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        ent.y = val + base.basey || base.basey;
+        ent.y = val + base.basey|| base.basey;
     },
-    z: function (self, ent, attr, base) {
+    z: function (self, ent, attr, base) { //At what depth this is at.
         var val = attr.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val); 
@@ -103,17 +103,72 @@ var $XMLInterfaceNodeDelayParsers = {
     },
     craftytext: function (self, ent, entities, node, base) {
         _(node.childNodes).each( function( cnode, index, nodes) {
-            if (cnode.nodeName.toLowerCase() === 'value') {
-                var text = cnode.childNodes[0].nodeValue;
-                ent.text(text);
-            } else if (cnode.nodeName.toLowerCase() === 'textcolor') {
-                var color = JSON.parse(cnode.childNodes[0].nodeValue);
-                ent.textColor(color[0], color[1]);
-            } else if (cnode.nodeName.toLowerCase() === 'textfont') {
-                var font = JSON.parse(cnode.childNodes[0].nodeValue);
-                ent.textFont(font);
+            switch(cnode.nodeName.toLowerCase()){
+                
+                case 'value':
+                    var text = cnode.childNodes[0].nodeValue;
+                    ent.text(text);
+                break;
+
+                case 'textcolor':
+                    var color;
+                    //If its CDATA we need to treat it differently
+                    if (cnode.childNodes[0].nodeType == 4) {
+                        color = JSON.parse(cnode.childNodes[0].data);
+                    }else{
+                        color = JSON.parse(cnode.childNodes[0].nodeValue);
+                    }
+                    ent.textColor(color["color"], color["opacity"]);
+                break;
+
+                case 'textfont':
+                    var font;
+                    //If its CDATA we need to treat it differently
+                    if (node.childNodes[0].nodeType == 4) {
+                        font = JSON.parse(cnode.childNodes[0].data);
+                    }else{
+                        font = JSON.parse(cnode.childNodes[0].nodeValue);
+                    }
+                    ent.textFont(font);
+                break;
+
+                default:
+                    console.log(cnode.nodeName.toLowerCase() + " is not implemented, so we are doing nothing with it.");
+                break;
+            }
+
+        });
+    },
+    craftycolor: function(self, ent, entities, node, base){
+
+        var val;
+        //If its CDATA we need to treat it differently
+        if (node.childNodes[0].nodeType == 4) {
+            val = node.childNodes[0].data;
+        }else{
+            val = node.childNodes[0].nodeValue;
+        }
+        console.log(val);
+        ent.color(val);
+
+    },
+    craftybind: function(self, ent, entities, node, base){
+        var eventName;
+        var cb;
+        _(node.childNodes).each( function( cnode, index, nodes) {
+            var nodeName = cnode.nodeName.toLowerCase();
+            if(nodeName == "eventname"){
+                eventName = cnode.childNodes[0].nodeValue;
+            }else if(nodeName == "callback"){
+                if (cnode.childNodes[0].nodeType == 4) {
+                    cb = ent[cnode.childNodes[0].data];
+                } else {
+                    cb = ent[cnode.childNodes[0].nodeValue];
+                }
             }
         });
+
+        ent.bind(eventName, cb);
     }
 };
 
@@ -288,14 +343,16 @@ function XMLEntityNode (xml) {
     this.pright    = 0;
     this.align     = '';
     this.expand    = true;
+    var that = this;
     _(xml.attributes).each( function( atter, index, attributes ) {
         var val = atter.nodeValue;
         if(!isNaN(val)) {
             val = parseFloat(val);
         }
-        this[atter.nodeName.toLowerCase()] = val;
+        that[atter.nodeName.toLowerCase()] = val;
     });
     this.passAttrs = function (ent) {
+
         var self = this
         ent.attr({
             name: self.name,
@@ -338,7 +395,6 @@ function XMLInterfaceNode (xml) {
 
         // get child nodes and figure out how to parse them
         var base = {basex: basex, basey: basey, basez: basez, width: width, height: height}
-        var self = this
 
         _(self.children).each( function( node, index, children ) {
             if ($XMLInterfaceNodeParsers.hasOwnProperty(node.nodeName.toLowerCase())) {
@@ -394,16 +450,20 @@ function XMLInterface (xml) {
 
     self.layout = function (base) {
         var self = this
-        var basex = base.x,
-            basey = base.y,
+        var basex = base.x, //TODO: Find out why this comes in as undefined
+            basey = base.y, //TODO: Find out why even when Crafty.viewport. y doesn't equal 0 this still is 0
             width = base.w,
             height = base.h,
             basez = base.z;
 
-        var inter = new XMLInterfaceNode(self.xml)
-        inter.parseNode(basex, basey, basez, width, height, self)
-        self.entities.push(inter.ent)
-        base.attach(inter.ent)
+        var inter = new XMLInterfaceNode(self.xml);
+
+        inter.parseNode(basex, basey, basez, width, height, self);
+
+        self.entities.push(inter.ent);
+
+        base.attach(inter.entities[0]);
+
         _(self.entities).each(function(entity, index, entities) {
             entity.trigger('Change', true);
         });
