@@ -146,10 +146,10 @@
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
-                    <craftyhtml><![CDATA[]]></craftyhtml>
+                  <craftyhtml><![CDATA[<p style="color:red;" id="_MEW_login_result">You haven't logged in yet!</p>]]></craftyhtml>
                     <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
-                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="385" z="1">
+                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToLoginButton" x="350" y="385" z="1">
                     <attr>
                         <w>150</w>
                         <h>30</h>
