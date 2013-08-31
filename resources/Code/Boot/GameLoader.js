@@ -555,7 +555,7 @@ Crafty.c( "LoadingDots", {
  * *********************************************************************/
 Crafty.scene( "Load", function( ) {
 
-   
+   $MEW.ResetScene();
 
     var h = 16,
         w = 160,
