@@ -40,7 +40,7 @@ var CONFIG = require("./config");
 
 var auth = {
     passport: passport,
-    smptTransport: nodemailer.createTransport("SMTP",{
+    smtpTransport: nodemailer.createTransport("SMTP",{
          service: "Gmail",
          auth: {
            user: "contact@equestrianwars.com",
