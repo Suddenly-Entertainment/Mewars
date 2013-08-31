@@ -69,8 +69,9 @@ var MewApp = function() {
       });
 
       self.app.configure('production', function(){
+        self.app.use(express.compress());
         self.app.use(express.static(__dirname + '/public'));
-        self.app.use(express.logger());
+        //self.app.use(express.logger());
       });
           
       self.socket.configure('production', function(){
