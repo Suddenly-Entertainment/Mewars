@@ -95,7 +95,8 @@ var auth = {
             returnObj.userModel = null;
             returnObj.sendSuccess = true;
             returnObj.success = true;
-            res.json(returnObj);
+                        var returnObj2 = {success: true};
+            res.json(returnObj2);
           }
       });
       }catch(err){
