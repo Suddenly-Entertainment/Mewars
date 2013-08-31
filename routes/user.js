@@ -8,7 +8,7 @@ function UserController(){
     
 
     self.login = function (req, res){
-        res.send(200);
+        res.json(req.user);
     };
     
 
@@ -70,6 +70,7 @@ function UserController(){
         if(returnRes == true){
             res.json(confirmToken);
         }else{
+            returnRes.success = false;
             res.json(returnRes);
         }
     }
@@ -99,12 +100,15 @@ function UserController(){
       }).error(function(err){res.json(err);});
     }
     self.clearUserList = function(req,res){
+      var successArr = [];
       global.db.User.findAll().success(function(Users){
-         Users.destroy().success(function(){
-            res.send(200);
-         }).error(function(err){res.send(500, err);});
+        for(var i = 0; i < Users.length; i++){
+         Users[i].destroy().success(function(){
+            successArr.push(true);
+         }).error(function(err){successArr.push(true);});
+       }
+       res.json(successArr);
       });
-    }
 }
 
 var controller = new UserController();
