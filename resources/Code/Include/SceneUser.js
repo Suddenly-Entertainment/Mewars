@@ -601,7 +601,7 @@ Crafty.scene("User", function() {
             .attr({x:0, y:0, z:10, alpha: 1.0,})
             .tween({alpha: 0.0}, 100);
                 
-        $MEW.Scene.background = Crafty.e("2D, Canvas, LoginScreenBackground, Tween")
+        $MEW.Scene.background = Crafty.e("2D, Canvas, mew_login_screen_sprite, Tween")
             .attr({x:0, y:0, z:10, alpha: 0.0,})
             .tween({alpha: 1.0}, 50)
             .bind("TweenEnd", XMLInterfaceSetup);
