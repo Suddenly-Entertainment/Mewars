@@ -127,8 +127,7 @@ exports.verbs = {
         '/api/users/clearUserList': controller.clearUserList,
     },
     'post': {
-        '/api/users/login' : [auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'
-                                   })],
+        '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'}),
         '/api/users/loginCheck': controller.login,
         '/api/users/register' : controller.register,
         '/api/users/checkLogin': controller.checkLogin

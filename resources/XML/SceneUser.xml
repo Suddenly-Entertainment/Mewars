@@ -51,7 +51,7 @@
 
                 <e name="LoginResult" component="HTML" x="350" y="335" z="1">
                     <attr>
-                        <minwidth>50</minwidth>
+                        <minwidth>120</minwidth>
                         <minheight>20</minheight>
                         <z>1</z>
                     </attr>
