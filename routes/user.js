@@ -71,7 +71,7 @@ function UserController(){
     }
     
     self.confirmAccount = function(req, res){
-        var confirmToken = req.params.confirmToken;
+        var confirmToken = req.params.confirmtoken;
         if(auth.confirmAccount(confirmToken)){
             res.json(true);
         }else{
@@ -116,7 +116,7 @@ var controller = new UserController();
 
 exports.verbs = {
     'get':  {
-        '/api/users/confirmAccount/:confirmToken' : controller.confirmAccount,
+        '/api/users/confirmAccount/:confirmtoken' : controller.confirmAccount,
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
         '/api/users/getUserList' : controller.getUserList,
         '/api/users/clearUserList': controller.clearUserList,
