@@ -519,7 +519,7 @@
   </resource>
   
   <resource file="mew_login_screen.png" filetype="interface" width="800" height="600">
-    <sprite name="mew_login_screen" url="%(url)s" mapx="0" mapy="0" mapw="800" maph="600" />
+    <sprite name="mew_login_screen_sprite" url="%(url)s" mapx="0" mapy="0" mapw="800" maph="600" />
   </resource>
   
 </resources>
