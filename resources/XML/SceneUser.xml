@@ -49,18 +49,17 @@
                 
     
 
-                <e name="LoginResult" component="HTML" x="350" y="335" z="1">
-                    <attr>
-                        <minwidth>120</minwidth>
-                        <w>120</w>
-                        <h>120</h>
-                        <minheight>20</minheight>
-                        <z>1</z>
-                    </attr>
-                  <craftyhtml><![CDATA[<p style="color:red" id="_MEW_login_result">You haven't logged in yet!</p>]]></craftyhtml>
-                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
+              <e name="LoginResult" component="DOM, Text, LoginResult" x="365" y="330" z="1">
+                <attr>
+                    <w>160</w>
+                    <h>40</h>
+                </attr>
+                    <craftytext>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "12px"}]]></textfont>
+                    </craftytext>
                 </e>
-                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="355" z="1">
+
+                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="385" z="101">
                     <attr>
                         <w>150</w>
                         <h>30</h>
@@ -73,7 +72,7 @@
                     </craftybind>
 
                 </e>
-                <e name="SwitchFormsButtonText" component="2D, Canvas, Text, Mouse, SwitchToRegisterButton" x="355" y="360" z="102">
+                <e name="SwitchFormsButtonText" component="2D, Canvas, Text, Mouse, SwitchToRegisterButton" x="355" y="390" z="102">
                     <attr>
                         <w>120</w>
                         <h>20</h>
@@ -142,16 +141,16 @@
                     <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
 
-                <e name="RegisterResult" component="HTML" x="350" y="365" z="1">
-                    <attr>
-                        <minwidth>50</minwidth>
-                        <minheight>20</minheight>
-                        <z>1</z>
-                    </attr>
-                  <craftyhtml><![CDATA[<p style="color:red;" id="_MEW_login_result">You haven't logged in yet!</p>]]></craftyhtml>
-                    <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
+              <e name="RegisterResult" component="DOM, Text, RegisterResult" x="365" y="365" z="101">
+                <attr>
+                    <w>160</w>
+                    <h>40</h>
+                </attr>
+                    <craftytext>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "12px"}]]></textfont>
+                    </craftytext>
                 </e>
-                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToLoginButton" x="350" y="385" z="1">
+                <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToLoginButton" x="350" y="395" z="101">
                     <attr>
                         <w>150</w>
                         <h>30</h>
@@ -164,7 +163,7 @@
                     </craftybind>
 
                 </e>
-                <e name="SwitchFormsButtonText" component="2D, Canvas, Text, Mouse, SwitchToLoginButton" x="355" y="390" z="102">
+                <e name="SwitchFormsButtonText" component="2D, Canvas, Text, Mouse, SwitchToLoginButton" x="355" y="400" z="102">
                     <attr>
                         <w>120</w>
                         <h>20</h>
@@ -183,7 +182,72 @@
 
         </e>
     </interface>
-    <inteface name="LoggedInForm">
-
-    </inteface>
+    <interface name="LoggedInForm">
+         <e name="MEWLoggedInFormInterface" component="MEWLoggedInForm" x="350" y="250" z="100">
+            <init><![CDATA[MEWLoggedInForm]]></init>
+            <e name="GreetingText" component="DOM, Text, LoggedInGreeting" x="365" y="235" z="1">
+                <attr>
+                    <w>120</w>
+                    <h>20</h>
+                </attr>
+                    <craftytext>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "12px"}]]></textfont>
+                    </craftytext>
+            </e>
+            <e name="ChessLobbyButton" component="2D, Canvas, Color, Mouse, GoToChessLobbyButton" x="350" y="275" z="101">
+                    <attr>
+                        <w>150</w>
+                        <h>30</h>
+                        <z>1</z>
+                    </attr>
+                    <craftycolor>#000000</craftycolor>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[GoToChessLobby]]></callback>
+                    </craftybind>
+            </e>
+            <e name="ChessLobbyButtonText" component="2D, Canvas, Text, Mouse, GoToChessLobbyButton" x="355" y="280" z="102">
+                    <attr>
+                        <w>120</w>
+                        <h>20</h>
+                    </attr>
+                    <craftytext>
+                        <value>Go to Chess Lobby</value>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "16px"}]]></textfont>
+                        <textcolor><![CDATA[{"color": "#FFFFFF", "opacity": 1}]]></textcolor>
+                    </craftytext>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[GoToChessLobby]]></callback>
+                    </craftybind>
+            </e>
+            <e name="LogOutButton" component="2D, Canvas, Color, Mouse, LogOutButton" x="350" y="315" z="101">
+                    <attr>
+                        <w>150</w>
+                        <h>30</h>
+                        <z>1</z>
+                    </attr>
+                    <craftycolor>#000000</craftycolor>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[LogOut]]></callback>
+                    </craftybind>
+            </e>
+            <e name="LogOutButtonText" component="2D, Canvas, Text, Mouse, LogOutButton" x="355" y="320" z="102">
+                    <attr>
+                        <w>120</w>
+                        <h>20</h>
+                    </attr>
+                    <craftytext>
+                        <value>Log out</value>
+                        <textfont><![CDATA[{"family": "sans-serif", "size": "16px"}]]></textfont>
+                        <textcolor><![CDATA[{"color": "#FFFFFF", "opacity": 1}]]></textcolor>
+                    </craftytext>
+                    <craftybind>
+                        <eventname>Click</eventname>
+                        <callback><![CDATA[LogOut]]></callback>
+                    </craftybind>
+            </e>
+         </e>
+    </interface>
 </interfaces>

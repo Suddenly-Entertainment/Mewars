@@ -10,7 +10,9 @@ $MEW.AddRoute("UsersLogin",      ['API', 'POST', '/api/users/login',      'JSON'
 $MEW.AddRoute("UsersRegister",   ['API', 'POST', '/api/users/register',   'JSON'])    
 $MEW.AddRoute("UsersCheckLogin", ['API', 'POST', '/api/users/checkLogin', 'JSON'])    
 $MEW.AddRoute("MapsGetChunks",   ['API', 'POST', '/api/get_map_chunks',   'JSON'])      
-$MEW.AddRoute("GetGameByID",     ['API', 'POST', '/api/get_game_by_id',   'JSON'])         
+$MEW.AddRoute("GetGameByID",     ['API', 'POST', '/api/get_game_by_id',   'JSON'])
+$MEW.AddRoute("UsersLoginCheck", ['API', 'GET', '/api/users/loginCheck',  'JSON']);
+$MEW.AddRoute("UsersLogOut", ['API', 'GET', '/api/users/logout', 'JSON']);         
      
 
 

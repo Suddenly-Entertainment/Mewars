@@ -223,13 +223,17 @@ Crafty.c("MEWLoginForm", {
         $MEW.Network.pBind('UsersLogin', function(result){
           console.log(result);
           that.submitting = false;
+          var LoginResult = Crafty('LoginResult');
           if(result.success){
-              $("#_MEW_login_result").css("color", "green");
-              $("#_MEW_login_result").text("You have successfully logged in!");
-              $MEW.user = result.user;
+                LoginResult.textColor('#00CC00', 1);
+                LoginResult.text('You have successfully logged in!');
+                $MEW.user = result.user;
+                $MEW.Interface.destroy();
+                $MEW.Interface = $MEW.XMLParser.getInterface("LoggedInForm");
+                $MEW.Interface.layout($MEW.Viewport);
           }else{
-              $("#_MEW_login_result").css("color", "red");
-              $("#_MEW_login_result").text("Your attempt at logging in has failed!")
+                LoginResult.textColor('#CC0000', 1);
+                LoginResult.text('Your attempt at logging in has failed.');
           }
         });
         
@@ -383,8 +387,19 @@ Crafty.c("MEWRegisterForm", {
         $("#_MEW_register_email").focus(onFocusDefaultTextReplace('email@email.com'));
         
         //Binding callbacks to network calls
-        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});
-        $MEW.Network.pBind('UsersRegister', function(result){console.log(result);that.submitting = false;});   
+        $MEW.Network.pBind('UsersRegister', function(result){
+            console.log(result);
+            var RegisterResult = Crafty("RegisterResult");
+            if(result.success){
+                RegisterResult.textColor('#00CC00', 1.0);
+                RegisterResult.text('A confirmation email has been sent.');
+            }else{
+                RegisterResult.textColor('#CC0000', 1.0);
+                RegisterResult.text('Failed to register.');
+            }
+            that.submitting = false;
+        });
+        $MEW.Network.pBind('UsersRegisterError', function(result){console.log(result);that.submitting = false;});   
         //bind events
 
         this.bind('KeyDown', function (e) {
@@ -429,7 +444,8 @@ Crafty.c("MEWRegisterForm", {
             //send network request
               var obj = {
                   username : username,
-                  password : password,
+                  password : password
+,
                   email: email
               }
               //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
@@ -483,23 +499,70 @@ Crafty.c("MEWRegisterForm", {
     },
     
 });
+Crafty.c("MEWLoggedInForm", {
+    init: function () {
+        this.requires("2D");
+    },
+    
+    MEWLoggedInForm: function(x, y, z, w, h) {
+        console.log("Logged in Form Loaded")
+        this.attr({x: x, y: y, z: z, w: w, h: h});
+        
+
+        
+        var that = this;
+        
+        //triger change and draw
+        this.trigger("Change");
+        
+        
+        return this;
+    }, 
+    
+});
+Crafty.c("LoggedInGreeting", {
+    init: function() {
+        this.requires("2D, Text");
+        this.text('Welcome, '+$MEW.user.username+".");
+    },
+
+});
+Crafty.c("GoToChessLobbyButton", {
+    init: function() {
+        this.requires("2D, Mouse");
+    },
+    GoToChessLobby: function(){
+        console.log("Calling ChessLobby Scene");
+        Crafty.scene("ChessLobby");
+    }
+});
+Crafty.c("LogOutButton", {
+    init: function() {
+        this.requires("2D, Mouse");
+    },
+    LogOut: function(){
+        $MEW.Network.Send("UsersLogOut");
+        $MEW.Interface.destroy();
+        $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
+        $MEW.Interface.layout($MEW.Viewport);
+    }
+});
 Crafty.c("SwitchToRegisterButton", {
     init: function(){
 
     },
     switchForm: function(){
-        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!");
         $MEW.Interface.destroy();
         $MEW.Interface = $MEW.XMLParser.getInterface("RegisterForm");
         $MEW.Interface.layout($MEW.Viewport);
     }
 });
+
 Crafty.c("SwitchToLoginButton", {
     init: function(){
 
     },
     switchForm: function(){
-        console.log("Clicked on the switchForm Button!  Sorry, this hasen't been implemented yet!");
         $MEW.Interface.destroy();
         $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
         $MEW.Interface.layout($MEW.Viewport);
@@ -554,7 +617,10 @@ Crafty.scene("User", function() {
      var XMLInterfaceSetup = function(){
       var onXMLReturn = function(data){
             $MEW.XMLParser = new XMLInterfaceParser(data);
-            $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
+            if($MEW.user == null)
+                $MEW.Interface = $MEW.XMLParser.getInterface("LoginForm");
+            else
+                $MEW.Interface = $MEW.XMLParser.getInterface("LoggedInForm");
             $MEW.Interface.layout($MEW.Viewport);
            /* $("#_MEW_login_btn").click(function(e){
                  var Obj = { username: $("_MEW_login_username").val(), password: $("_MEW_login_password").val() };
@@ -574,9 +640,19 @@ Crafty.scene("User", function() {
         var loginReturnError = function(err){
             console.log(err);
         }
+        var loginCheck = function(data){
+            if(data.success){
+                $MEW.user = data.user;
+            }else{
+                $MEW.user = null;
+            }
+            $MEW.Network.Send('GetSceneUserXML');
+        }
         $MEW.Network.pBind('GetSceneUserXML', onXMLReturn);
         $MEW.Network.pBind('GetSceneUserXMLError', onXMLReturnError);
-        $MEW.Network.Send('GetSceneUserXML');
+        
+        $MEW.Network.pBind('UsersLoginCheck', loginCheck);
+        $MEW.Network.Send("UsersLoginCheck");
     }
     //if (confirm('Do you want to try out the XML interface?')) {
         $MEW.isXMLInterface = true;
@@ -721,6 +797,7 @@ Crafty.scene("User", function() {
         
    
 }, function () {
+    $MEW.Interface.destroy();
     $MEW.Viewport.detach();
     $MEW.Scene = {};
     $MEW.clear();

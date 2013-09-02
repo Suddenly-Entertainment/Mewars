@@ -11,13 +11,14 @@ function UserController(){
         var returnObj = {};
         if(req.user){
            returnObj.success = true;
-           returnObj.user = req.user;
+           returnObj.user = {username: req.user.username,};
         }else{
            returnObj.success = false; 
         }
         res.json(returnObj);
-    };
-    
+    }
+;
+    
 
     self.register = function(req, res){
     var returnObj = {};
@@ -115,20 +116,32 @@ function UserController(){
        res.json(successArr);
       });
   }
+    self.logOut = function(req, res){
+      var returnObj = {success: true};
+      if(req.user){
+          req.logout();
+          res.json(returnObj);
+      }else{
+          res.json(returnObj);
+      }
+    }
 }
 
 var controller = new UserController();
 
 exports.verbs = {
     'get':  {
-        '/api/users/confirmAccount/:confirmtoken' : controller.confirmAccount,
+    
+        '/api/users/confirmAccount/:confirmtoken' : controller.confirmAccount,
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
         '/api/users/getUserList' : controller.getUserList,
         '/api/users/clearUserList': controller.clearUserList,
         '/api/users/loginCheck': controller.login,
+        '/api/users/logout': controller.logOut,
     },
     'post': {
-        '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'}),
+        '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'
+}),
         '/api/users/register' : controller.register,
         '/api/users/checkLogin': controller.checkLogin
     }

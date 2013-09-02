@@ -108,6 +108,7 @@ var $XMLInterfaceNodeDelayParsers = {
                 case 'value':
                     var text = cnode.childNodes[0].nodeValue;
                     ent.text(text);
+                    console.log(ent);
                 break;
 
                 case 'textcolor':
