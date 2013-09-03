@@ -439,8 +439,11 @@ Crafty.c("MEWRegisterForm", {
             password = $("#_MEW_register_password").val(),
             email = $("#_MEW_register_email").val(),
             that = this;
+        
+        
         //only one submit request at a time to prevent spam protention from kicking us out
         if (!this.submitting) {
+            if(!this.validateReg(username, password, email))return;
             //send network request
               var obj = {
                   username : username,
@@ -459,6 +462,44 @@ Crafty.c("MEWRegisterForm", {
         return this;
         
         return this;
+    },
+    
+    validateReg: function (username, password, email){
+        var RegisterResult = Crafty("RegisterResult");
+        RegisterResult.textColor('#CC0000', 1.0);
+        var validation = true;
+        var failText = "Failed:  \n";
+        //RegisterResult.textColor('#00CC00', 1.0);
+        //RegisterResult.text('A confirmation email has been sent.');
+        if(username.length < 4){
+           failText += '*Your username must be longer then 3 characters.  \n';
+           validation = false;
+        }
+        
+        if(password.length < 4){
+           failText += '*Your password must be longer then 3 characters.  \n';
+           validation = false;
+        }
+        
+        if(email.indexOf("@") == -1){
+            failText += "*Your email does not contain a @ symbol. \n";
+            validation = false;
+        }
+        
+        if(email.lastIndexOf(".") == -1){
+            failText += "*Your email does not contain a . symbol. \n";
+            validation = false;
+        }else if(email.lastIndexOf(".") + 1 >= email.length){
+            failText += "*Your email does not have anything after the at the end . symbol. \n";
+            validation = false;
+        }
+        
+        if(validation == false){
+            RegisterResult.text(failText);
+        }
+        
+        return validation;
+        
     },
     
     set_successCB: function(cb) {
