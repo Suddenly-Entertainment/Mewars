@@ -141,7 +141,7 @@
                     <css><![CDATA[ {"background": "rgb(196, 183, 135)"} ]]></css>
                 </e>
 
-              <e name="RegisterResult" component="DOM, Text, RegisterResult" x="365" y="365" z="101">
+              <e name="RegisterResult" component="DOM, Text, RegisterResult" x="465" y="250" z="101">
                 <attr>
                     <w>160</w>
                     <h>40</h>

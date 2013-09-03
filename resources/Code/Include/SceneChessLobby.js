@@ -32,6 +32,7 @@ Crafty.c("MEWChessLobbyForm", {
     
   }
 });
+
 Crafty.scene("ChessLobby", function() {
     
     $MEW.ResetScene()
