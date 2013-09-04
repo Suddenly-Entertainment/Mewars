@@ -11,8 +11,7 @@
               <h>560</h>
               <z>101</z>
             </attr>
-            <css><![CDATA[{"border": "solid","border-width": "5px"}]]>
-            </css>
+            <css><![CDATA[{"border": "solid","border-width": "5px"}]]></css>
         </e>
       </e>
     </interface>

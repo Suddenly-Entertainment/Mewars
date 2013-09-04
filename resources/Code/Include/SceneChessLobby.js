@@ -36,15 +36,29 @@ Crafty.c("UserList", {
     init: function() {
         this.requires("2D, DOM, HTML");
     },
+    Users: [],
     UserList: function(){
         //this.attr({x: 0, y: 0, w:100, h:100,});
         /*this.css({
           "border": "solid",
           "border-width": "5px",
         });*/
-        this.append('<a href="mew-mew.rhcloud.com">Test</a>');
+        //this.append('<a href="mew-mew.rhcloud.com">Test</a>');
         return this;
-    }
+    },
+    AddUser: function(user){
+      this.Users[user.userid] = user;
+      
+      this.append('<div class="uIUL" id="uIUL'+user.userid+'"><span class="uIULUsername">'+user.username+'</span></div>');
+      
+    },
+    RemoveUser: function(userid){
+      this.Users[userid] = null;
+      $("#uIUL"+userid).remove();
+    },
+    
+    
+    
 });
 Crafty.scene("ChessLobby", function() {
     
