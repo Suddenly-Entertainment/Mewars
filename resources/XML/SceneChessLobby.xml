@@ -2,8 +2,22 @@
 <interfaces>
     <!-- Login form interface -->
     <interface name="ChessLobbyMain">
-    	<e name="MEWChessLobbyFormInterface" component="MEWChessLobbyForm">
-    		<init><![CDATA[MEWChessLobbyForm]]></init>
-    	</e>
+      <e name="MEWChessLobbyFormInterface" component="MEWChessLobbyForm">
+        <init><![CDATA[MEWChessLobbyForm]]></init>
+        <e name="MEWUsersList" component="UserList" x="400" y="20" z="101">
+            <init><![CDATA[UserList]]></init>
+            <attr>
+              <w>200</w>
+              <h>560</h>
+              <z>101</z>
+            </attr>
+            <css>
+              <![CDATA[{
+                    "border": "solid",
+                    "border-width": "5px"
+              }]]>
+            </css>
+        </e>
+      </e>
     </interface>
 </interfaces>

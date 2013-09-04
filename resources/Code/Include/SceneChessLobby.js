@@ -37,12 +37,13 @@ Crafty.c("UserList", {
         this.requires("2D, DOM, HTML");
     },
     UserList: function(){
-        this.attr({x: 0, y: 0, w:100, h:100,});
-        this.css({
+        //this.attr({x: 0, y: 0, w:100, h:100,});
+        /*this.css({
           "border": "solid",
           "border-width": "5px",
-        });
+        });*/
         this.append('<a href="mew-mew.rhcloud.com">Test</a>');
+        return this;
     }
 });
 Crafty.scene("ChessLobby", function() {
