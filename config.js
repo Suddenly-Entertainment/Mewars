@@ -11,6 +11,7 @@ function makeSecret(length)
 global.MEWSESSIONSECRET = global.MEWSESSIONSECRET || makeSecret(32)
 
 var config = {
+  debug_enabeled: true,
   hostname:       "http://mew-mew.rhcloud.com/",
   ip:             process.env.OPENSHIFT_NODEJS_IP || process.env.VCAP_APP_HOST || 'localhost',
   port:           process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || 3000,
