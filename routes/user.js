@@ -10,8 +10,22 @@ function UserController(){
     self.login = function (req, res){
         var returnObj = {};
         if(req.user){
+           global.db.User.find({where: {username: req.user.username}}).success(function(User){
+              User.updateAttributes({
+                LoggedIn: true
+              }).success(function() {}).error(function(err){
+                returnObj.success = false;
+                returnObj.err = err;
+                res.json(returnObj);
+            });
+
+          }).error(function(err){
+            returnObj.success = false;
+            returnObj.err = err;
+            res.json(returnObj);
+          });
            returnObj.success = true;
-           returnObj.user = {username: req.user.username,};
+           returnObj.user = {username: req.user.username, userID: req.user.userID,};
         }else{
            returnObj.success = false; 
         }
@@ -101,7 +115,9 @@ function UserController(){
         });
     }
     self.getUserList = function(req,res){
-      global.db.User.findAll().success(function(Users){
+
+       global.db.User.find({where: {loggedIn: true}}).success(function(Users){
+          
           res.json(Users);
       }).error(function(err){res.json(err);});
     }
@@ -119,6 +135,20 @@ function UserController(){
     self.logOut = function(req, res){
       var returnObj = {success: true};
       if(req.user){
+          global.db.User.find({where: {username: req.user.username}}).success(function(User){
+              User.updateAttributes({
+                LoggedIn: false
+              }).success(function() {}).error(function(err){
+                returnObj.success = false;
+                returnObj.err = err;
+                res.json(returnObj);
+            });
+
+          }).error(function(err){
+            returnObj.success = false;
+            returnObj.err = err;
+            res.json(returnObj);
+          });
           req.logout();
           res.json(returnObj);
       }else{

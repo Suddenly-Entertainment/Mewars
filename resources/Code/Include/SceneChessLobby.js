@@ -22,6 +22,7 @@ Crafty.c("NetworkChessLobby", {
         
         //Add Routes    
         $MEW.AddRoute("GetSceneChessLobbyXML",    ['RESOURCE', 'GET',  '/XML/file/SceneChessLobby.xml', 'XML' ])
+        
     },
 });
 Crafty.c("MEWChessLobbyForm", {
@@ -44,21 +45,29 @@ Crafty.c("UserList", {
           "border-width": "5px",
         });*/
         //this.append('<a href="mew-mew.rhcloud.com">Test</a>');
+        var that = this;
+        var cb = function(data){
+            _.each(data, function(value, key, list){
+                 if(that.Users.indexOf(value) == -1){
+                   that.addUser(value);
+                 }
+                 console.log(list);
+            });
+        };
+        
         return this;
+        
     },
-    AddUser: function(user){
+    addUser: function(user){
       this.Users[user.userid] = user;
       
       this.append('<div class="uIUL" id="uIUL'+user.userid+'"><span class="uIULUsername">'+user.username+'</span></div>');
       
     },
-    RemoveUser: function(userid){
+    removeUser: function(userid){
       this.Users[userid] = null;
       $("#uIUL"+userid).remove();
     },
-    
-    
-    
 });
 Crafty.scene("ChessLobby", function() {
     

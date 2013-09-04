@@ -53,6 +53,8 @@ $MEW.Chat = {
     },
     
     bind: function () {
+      $MEW.Network.unBind("ChatMessagesAdd");
+      $MEW.Network.unBind("ChatsGet");
     	$MEW.Network.bind("ChatMessagesAdd", $MEW.Chat.onChatMessagesAdd);
     	$MEW.Network.bind("ChatsGet", $MEW.Chat.onChatsGet);
     },
