@@ -12,7 +12,8 @@ function UserController(){
         if(req.user){
            global.db.User.find({where: {username: req.user.username}}).success(function(User){
               User.updateAttributes({
-                LoggedIn: true
+                logged_in: true,
+                last_activity: global.db.sequelize.NOW,
               }).success(function() {}).error(function(err){
                 returnObj.success = false;
                 returnObj.err = err;
@@ -116,7 +117,7 @@ function UserController(){
     }
     self.getUserList = function(req,res){
 
-       global.db.User.find({where: {loggedIn: true}}).success(function(Users){
+       global.db.User.find({where: {logged_in: true}}).success(function(Users){
           
           res.json(Users);
       }).error(function(err){res.json(err);});
@@ -137,7 +138,8 @@ function UserController(){
       if(req.user){
           global.db.User.find({where: {username: req.user.username}}).success(function(User){
               User.updateAttributes({
-                LoggedIn: false
+                logged_in: false,
+                last_activity: global.db.sequelize.NOW,
               }).success(function() {}).error(function(err){
                 returnObj.success = false;
                 returnObj.err = err;
@@ -155,6 +157,16 @@ function UserController(){
           res.json(returnObj);
       }
     }
+    self.forceSyncDatabase = function(req, res){
+       global.db.sequelize.sync({force:true}).success(function() {
+       console.log("Database Forced Synced Sucessfuly");
+                migrate(global.db.sequelize);
+                res.send(200);
+        }).error(function(error) {
+            console.log("[AUTOSYNC] Could Not Sync Database", error.stack);
+            res.json(500, error);
+        });
+    }
 }
 
 var controller = new UserController();
@@ -168,6 +180,7 @@ exports.verbs = {
         '/api/users/clearUserList': controller.clearUserList,
         '/api/users/loginCheck': controller.login,
         '/api/users/logout': controller.logOut,
+        '/api/users/forceSync': controller.forceSyncDatabase,
     },
     'post': {
         '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'

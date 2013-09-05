@@ -29,7 +29,6 @@ io.sockets.on('connection', function(socket)
 
 exports.AuthenticateUser = function (user)
 {
-  var 
   
 }
 

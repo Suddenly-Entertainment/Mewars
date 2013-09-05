@@ -114,7 +114,7 @@ var MewApp = function() {
       });
 
       Router.route(self.app);
-
+      var socket_stuff = require('./socket');
     };
 
 
