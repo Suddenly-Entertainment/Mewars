@@ -7,6 +7,6 @@ module.exports = function(sequelize, DataTypes) {
     confirmation_token   : {type: DataTypes.STRING,  allowNull: false, unique: true},
     reset_password_token : {type: DataTypes.STRING,  allowNull: true, unique: true},
     logged_in: {type: DataTypes.BOOLEAN, allowNull: false, unique: false, defaultValue: false},
-    last_activity: {type: DataTypes.DATE, allowNull: false, unique: false, defaultValue: neew Date()w Date()},
+    last_activity: {type: DataTypes.DATE, allowNull: false, unique: false},
   });
 };
