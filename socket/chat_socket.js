@@ -1,4 +1,4 @@
-
+var io      = require('socket.io');
 var GetChats = function (socket)
 {
   

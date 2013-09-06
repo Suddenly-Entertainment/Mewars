@@ -1,1 +1,1 @@
-var chat_socket = require("./chat_socket.js");
+var chat_socket = require(__dirname + "/chat_socket.js");
