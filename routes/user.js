@@ -70,7 +70,7 @@ function UserController(){
                   email: req.body.email,           
                   confirmation_token: confirmToken,
                   logged_in: false,
-                  last_activity: global.db.sequelize.NOW,
+                  last_activity: new Date(),
                   
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
