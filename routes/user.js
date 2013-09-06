@@ -13,7 +13,7 @@ function UserController(){
            global.db.User.find({where: {username: req.user.username}}).success(function(User){
               User.updateAttributes({
                 logged_in: true,
-                last_activity: global.db.sequelize.NOW,
+                last_activity: new Date(),
               }).success(function() {}).error(function(err){
                 returnObj.success = false;
                 returnObj.err = err;
@@ -141,7 +141,7 @@ function UserController(){
           global.db.User.find({where: {username: req.user.username}}).success(function(User){
               User.updateAttributes({
                 logged_in: false,
-                last_activity: global.db.sequelize.NOW,
+                last_activity:new Date(),
               }).success(function() {}).error(function(err){
                 returnObj.success = false;
                 returnObj.err = err;
