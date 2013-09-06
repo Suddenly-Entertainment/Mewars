@@ -158,6 +158,13 @@ function UserController(){
       }
     }
     self.forceSyncDatabase = function(req, res){
+        var migrate = function(sequelize) {
+          var migrationsPath = global.APP_DIR + '/migrations';
+          var migratorOptions = { path: migrationsPath },
+              migrator        = sequelize.getMigrator(migratorOptions);
+
+          sequelize.migrate();
+        };
        global.db.sequelize.sync({force:true}).success(function() {
        console.log("Database Forced Synced Sucessfuly");
                 migrate(global.db.sequelize);
