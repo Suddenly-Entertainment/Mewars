@@ -67,9 +67,11 @@ function UserController(){
                 var UserModel = global.db.User.build({
                   username: req.body.username,
                   password: hash,
-                  email: req.body.email,
-                  reset_password_token: resetPasswordToken,
+                  email: req.body.email,           
                   confirmation_token: confirmToken,
+                  logged_in: false,
+                  last_activity: global.db.sequelize.NOW,
+                  
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
                 returnObj.userModel = UserModel;
