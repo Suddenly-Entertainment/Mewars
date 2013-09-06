@@ -60,7 +60,7 @@ function UserController(){
             while(auth.checkResetToken(resetPasswordToken)){
               resetPasswordToken = auth.generateConfirmToken(32);
             }
-            returnObj.sequilizeNOW = global.db.sequelize.NOW;
+            returnObj.sequilizeNOW = global.db.Sequelize.NOW;
             returnObj.confirmTokenSuccess = true;
             returnObj.username = req.body.username;
             returnObj.email = req.body.email;
