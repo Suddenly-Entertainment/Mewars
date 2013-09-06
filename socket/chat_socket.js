@@ -1,4 +1,4 @@
-var io      = require('socket.io');
+
 var GetChats = function (socket)
 {
   
@@ -7,8 +7,7 @@ var GetChats = function (socket)
 
 var auth_users = { };
 var unauth_users = { };
-
-io.sockets.on('connection', function(socket)
+global.io.sockets.on('connection', function(socket)
 {
   var GUID = '';
   

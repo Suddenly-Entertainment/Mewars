@@ -112,7 +112,7 @@ var MewApp = function() {
           //  , 'jsonp-polling'
           ]);
       });
-
+      global.io = self.socket;
       Router.route(self.app);
       var socket_stuff = require('./socket');
     };
