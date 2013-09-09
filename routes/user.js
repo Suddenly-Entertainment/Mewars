@@ -11,6 +11,12 @@ function UserController(){
         var returnObj = {};
         if(req.user){
            global.db.User.find({where: {username: req.user.username}}).success(function(User){
+              if(!User){
+                                returnObj.success = false;
+                returnObj.err = "No user found";
+                res.json(returnObj);
+
+              }
               User.updateAttributes({
                 logged_in: true,
                 last_activity: new Date(),
@@ -26,7 +32,7 @@ function UserController(){
             res.json(returnObj);
           });
            returnObj.success = true;
-           returnObj.user = {username: req.user.username, userID: req.user.userID,};
+           returnObj.user = {username: req.user.username, id: req.user.id,};
         }else{
            returnObj.success = false; 
         }
@@ -69,8 +75,6 @@ function UserController(){
                   password: hash,
                   email: req.body.email,           
                   confirmation_token: confirmToken,
-                  logged_in: false,
-                  last_activity: new Date(),
                   
                 }).save().success(function(){
                 returnObj.userCreateSuccess = true;
@@ -139,6 +143,7 @@ function UserController(){
       var returnObj = {success: true};
       if(req.user){
           global.db.User.find({where: {username: req.user.username}}).success(function(User){
+          
               User.updateAttributes({
                 logged_in: false,
                 last_activity: new Date(),
