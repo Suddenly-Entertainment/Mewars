@@ -8,6 +8,7 @@ module.exports = {
         controlers['xml'] = require(__dirname + '/xml').verbs;
         controlers['game'] = require(__dirname + '/game').verbs;
         controlers['user'] = require(__dirname + '/user').verbs;
+        controlers['debug'] = require(__dirname + '/debug').verbs;
 
         // loop through and add routes
         for (var controler_name in controlers) {
