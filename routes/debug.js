@@ -6,7 +6,7 @@ function DebugController(){
     
     self.database_reset = function (req, res) {
     
-      if (CONFIG.debug_enabeled) {
+      if (CONFIG.debug_enabled) {
         
       } else {
         req.send(404, "Not Found")
@@ -15,7 +15,7 @@ function DebugController(){
       
     }
     self.getUserList = function(req,res){
-       if (CONFIG.debug_enabeled) {          
+       if (CONFIG.debug_enabled) {          
          global.db.User.findAll().success(function(Users){
            res.json(Users);
          }).error(function(err){res.json(err);});
@@ -24,7 +24,7 @@ function DebugController(){
       }
     }
     self.clearUserList = function(req,res){
-      if (CONFIG.debug_enabeled) {   
+      if (CONFIG.debug_enabled) {   
         var successArr = [];
         global.db.User.findAll().success(function(Users){
           for(var i = 0; i < Users.length; i++){
@@ -39,7 +39,7 @@ function DebugController(){
       }
     }
     self.forceSyncDatabase = function(req, res){
-      if (CONFIG.debug_enabeled) {
+      if (CONFIG.debug_enabled) {
         var migrate = function(sequelize) {
           var migrationsPath = global.APP_DIR + '/migrations';
           var migratorOptions = { path: migrationsPath },

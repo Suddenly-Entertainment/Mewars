@@ -11,7 +11,7 @@ function makeSecret(length)
 global.MEWSESSIONSECRET = global.MEWSESSIONSECRET || makeSecret(32)
 
 var config = {
-  debug_enabeled: true,
+  debug_enabled: true,
   hostname:       "http://mew-mew.rhcloud.com/",
   ip:             process.env.OPENSHIFT_NODEJS_IP || process.env.VCAP_APP_HOST || 'localhost',
   port:           process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || 3000,
@@ -25,7 +25,6 @@ var config = {
   database_auto_migrate:   true,
   database_sync_on_start:  true, // creates tables if they do not exist, if assoceations change we'll need to go in and force this  (WARNING FORCING WILL DROP TABLES AND LOSE ALL DATA)
   secret: global.MEWSESSIONSECRET,
-  debug_enabled: true, //Enables/disables routes in debug.js
 };
 
 module.exports = config;

@@ -159,7 +159,6 @@ exports.verbs = {
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
         '/api/users/loginCheck': controller.login,
         '/api/users/logout': controller.logOut,
-        '/api/users/forceSync': controller.forceSyncDatabase,
     },
     'post': {
         '/api/users/login' : auth.passport.authenticate('local', { successRedirect:'/api/users/loginCheck', failureRedirect: '/api/users/loginCheck'
