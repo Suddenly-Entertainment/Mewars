@@ -20,7 +20,9 @@ function UserController(){
               User.updateAttributes({
                 logged_in: true,
                 last_activity: new Date(),
-              }).success(function() {}).error(function(err){
+              }).success(function() {
+                res.json(returnObj);
+              }).error(function(err){
                 returnObj.success = false;
                 returnObj.err = err;
                 res.json(returnObj);
@@ -34,9 +36,11 @@ function UserController(){
            returnObj.success = true;
            returnObj.user = {username: req.user.username, id: req.user.id,};
         }else{
-           returnObj.success = false; 
+           returnObj.success = false;
+           returnObj.err = "No req.user object!";
+           res.json(returnObj);
         }
-        res.json(returnObj);
+        
     }
 ;
     
