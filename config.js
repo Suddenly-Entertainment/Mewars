@@ -24,7 +24,8 @@ var config = {
   db_logging:     console.log, // remember to turn this off in production mode
   database_auto_migrate:   true,
   database_sync_on_start:  true, // creates tables if they do not exist, if assoceations change we'll need to go in and force this  (WARNING FORCING WILL DROP TABLES AND LOSE ALL DATA)
-  secret: global.MEWSESSIONSECRET
+  secret: global.MEWSESSIONSECRET,
+  debug_enabled: true, //Enables/disables routes in debug.js
 };
 
 module.exports = config;

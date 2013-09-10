@@ -121,24 +121,7 @@ function UserController(){
              res.json(returnObj);
         });
     }
-    self.getUserList = function(req,res){
 
-       global.db.User.find({where: {logged_in: true}}).success(function(Users){
-          
-          res.json(Users);
-      }).error(function(err){res.json(err);});
-    }
-    self.clearUserList = function(req,res){
-      var successArr = [];
-      global.db.User.findAll().success(function(Users){
-        for(var i = 0; i < Users.length; i++){
-         Users[i].destroy().success(function(){
-            successArr.push(true);
-         }).error(function(err){successArr.push(true);});
-       }
-       res.json(successArr);
-      });
-  }
     self.logOut = function(req, res){
       var returnObj = {success: true};
       if(req.user){
@@ -164,23 +147,7 @@ function UserController(){
           res.json(returnObj);
       }
     }
-    self.forceSyncDatabase = function(req, res){
-        var migrate = function(sequelize) {
-          var migrationsPath = global.APP_DIR + '/migrations';
-          var migratorOptions = { path: migrationsPath },
-              migrator        = sequelize.getMigrator(migratorOptions);
 
-          sequelize.migrate();
-        };
-       global.db.sequelize.sync({force:true}).success(function() {
-       console.log("Database Forced Synced Sucessfuly");
-                migrate(global.db.sequelize);
-                res.send(200);
-        }).error(function(error) {
-            console.log("[AUTOSYNC] Could Not Sync Database", error.stack);
-            res.json(500, error);
-        });
-    }
 }
 
 var controller = new UserController();
@@ -190,8 +157,6 @@ exports.verbs = {
     
         '/api/users/confirmAccount/:confirmtoken' : controller.confirmAccount,
         '/api/users/resendCofirm/:username' : controller.resendConfirm,
-        '/api/users/getUserList' : controller.getUserList,
-        '/api/users/clearUserList': controller.clearUserList,
         '/api/users/loginCheck': controller.login,
         '/api/users/logout': controller.logOut,
         '/api/users/forceSync': controller.forceSyncDatabase,
