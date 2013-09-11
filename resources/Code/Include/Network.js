@@ -105,5 +105,9 @@ Crafty.c("Network", {
     pBind: function(type, func) {
         this.unbind(type, func);
         this.bind(type, func);
+    },
+    
+    connectSocketIO: function(){
+        $MEW.socket = io.connect('http://mew-mew.rhcloud');
     }
 });

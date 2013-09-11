@@ -292,7 +292,7 @@ Crafty.c("MEWLoginForm", {
                   password : password
               }
               //$MEW.User.Login(username, password, function (result) {that.processResult(result);});
-  
+              console.log(obj);
               $MEW.Network.Send('UsersLogin', obj);
               
   

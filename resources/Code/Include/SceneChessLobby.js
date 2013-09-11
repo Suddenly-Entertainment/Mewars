@@ -69,13 +69,52 @@ Crafty.c("UserList", {
       $("#uIUL"+userid).remove();
     },
 });
+Crafty.c("Chat",{
+  init: function(){
+    this.requires("2D, DOM, HTML");
+  },
+  Chat: function(){
+  var that = this;
+    this.sendMsgBox = Crafty.e("2D, HTML_INPUT")
+                .attr({x: 0, y: 48, z: 103, w: 100, h: 20})
+                .css({background: "#3d3c3c"});
+                
+            var sendMsgBoxHTMLText = ' <input id="_MEW_chat_send" type="text" class="input_email" value="email@email.com"  /> ';
+            
+            this.sendMsgBox.replace(sendMsgBoxHTMLText).css({
+                background: 'rgba(0, 0, 0, 0.0)',
+                color: 'rgb(196, 183, 135)',
+                border: 'none',
+                outline: 'none',
+                'font-family': 'Arial',
+                'font-weight': 'bold',
+            });
+            
+    this.bind('KeyDown', function (e) {
+            var active = document.activeElement;
+            if ((active.id === "_MEW_chat_send") && this.isDown('ENTER')){
+               
+                that.sendMsg($("#_MEW_chat_send").val());
+            }
+    });
+  },
+  sendMsg: function(msg){
+    var obj = {
+      msg: msg,
+      username: $MEW.user.username,
+      id: $MEW.user.id,
+    }
+    $MEW.socket.broadcast.emit(obj);
+  }
+});
 Crafty.scene("ChessLobby", function() {
     
     $MEW.ResetScene()
     $MEW.ResetNetwork()
     
     $MEW.Network.requires('NetworkChessLobby')
-    
+    $MEW.Network.connectSocketIO();
+    var thing = Crafty.e("chat").Chat();
     function viewTest() {
         console.log("Calling Test Scene");
         Crafty.scene("Map");
