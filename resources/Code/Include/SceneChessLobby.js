@@ -97,6 +97,9 @@ Crafty.c("Chat",{
                
                 that.sendMsg($("#_MEW_chat_send").val());
             }
+      $MEW.socket.on("ChatMessage", function(msg){ 
+        console.log(msg);
+      });
     });
   },
   sendMsg: function(msg){
@@ -105,7 +108,7 @@ Crafty.c("Chat",{
       username: $MEW.user.username,
       id: $MEW.user.id,
     }
-    $MEW.socket.broadcast.emit(obj);
+    $MEW.socket.emit("ChatMessage", obj);
   }
 });
 Crafty.scene("ChessLobby", function() {

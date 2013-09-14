@@ -108,6 +108,6 @@ Crafty.c("Network", {
     },
     
     connectSocketIO: function(){
-        $MEW.socket = io.connect('http://mew-mew.rhcloud');
+        $MEW.socket = io.connect('http://mew-mew.rhcloud.com');
     }
 });

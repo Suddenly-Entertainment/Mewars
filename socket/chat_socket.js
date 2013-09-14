@@ -60,7 +60,10 @@ global.io.sockets.on('connection', function(socket)
   
   exports.InitSocket(obj);
   // somehow return the GUID for later use?
-  
+  socket.on("ChatMessage", function(msg){
+    socket.emit("ChatMessage", msg);
+    console.log(msg);
+  });
   
 });
 
