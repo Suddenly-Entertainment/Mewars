@@ -61,20 +61,23 @@ global.io.sockets.on('connection', function(socket)
   };
   all_users[GUID] = obj;
   
-  exports.InitSocket(obj);
-  exports.AuthenticateUser(socket, GUID);
+  
+  exports.AuthenticateUser(socket, GUID, function(){
+    exports.InitSocket(obj);
+    socket.on("ChatMessage", function(msg){
+      var user;
+      for(user in auth_users){
+        auth_users[user].socket.emit("ChatMessage", msg);
+      }
+      console.log(msg);
+    });
+  });
   // somehow return the GUID for later use?
 
-  socket.on("ChatMessage", function(msg){
-  var user;
-    for(GUID in auth_users){
-      auth_users[GUID].socket.emit("ChatMessage", msg);
-    }
-    console.log(msg);
-  });
+
 });
 
-exports.AuthenticateUser = function (socket, GUID)
+exports.AuthenticateUser = function (socket, GUID, cb)
 {
     socket.on("Auth", function(loginToken, fn){
      global.db.User.find({where: {login_token: loginToken}}).success(function(User){
@@ -83,6 +86,7 @@ exports.AuthenticateUser = function (socket, GUID)
           all_users[GUID].user = User;
           auth_users[GUID] = all_users[GUID];
           fn(true);
+          cb();
        }else{
          all_users[GUID] = null;
          fn(false);

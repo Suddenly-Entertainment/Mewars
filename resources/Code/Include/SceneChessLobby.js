@@ -106,7 +106,6 @@ Crafty.c("Chat",{
     var obj = {
       msg: msg,
       username: $MEW.user.username,
-      id: $MEW.user.id,
     }
     $MEW.socket.emit("ChatMessage", obj);
   }
