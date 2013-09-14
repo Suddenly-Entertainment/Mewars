@@ -71,7 +71,7 @@ Crafty.c("UserList", {
 });
 Crafty.c("Chat",{
   init: function(){
-    this.requires("2D, DOM, HTML");
+    this.requires("2D, DOM, HTML, Keyboard");
   },
   Chat: function(){
   var that = this;
