@@ -92,6 +92,7 @@ Crafty.c("Chat",{
             
     this.bind('KeyDown', function (e) {
             var active = document.activeElement;
+            console.log(this);
             if ((active.id === "_MEW_chat_send") && this.isDown('ENTER')){
                
                 that.sendMsg($("#_MEW_chat_send").val());
@@ -114,7 +115,8 @@ Crafty.scene("ChessLobby", function() {
     
     $MEW.Network.requires('NetworkChessLobby')
     $MEW.Network.connectSocketIO();
-    var thing = Crafty.e("chat").Chat();
+    console.log($MEW.socket);
+    var thing = Crafty.e("Chat").Chat();
     function viewTest() {
         console.log("Calling Test Scene");
         Crafty.scene("Map");
