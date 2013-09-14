@@ -91,16 +91,15 @@ Crafty.c("Chat",{
             });
             
     this.bind('KeyDown', function (e) {
-            var active = document.activeElement;
-            console.log(this);
             if ((active.id === "_MEW_chat_send") && this.isDown('ENTER')){
                
                 that.sendMsg($("#_MEW_chat_send").val());
             }
-      $MEW.socket.on("ChatMessage", function(msg){ 
+
+    });
+          $MEW.socket.on("ChatMessage", function(msg){ 
         console.log(msg);
       });
-    });
   },
   sendMsg: function(msg){
     var obj = {

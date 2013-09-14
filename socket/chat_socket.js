@@ -1,15 +1,16 @@
 
 var auth_users = { };
 var unauth_users = { };
+var all_users = { };
 
 exports.GetAllSocketsInChannelAndBroadcast = function(channel, data)
 {
-  for(var i in auth_users)
+  for(var GUID in auth_users)
   {
-    var obj = auth_users[i];
-    if(obj.channels[channel] != undefined)
+    var client = auth_users[GUID];
+    if(typeof client.channels[channel] !== 'undefined')
     {
-      obj.socket.emit(data.event, data.msg);
+      client.socket.emit(data.event, data.msg);
     }
   }
   
@@ -54,24 +55,44 @@ global.io.sockets.on('connection', function(socket)
   var obj = {
     socket : socket,
     channels : { },
-    id : GUID
+    id : GUID,
+    authenticated: false,
+    user: null,
   };
-  unauth_users[GUID] = obj;
+  all_users[GUID] = obj;
   
   exports.InitSocket(obj);
+  exports.AuthenticateUser(GUID);
   // somehow return the GUID for later use?
+
   socket.on("ChatMessage", function(msg){
   var user;
-    for(user in unauth_users){
-      unauth_users[user].socket.emit("ChatMessage", msg);
+    for(GUID in auth_users){
+      auth_users[GUID].socket.emit("ChatMessage", msg);
     }
     console.log(msg);
   });
-  
 });
 
-exports.AuthenticateUser = function (user)
+exports.AuthenticateUser = function (GUID)
 {
-  
+    socket.on("Auth", function(loginToken, fn){
+     global.db.User.find({where: {login_token: loginToken}}).success(function(User){
+       if(User){
+          all_users[GUID].authenticated = true;
+          all_users[GUID].user = User;
+          auth_users[GUID] = all_users[GUID];
+          fn(true);
+       }else{
+         all_users[GUID] = null;
+         fn(false);
+         socket.disconnect('unauthorized');
+       }    
+         
+     }).error(function(err){
+       throw err;
+     });
+
+  });
 }
 
