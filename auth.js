@@ -26,7 +26,7 @@ var CONFIG = require("./config");
     }));
       
       passport.serializeUser(function(user, done) {
-      var checkLoginToken = function(loginToken){
+        var checkLoginToken = function(loginToken){
           global.db.User.find({where: {login_token: loginToken}}).success(function(loginsToken){
             if(loginsToken){
               return true;
@@ -45,18 +45,18 @@ var CONFIG = require("./config");
           }).error(function(err){
             throw err;
           });
-      };
+        };
       
-      var generateLoginToken = function(length, user){
-        var timestamp = new Date();
-        var loginToken = user.id + " - " + user.username + " - " + timestamp.getTime();
-        return bcrypt.hashSync(loginToken, bcrypt.genSaltSync(length));
-      };
+        var generateLoginToken = function(length, user){
+          var timestamp = new Date();
+          var loginToken = user.id + " - " + user.username + " - " + timestamp.getTime();
+          return bcrypt.hashSync(loginToken, bcrypt.genSaltSync(length));
+        };
       
-       var loginToken = generateLoginToken(5, user);
-       while(checkLoginToken(loginToken)){
+        var loginToken = generateLoginToken(5, user);
+        while(checkLoginToken(loginToken)){
           loginToken = auth.generateLoginToken(5, user);
-       }
+        }
        
         done(null, loginToken);
       });
