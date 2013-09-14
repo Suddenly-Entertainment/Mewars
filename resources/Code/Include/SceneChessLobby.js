@@ -91,6 +91,7 @@ Crafty.c("Chat",{
             });
             
     this.bind('KeyDown', function (e) {
+            var active = document.activeElement;
             if ((active.id === "_MEW_chat_send") && this.isDown('ENTER')){
                
                 that.sendMsg($("#_MEW_chat_send").val());
