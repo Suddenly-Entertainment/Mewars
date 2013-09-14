@@ -62,7 +62,7 @@ global.io.sockets.on('connection', function(socket)
   all_users[GUID] = obj;
   
   exports.InitSocket(obj);
-  exports.AuthenticateUser(GUID);
+  exports.AuthenticateUser(socket, GUID);
   // somehow return the GUID for later use?
 
   socket.on("ChatMessage", function(msg){
@@ -74,7 +74,7 @@ global.io.sockets.on('connection', function(socket)
   });
 });
 
-exports.AuthenticateUser = function (GUID)
+exports.AuthenticateUser = function (socket, GUID)
 {
     socket.on("Auth", function(loginToken, fn){
      global.db.User.find({where: {login_token: loginToken}}).success(function(User){
