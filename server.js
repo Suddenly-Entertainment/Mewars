@@ -95,8 +95,8 @@ var MewApp = function() {
         self.socket.set('log level', 1);                    // reduce logging
         **/
         self.socket.set('transports', [
-            'xhr-polling',
-            'websocket'
+            'websocket',
+            'xhr-polling' 
         //  , 'flashsocket'
         //  , 'htmlfile'
         //  , 'jsonp-polling'
@@ -105,8 +105,8 @@ var MewApp = function() {
 
       self.socket.configure('development', function(){
         self.socket.set('transports', [
-              'xhr-polling',
-              'websocket'
+              'websocket',
+              'xhr-polling' 
           //  , 'flashsocket'
           //  , 'htmlfile'
           //  , 'jsonp-polling'

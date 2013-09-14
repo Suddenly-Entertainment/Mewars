@@ -10,31 +10,36 @@ function UserController(){
     self.login = function (req, res){
         var returnObj = {};
         if(req.user){
+        
            global.db.User.find({where: {username: req.user.username}}).success(function(User){
               if(!User){
-                                returnObj.success = false;
+                returnObj.success = false;
                 returnObj.err = "No user found";
                 res.json(returnObj);
-
               }
-              User.updateAttributes({
-                logged_in: true,
-                last_activity: new Date(),
-              }).success(function() {
-                res.json(returnObj);
-              }).error(function(err){
-                returnObj.success = false;
-                returnObj.err = err;
-                res.json(returnObj);
-            });
+  
 
+            /*User.updateAttributes({
+              logged_in: true,
+              login_token: loginToken,
+              last_activity: new Date(),
+            }).success(function() {
+              res.json(returnObj);
+            }).error(function(err){
+              returnObj.success = false;
+              returnObj.err = err;
+              res.json(returnObj);
+          });*/
+          returnObj.success = true;
+          returnObj.user = {username: req.user.username, id: req.user.id, loginToken: req.user.login_token,}
+          res.json(returnObj);
+    
           }).error(function(err){
             returnObj.success = false;
             returnObj.err = err;
             res.json(returnObj);
           });
-           returnObj.success = true;
-           returnObj.user = {username: req.user.username, id: req.user.id,};
+;
         }else{
            returnObj.success = false;
            returnObj.err = "No req.user object!";
@@ -133,6 +138,7 @@ function UserController(){
           
               User.updateAttributes({
                 logged_in: false,
+                login_token: null,
                 last_activity: new Date(),
               }).success(function() {}).error(function(err){
                 returnObj.success = false;

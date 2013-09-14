@@ -26,11 +26,43 @@ var CONFIG = require("./config");
     }));
       
       passport.serializeUser(function(user, done) {
-        done(null, user.username);
+      var checkLoginToken = function(loginToken){
+          global.db.User.find({where: {login_token: loginToken}}).success(function(loginsToken){
+            if(loginsToken){
+              return true;
+            }else{
+             user.updateAttributes({
+                logged_in: true,
+                login_token: loginToken,
+                last_activity: new Date(),
+              }).success(function() {
+                 return false;
+              }).error(function(err){
+                throw err;
+                return false;
+              });
+            }
+          }).error(function(err){
+            throw err;
+          });
+      };
+      
+      var generateLoginToken = function(length, user){
+        var timestamp = new Date();
+        var loginToken = user.id + " - " + user.username + " - " + timestamp.getTime();
+        return bcrypt.hashSync(loginToken, bcrypt.genSaltSync(length));
+      };
+      
+       var loginToken = generateLoginToken(5, user);
+       while(checkLoginToken(loginToken)){
+          loginToken = auth.generateLoginToken(5, user);
+       }
+       
+        done(null, loginToken);
       });
 
       passport.deserializeUser(function(id, done) {
-        global.db.User.find({where: {username: id}}).success(function(user){
+        global.db.User.find({where: {login_token: id}}).success(function(user){
           done(null, user);
         });
       });
@@ -55,6 +87,17 @@ var auth = {
             return false;
           }
         });
+    },
+    checkLoginToken: function(loginToken){
+      global.db.User.find({where: {login_token: loginToken}}).success(function(loginsToken){
+        if(loginsToken){
+          return true;
+        }else{
+          return false;
+        }
+      }).error(function(err){
+        throw err;
+      });
     },
     
     sendConfirm : function(req, res, confirmToken, returnObj){
@@ -108,7 +151,15 @@ var auth = {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
       }
       return text;
-
+      
+    },
+    
+    generateLoginToken : function(length, user){
+        var timestamp = new Date();
+        var loginToken = user.id + "-" + user.username + "-" + timestamp.getTime();
+        var salt =  bcrypt.genSaltSync(length);
+        var hash = bcrypt.hashSync(loginToken, salt);
+        return hash;
     },
     
     generateSaltAndHash: function(length, password, cb){
@@ -140,6 +191,13 @@ var auth = {
             return false;
           }
         });
+    },
+    ensureAuthenticated : function(req, res, next){
+      if(req.user){
+        return next();
+      }else{
+        res.send(403, "not authenticated");
+      }
     },
 };
 
