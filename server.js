@@ -65,7 +65,6 @@ var MewApp = function() {
 
       self.app.configure('development', function(){
         self.app.use(express.compress());
-        self.app.use(express.static(__dirname + '/public'));
         self.app.use(express.logger());
         self.app.use(express.bodyParser());
         self.app.use(express.cookieParser());
@@ -73,17 +72,18 @@ var MewApp = function() {
         self.app.use(passport.initialize());
         self.app.use(passport.session());
         self.app.use(self.app.router);
+        self.app.use(express.static(__dirname + '/public'));
       });
 
       self.app.configure('production', function(){
         self.app.use(express.compress());
-        self.app.use(express.static(__dirname + '/public'));
         //self.app.use(express.logger());
         self.app.use(express.bodyParser());
         self.app.use(express.session({ secret: CONFIG.secret}));
         self.app.use(passport.initialize());
         self.app.use(passport.session());
         self.app.use(self.app.router);
+        self.app.use(express.static(__dirname + '/public'));
 
       });
           

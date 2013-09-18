@@ -110,7 +110,6 @@ Crafty.c("Network", {
     connectSocketIO: function(){
         $MEW.socket = io.connect('http://mew-mew.rhcloud.com');
         $MEW.socket.on("connect", function(data){
-          console.log(data);
           $MEW.socket.emit("Auth", $MEW.user.loginToken, function(success){
             if(success){
               console.log("Successfully authenticated");

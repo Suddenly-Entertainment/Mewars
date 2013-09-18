@@ -31,6 +31,8 @@ if (!global.hasOwnProperty('db')) {
         Map       : sequelize.import(__dirname + '/map'),
         MapChunk  : sequelize.import(__dirname + '/map_chunk'),
         MapTile   : sequelize.import(__dirname + '/map_tile'),
+        ChatChannel : sequelize.import(__dirname + '/chat_channel'),
+        ChatMessage : sequelize.import(__dirname + '/chat_message'),
 
         // add your other models here
     };
@@ -54,6 +56,12 @@ if (!global.hasOwnProperty('db')) {
     //MapTile
     global.db.MapTile.belongsTo(global.db.Map);
     global.db.MapTile.belongsTo(global.db.MapChunk);
+    
+    //ChatChannel
+    global.db.ChatChannel.hasMany(global.db.ChatMessage);
+    
+    //ChatMessage
+    global.db.ChatMessage.belongsTo(global.db.ChatChannel);
 
 
     if (CONFIG.database_sync_on_start) {

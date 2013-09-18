@@ -1,5 +1,4 @@
-
-var auth_users = { };
+var auth_users = { };
 var unauth_users = { };
 var all_users = { };
 
@@ -65,6 +64,7 @@ global.io.sockets.on('connection', function(socket)
   exports.AuthenticateUser(socket, GUID, function(){
     exports.InitSocket(obj);
     socket.on("ChatMessage", function(msg){
+      global.db.
       var user;
       for(user in auth_users){
         auth_users[user].socket.emit("ChatMessage", msg);
