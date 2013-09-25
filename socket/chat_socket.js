@@ -78,7 +78,7 @@ global.io.sockets.on('connection', function(socket)
       for(user in auth_users){
         auth_users[user].socket.emit("ChatMessage", msgObj);
       }
-      console.log(msg);
+      console.log(msgObj);
     });
   });
   // somehow return the GUID for later use?
