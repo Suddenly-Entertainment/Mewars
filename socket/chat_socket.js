@@ -63,7 +63,17 @@ global.io.sockets.on('connection', function(socket)
   
   exports.AuthenticateUser(socket, GUID, function(){
     exports.InitSocket(obj);
-    socket.on("ChatMessage", function(msg){
+    socket.on("ChatMessage", function(msgObj){
+      global.db.ChatMessage.create({
+        username: msgObj.username,
+        msg:      msgObj.msg,
+      }).success(function(msg){
+          console.log(msg);
+          obj.socket.emit("ChatMessage", msg);
+      }).error(function(err){
+          throw err;
+      });
+      
       var user;
       for(user in auth_users){
         auth_users[user].socket.emit("ChatMessage", msg);
