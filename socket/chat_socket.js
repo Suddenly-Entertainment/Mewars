@@ -6,13 +6,7 @@ function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
   
-  global.db.ChatMessage.findAll({
-    where: {
-      createdAt: {
-        gte: cleartime,
-      }
-    }
-  }).success(function(ChatMessages){
+  global.db.ChatMessage.findAll({where: {createdAt: {lte: cleartime} }}).success(function(ChatMessages){
    for(var i = 0; i < ChatMessages.length; i++){
      ChatMessages[i].destroy().success(function(){
      }).error(function(err){throw err;});
