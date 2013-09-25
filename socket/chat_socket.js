@@ -2,6 +2,26 @@
 var unauth_users = { };
 var all_users = { };
 
+function ClearChatMessages(){
+  var timestamp = new Date();
+  var cleartime = new Date(timestamp.getTime() - 1000);
+  
+  global.db.ChatMessage.findAll({
+    where: {
+      createdAt: {
+        gte: cleartime,
+      }
+    }
+  }).success(function(ChatMessages){
+   for(var i = 0; i < ChatMessages.length; i++){
+     ChatMessages[i].destroy().success(function(){
+     }).error(function(err){throw err;});
+   }
+  }).error(function(err){throw err;});
+}
+
+var intervalID = setInterval(ClearChatMessages, 1000);
+
 exports.GetAllSocketsInChannelAndBroadcast = function(channel, data)
 {
   for(var GUID in auth_users)
