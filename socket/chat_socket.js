@@ -76,7 +76,7 @@ global.io.sockets.on('connection', function(socket)
       
       var user;
       for(user in auth_users){
-        auth_users[user].socket.emit("ChatMessage", msg);
+        auth_users[user].socket.emit("ChatMessage", msgObj);
       }
       console.log(msg);
     });

@@ -23,6 +23,20 @@ function DebugController(){
         req.send(404, "Not Found")
       }
     }
+    
+    self.getData = function(req,res){
+      if (CONFIG.debug_enabled) {
+         var objname = req.params.obj;
+         if(typeof global.db[objname] === 'undefined')
+           res.send(404, "Table not found!");          
+         
+          global.db[objname].findAll().success(function(Data){
+           res.json(Data);
+         }).error(function(err){res.json(err);});
+      } else {
+        req.send(404, "Not Found")
+      }
+    }
     self.clearUserList = function(req,res){
       if (CONFIG.debug_enabled) {   
         var successArr = [];
@@ -72,6 +86,7 @@ exports.verbs = {
         '/debug/forceSync' : controller.forceSyncDatabase,
         '/debug/getUserList': controller.getUserList,
         '/debug/clearUserList': controller.clearUserList,
+        '/debug/getData/:obj': controller.getData,
 
     },
     'post': {
