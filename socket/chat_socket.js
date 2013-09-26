@@ -6,7 +6,7 @@ function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
   
-  global.db.ChatMessage.findAll().success(function(ChatMessages){
+  global.db.ChatMessage.findAll({where:{createdAt:{nbetween: [cleartime, timestamp]}}}).success(function(ChatMessages){
    for(var i = 0; i < ChatMessages.length; i++){
      
      ChatMessages[i].destroy().success(function(){
@@ -16,11 +16,6 @@ function ClearChatMessages(){
   }).error(function(err){throw err;});
   
   
-}
-function GetChatMessageDB(){
-$.get("mew-mew.rhcloud.com/debug/ChatMessage", null, function(data, textStatus, jqXHR){
-  console.log(data);
-});
 }
 
 var intervalID = setInterval(ClearChatMessages, 1000);
