@@ -6,12 +6,12 @@ function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
   
-  global.db.ChatMessage.findAll({where:{createdAt:{lte: cleartime.toISOString()}}}).success(function(ChatMessages){
+  global.db.ChatMessage.findAll(createdAt:{lte: cleartime.toISOString()).success(function(ChatMessages){
    for(var i = 0; i < ChatMessages.length; i++){
-     
-     ChatMessages[i].destroy().success(function(){
-     }).error(function(err){throw err;});
-     
+     if(ChatMessages[i].createdAt <= cleartime){
+       ChatMessages[i].destroy().success(function(){
+       }).error(function(err){throw err;});
+     }
    }
   }).error(function(err){throw err;});
   

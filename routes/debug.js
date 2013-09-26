@@ -1,5 +1,5 @@
 CONFIG = require(global.APP_DIR + '/config');
-
+var pg = require('pg');
 
 function DebugController(){
     var self = this; //Setting up scope
