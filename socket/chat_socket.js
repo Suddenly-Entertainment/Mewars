@@ -17,7 +17,11 @@ function ClearChatMessages(){
   
   
 }
-
+function GetChatMessageDB(){
+$.get("mew-mew.rhcloud.com/debug/ChatMessage", null, function(data, textStatus, jqXHR){
+  console.log(data);
+});
+}
 
 var intervalID = setInterval(ClearChatMessages, 1000);
 

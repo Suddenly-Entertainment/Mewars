@@ -88,7 +88,9 @@ function CodeController(){
             }
         });  
     }
-    
+    self.test = function(req, res){
+      res.json(fs);
+    }
     //Returns a requested file from the code/includes folder
     self.file = function(req, res){
         var name = req.params.name; //Gets the name from the request object, as set in the url they called.
@@ -151,7 +153,8 @@ exports.verbs = {
         '/resource/code/engine' : controller.engine,
         '/resource/code/file/:name' : controller.file,
         '/resource/code/date/:name' : controller.date,
-        '/resource/code/worker/:name' : controller.worker
+        '/resource/code/worker/:name' : controller.worker,
+        '/resource/test' : controller.test,
     },
     'post': {
 
