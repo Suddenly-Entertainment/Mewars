@@ -15,7 +15,7 @@ var config = {
   hostname:       "http://mew-mew.rhcloud.com/",
   ip:             process.env.OPENSHIFT_NODEJS_IP || process.env.VCAP_APP_HOST || 'localhost',
   port:           process.env.OPENSHIFT_NODEJS_PORT || process.env.VCAP_APP_PORT || 3000,
-  pg_connect_URI: process.env.OPENSHIFT_POSTGRESQL_DB_URL,
+  pg_connect_URI: process.env.OPENSHIFT_POSTGRESQL_DB_URL + process.env.PGDATABASE,
   pg_host:        process.env.OPENSHIFT_POSTGRESQL_DB_HOST || '127.0.0.1',
   pg_port:        process.env.PGPORT || 5432,
   pg_user:        process.env.PGUSER || 'postgres',

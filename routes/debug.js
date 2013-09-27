@@ -64,6 +64,15 @@ function DebugController(){
        global.db.sequelize.sync({force:true}).success(function() {
        console.log("Database Forced Synced Sucessfuly");
                 migrate(global.db.sequelize);
+                var conString = "your postgres information";
+                var client = new pg.Client(CONFIG.pg_connect_URI);
+                
+                client.connect();
+                client.query("CREATE FUNCTION notify_trigger() RETURNS trigger AS $$ DECLARE BEGIN PERFORM pg_notify('watchers', TG_TABLE_NAME || ',id,' || NEW.id ); RETURN new; END; $$ LANGUAGE plpgsql; CREATE TRIGGER watched_table_trigger AFTER INSERT ON ChatMessage FOR EACH ROW EXECUTE PROCEDURE notify_trigger();");
+                client.query('LISTEN watchers');
+                client.on('notification', function(msg) {
+                    console.log('data');
+                });
                 res.send(200);
         }).error(function(error) {
             console.log("[AUTOSYNC] Could Not Sync Database", error.stack);
