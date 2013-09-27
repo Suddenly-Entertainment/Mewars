@@ -68,7 +68,8 @@ function DebugController(){
                 var client = new pg.Client(CONFIG.pg_connect_URI);
                 
                 client.connect();
-                client.query("CREATE FUNCTION notify_trigger() RETURNS trigger AS $$ DECLARE BEGIN PERFORM pg_notify('watchers', TG_TABLE_NAME || ',id,' || NEW.id ); RETURN new; END; $$ LANGUAGE plpgsql; CREATE TRIGGER watched_table_trigger AFTER INSERT ON ChatMessage FOR EACH ROW EXECUTE PROCEDURE notify_trigger();");
+                client.query("CREATE FUNCTION notify_trigger() RETURNS trigger AS $$ DECLARE BEGIN PERFORM pg_notify('watchers', TG_TABLE_NAME || ',id,' || NEW.id ); RETURN new; END; $$ LANGUAGE plpgsql;");
+                client.query("CREATE TRIGGER watched_table_trigger AFTER INSERT ON ChatMessage FOR EACH ROW EXECUTE PROCEDURE notify_trigger()");
                 client.query('LISTEN watchers');
                 client.on('notification', function(msg) {
                     console.log('data');
