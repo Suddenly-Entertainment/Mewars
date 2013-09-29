@@ -1,7 +1,9 @@
 var auth_users = { };
 var unauth_users = { };
 var all_users = { };
-
+global.db.watcher.add_watcher("ChatMessage", "ChatMessage", "AFTER INSERT", function(msg){
+    console.log("It was notified!  This is not implemented yet!  the message is ", msg);
+});
 function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);

@@ -1,4 +1,7 @@
 if (!global.hasOwnProperty('db')) {
+    
+    var watcher = require(__dirname + '/watcher')
+    
     var Sequelize = require('sequelize'),
         sequelize = null;
 
@@ -26,6 +29,7 @@ if (!global.hasOwnProperty('db')) {
     global.db = {
         Sequelize : Sequelize,
         sequelize : sequelize,
+        watcher   : watcher,
         User      : sequelize.import(__dirname + '/user'),
         Role      : sequelize.import(__dirname + '/role'),
         Map       : sequelize.import(__dirname + '/map'),
