@@ -1,7 +1,7 @@
 var auth_users = { };
 var unauth_users = { };
 var all_users = { };
-global.db.watcher.add_watcher("NewUser", "User", "AFTER INSERT", function(msg){
+global.db.watcher.add_watcher("ChatMessage", "ChatMessages", "AFTER INSERT", function(msg){
     console.log("It was notified!  This is not implemented yet!  the message is ", msg);
 });
 function ClearChatMessages(){
