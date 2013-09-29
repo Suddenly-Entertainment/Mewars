@@ -50,9 +50,16 @@ watcher.add_watcher = function(name, table, when, cb) {
 
   var listen_query = "LISTEN " + name
   
+  console.log(create_function_query);
   watcher.client.query(create_function_query)
+  
+    console.log(drop_trigger_query);
   watcher.client.query(drop_trigger_query)
+  
+    console.log(create_trigger_query);
   watcher.client.query(create_trigger_query)
+  
+      console.log(listen_query);
   watcher.client.query(listen_query)
   
   watcher.callbacks[name] = cb;
