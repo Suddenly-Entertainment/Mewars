@@ -43,12 +43,12 @@ watcher.add_watcher = function(name, table, when, cb) {
     "END; " +
     "$$ LANGUAGE plpgsql ;";
 
-  var drop_trigger_query = "DROP TRIGGER IF EXISTS watched_" + name + "_trigger ON  " + table + ";"
+  var drop_trigger_query = "DROP TRIGGER IF EXISTS watched_" + name + "_trigger ON  '" + table + "';"
 
-  var create_trigger_query = "CREATE TRIGGER watched_" + name + "_trigger " + when + " ON " + table + " " +
+  var create_trigger_query = "CREATE TRIGGER watched_" + name + "_trigger " + when + " ON '" + table + "' " +
     "FOR EACH ROW EXECUTE PROCEDURE " + name + "_trigger();";
 
-  var listen_query = "LISTEN " + name
+  var listen_query = "LISTEN '" + name + "'"
   
   //console.log(create_function_query);
   watcher.client.query(create_function_query)
