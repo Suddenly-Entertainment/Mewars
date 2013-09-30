@@ -54,7 +54,7 @@ watcher.add_watcher = function(name, table, when, cb) {
   watcher.client.query(create_function_query)
   
     //console.log(drop_trigger_query);
- // watcher.client.query(drop_trigger_query)
+  watcher.client.query(drop_trigger_query)
   
    // console.log(create_trigger_query);
   //watcher.client.query(create_trigger_query)
