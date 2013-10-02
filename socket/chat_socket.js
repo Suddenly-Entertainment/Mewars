@@ -1,9 +1,9 @@
 var auth_users = { };
 var unauth_users = { };
 var all_users = { };
-global.db.watcher.add_watcher("ChatMessage", "ChatMessages", "AFTER INSERT", function(msg){
+/*global.db.watcher.add_watcher("ChatMessage", "chatmessages", "AFTER INSERT", function(msg){
     console.log("It was notified!  This is not implemented yet!  the message is ", msg);
-});
+});*/
 function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
@@ -62,7 +62,7 @@ exports.InitSocket = function(obj)
   
 }
 
-global.io.sockets.on('connection', function(socket)
+var chat = global.io.of("/chat").sockets.on('connection', function(socket)
 {
   var GUID = '';
   
@@ -86,6 +86,12 @@ global.io.sockets.on('connection', function(socket)
   
   exports.AuthenticateUser(socket, GUID, function(){
     exports.InitSocket(obj);
+    var user;
+    for(user in auth_users){
+      if(user == obj)continue;
+      auth_users[user].socket.emit("UserConnect", obj);
+    }
+
     socket.on("ChatMessage", function(msgObj){
       global.db.ChatMessage.create({
         username: msgObj.username,
@@ -97,7 +103,6 @@ global.io.sockets.on('connection', function(socket)
           throw err;
       });
       
-      var user;
       for(user in auth_users){
         auth_users[user].socket.emit("ChatMessage", msgObj);
       }
@@ -114,6 +119,7 @@ exports.AuthenticateUser = function (socket, GUID, cb)
     socket.on("Auth", function(loginToken, fn){
      global.db.User.find({where: {login_token: loginToken}}).success(function(User){
        if(User){
+          socket.emit("UserList", auth_users);
           all_users[GUID].authenticated = true;
           all_users[GUID].user = User;
           auth_users[GUID] = all_users[GUID];

@@ -46,6 +46,15 @@ Crafty.c("UserList", {
         });*/
         //this.append('<a href="mew-mew.rhcloud.com">Test</a>');
         var that = this;
+        $MEW.socket.on("UserList", function(users){
+          console.log(users);
+          _.each(users, function(value, key, list){
+                 if(that.Users.indexOf(value) == -1){
+                   that.addUser(value);
+                 }
+                 //console.log(list);
+            });
+        });
         var cb = function(data){
             _.each(data, function(value, key, list){
                  if(that.Users.indexOf(value) == -1){
