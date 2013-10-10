@@ -1,9 +1,14 @@
-var auth_users = { };
+var userList = []; //This is just to send to users when the connect so they can have a user list.  Only contains info we want everyone who can connect to chat have.
+var auth_users = { };
 var unauth_users = { };
 var all_users = { };
+
+
 /*global.db.watcher.add_watcher("ChatMessage", "chatmessages", "AFTER INSERT", function(msg){
     console.log("It was notified!  This is not implemented yet!  the message is ", msg);
 });*/
+
+
 function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
@@ -11,19 +16,17 @@ function ClearChatMessages(){
   global.db.ChatMessage.findAll().success(function(ChatMessages){
    for(var i = 0; i < ChatMessages.length; i++){
      
-if(ChatMessages[i].createdAt <= cleartime){
+     if(ChatMessages[i].createdAt <= cleartime){
        ChatMessages[i].destroy().success(function(){
        }).error(function(err){throw err;});
-     
-}
+     }
    }
   }).error(function(err){throw err;});
   
   
 }
-
-
 var intervalID = setInterval(ClearChatMessages, 1000);
+
 
 exports.GetAllSocketsInChannelAndBroadcast = function(channel, data)
 {
@@ -62,17 +65,9 @@ exports.InitSocket = function(obj)
   
 }
 
-var chat = global.io.of("/chat").sockets.on('connection', function(socket)
+var chat = global.io.sockets.on('connection', function(socket)
 {
-  var GUID = '';
-  
-  
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  while(GUID.length < 32)
-  {
-        GUID += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
+  var GUID = exports.generateGUID(32);
   
   var obj = {
     socket : socket,
@@ -86,28 +81,8 @@ var chat = global.io.of("/chat").sockets.on('connection', function(socket)
   
   exports.AuthenticateUser(socket, GUID, function(){
     exports.InitSocket(obj);
-    var user;
-    for(user in auth_users){
-      if(user == obj)continue;
-      auth_users[user].socket.emit("UserConnect", obj);
-    }
-
-    socket.on("ChatMessage", function(msgObj){
-      global.db.ChatMessage.create({
-        username: msgObj.username,
-        msg:      msgObj.msg,
-      }).success(function(msg){
-          console.log(msg);
-          obj.socket.emit("ChatMessage", msg);
-      }).error(function(err){
-          throw err;
-      });
-      
-      for(user in auth_users){
-        auth_users[user].socket.emit("ChatMessage", msgObj);
-      }
-      console.log(msgObj);
-    });
+    exports.newUser(GUID);
+    socket.on("ChatMessage", exports.onRecieveChatMessage);
   });
   // somehow return the GUID for later use?
 
@@ -119,10 +94,12 @@ exports.AuthenticateUser = function (socket, GUID, cb)
     socket.on("Auth", function(loginToken, fn){
      global.db.User.find({where: {login_token: loginToken}}).success(function(User){
        if(User){
-          socket.emit("UserList", auth_users);
+       
+          socket.emit("UserList", userList);
           all_users[GUID].authenticated = true;
           all_users[GUID].user = User;
           auth_users[GUID] = all_users[GUID];
+          userList[GUID] = {username: User.username};
           fn(true);
           cb();
        }else{
@@ -136,5 +113,48 @@ exports.AuthenticateUser = function (socket, GUID, cb)
      });
 
   });
+}
+
+exports.onRecieveChatMessage = function(msgObj){
+  global.db.ChatMessage.create({
+    username: msgObj.username,
+    msg:      msgObj.msg,
+  }).success(function(msg){
+      console.log(msg);
+      obj.socket.emit("ChatMessage", msg);
+  }).error(function(err){
+      throw err;
+  });
+  
+  for(user in auth_users){
+    auth_users[user].socket.emit("ChatMessage", msgObj);
+  }
+  console.log(msgObj);
+}
+
+
+exports.generateGUID = function(length){
+  length = Math.round(length);
+  if(length < 1)length = 32;
+  
+  var GUID = '';
+  
+  
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+  while(GUID.length < length)
+  {
+        GUID += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  
+  return GUID;
+}
+
+exports.newUser = function(GUID){
+    var user;
+    for(user in auth_users){
+      if(user == GUID)continue;
+      auth_users[user].socket.emit("UserConnect", userList[GUID]);
+    }
 }
 

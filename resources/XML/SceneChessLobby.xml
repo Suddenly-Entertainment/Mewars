@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interfaces>
-    <!-- Login form interface -->
-    <interface name="ChessLobbyMain">
-      <e name="MEWChessLobbyFormInterface" component="MEWChessLobbyForm">
-        <init><![CDATA[MEWChessLobbyForm]]></init>
-        <e name="MEWUsersList" component="UserList" x="400" y="20" z="101">
-            <init><![CDATA[UserList]]></init>
-            <attr>
-              <w>200</w>
-              <h>560</h>
-              <z>101</z>
-            </attr>
-            <css><![CDATA[{"border": "solid","border-width": "5px"}]]></css>
-        </e>
-      </e>
-    </interface>
+  <interface>
+    
+    <e name="Chat" component="DOM, text" x="350" y="0" z="10">
+      <attr>
+       <w>150</w>
+       <h>450</h>
+      </attr>
+      <craftytext>
+       <textfont><![CDATA[{"family": "sans-serif", "size": "12px"}]]></textfont>
+      </craftytext>
+     </e>
+    
+    <e name="ChatInput" component="HTML_INPUT" x="350" y="450" z="1" >
+     <attr>
+      <w>100</w>
+      <h>50</h>
+     </attr>
+     <craftyhtml><![CDATA[ <input id="_chat_input" type="text" class="input_text" value="Username" /> ]]></craftyhtml>
+    </e>
+    
+    <e name="SwitchFormsButton" component="2D, Canvas, Color, Mouse, SwitchToRegisterButton" x="350" y="385" z="101">
+     <attr>
+      <w>150</w>
+      <h>30</h>
+      <z>1</z>
+     </attr>
+     <craftycolor>#000000</craftycolor>
+     <craftybind>
+      <eventname>Click</eventname>
+      <callback><![CDATA[switchForm]]></callback>
+     </craftybind>
+    </e>
+    
+  </interface>
 </interfaces>
