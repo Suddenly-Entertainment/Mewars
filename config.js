@@ -23,7 +23,7 @@ var config = {
   pg_database:    process.env.PGDATABASE || 'mew',
   db_logging:     console.log, // remember to turn this off in production mode
   database_auto_migrate:   false,
-  database_sync_on_start:  false, // creates tables if they do not exist, if assoceations change we'll need to go in and force this  (WARNING FORCING WILL DROP TABLES AND LOSE ALL DATA)
+  database_sync_on_start:  true, // creates tables if they do not exist, if assoceations change we'll need to go in and force this  (WARNING FORCING WILL DROP TABLES AND LOSE ALL DATA)
   secret: global.MEWSESSIONSECRET,
 };
 

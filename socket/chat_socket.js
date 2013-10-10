@@ -78,16 +78,15 @@ var chat = global.io.sockets.on('connection', function(socket)
   };
   all_users[GUID] = obj;
   
-  
   exports.AuthenticateUser(socket, GUID, function(){
     exports.InitSocket(obj);
     exports.newUser(GUID);
     socket.on("ChatMessage", exports.onRecieveChatMessage);
   });
   // somehow return the GUID for later use?
-
-
 });
+
+
 
 exports.AuthenticateUser = function (socket, GUID, cb)
 {
