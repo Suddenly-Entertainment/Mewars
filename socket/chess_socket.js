@@ -4,21 +4,22 @@ var enPassantMove; //piece, vulnerable to en passant
 var enPassantATK = 0; //0 = false, 1 = left, 2 = right
 var users = { };
 var turn = false; //= white
-
+console.log("Yay~");
 function resetGame(){
   //define users
   //reset pieces
-  pieces = new array(32);
+  pieces = { }//new array(32);
   for (var i = 0; i < 32; i++) {
-    pieces[i] = new Array(2);
+    pieces[i] = { };
     if (i % 16 / 7 <= 1) {
-      pieces[i][0] = i % 16
+      pieces[i][0] = i % 16;
     }
     else {
-      pieces[i][0] = i % 2 == 0 ? i % 8 / 2 : 7 - i % 8 / 2;
+      pieces[i][0] = i % 2 == 0 ? i % 8 / 2 : 7.5 - i % 8 / 2;
     }
     pieces[i][1] = i < 16 ? i < 8 ? 1 : 0 : i < 24 ? 6 : 7;
   }
+  console.log("game reset succesfully");
 }
 var selectx; //data for clicks on board
 var selecty;
@@ -38,9 +39,9 @@ function selectPiece(/*(mouseObject)*/){
   if (type = null) //if there was a piece on click
     resetClick();
   else {
-    moves = new array(2);
-    var x = new array();
-    var y = new array();
+    moves = { };
+    var x = { };
+    var y = { };
     //calculate legal moves (needs to account for being blocked by other)
     var check = false;
     switch (type) {
@@ -123,7 +124,14 @@ function confirm(){
   //commit move
   turn = false ? true : false;
 }
+function printTable(){
+	for (var i = 0; i < 32; i++){
+		console.log(i+": x-"+pieces[i][0]+" y-"+pieces[i][1]);
+	}
+}
+resetGame();
+printTable();
 
 /*  Robo(Spencer) here, figured I would communcate this way becuase, why not.
   I really like your comments, that stuff is needed on this project, and it
-  seems that is a skill that I lack.  Other then that, it's looking good CaptG *\
+  seems that is a skill that I lack.  Other then that, it's looking good CaptG */
