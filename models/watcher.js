@@ -1,7 +1,7 @@
 var pg = require('pg');
 var async = require('async');
 
-CONFIG = require(global.APP_DIR + '/config');
+var CONFIG = require(global.APP_DIR + '/config');
 
 var watcher = {};
 watcher.callbacks = {};

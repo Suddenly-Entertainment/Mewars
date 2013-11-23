@@ -13,13 +13,18 @@ function ClearChatMessages(){
   var timestamp = new Date();
   var cleartime = new Date(timestamp.getTime() - 1000);
   
+  if (!global.db.ready) {
+      return;
+  }
+  
   global.db.ChatMessage.findAll().success(function(ChatMessages){
    for(var i = 0; i < ChatMessages.length; i++){
      
      if(ChatMessages[i].createdAt <= cleartime){
        ChatMessages[i].destroy().success(function(){
        }).error(function(err){throw err;});
-     }
+     
+}
    }
   }).error(function(err){throw err;});
   
@@ -72,7 +77,8 @@ var chat = global.io.sockets.on('connection', function(socket)
   var obj = {
     socket : socket,
     channels : { },
-    id : GUID,
+    id : GUID
+,
     authenticated: false,
     user: null,
   };

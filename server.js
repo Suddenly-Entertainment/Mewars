@@ -1,5 +1,13 @@
 // Load libaries
 global.APP_DIR = __dirname;
+var fs = require('fs');
+
+if (fs.existsSync(__dirname + '/env.seed')) {
+    console.log('Preloading Envierment...');
+    require(__dirname + '/env.seed');
+}
+
+
 var http    = require('http');
 var express = require('express');
 var io      = require('socket.io');

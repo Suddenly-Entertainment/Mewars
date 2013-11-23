@@ -5,7 +5,12 @@ if (!global.hasOwnProperty('db')) {
     var Sequelize = require('sequelize'),
         sequelize = null;
 
-    CONFIG = require(global.APP_DIR + '/config');
+    var CONFIG = require(global.APP_DIR + '/config');
+    
+    var dbready = function() {
+        console.log("DB Ready");
+        global.db.ready = true;
+    }
 
     var migrate = function(sequelize) {
         var migrationsPath = global.APP_DIR + '/migrations';
@@ -29,6 +34,7 @@ if (!global.hasOwnProperty('db')) {
     global.db = {
         Sequelize : Sequelize,
         sequelize : sequelize,
+        ready     : false,
         watcher   : watcher,
         User      : sequelize.import(__dirname + '/user'),
         Role      : sequelize.import(__dirname + '/role'),
@@ -73,12 +79,18 @@ if (!global.hasOwnProperty('db')) {
             console.log("[AUTOSYNC] Database Synced Sucessfuly");
             if (CONFIG.database_auto_migrate) {
                 migrate(sequelize);
+                dbready();
+            } else {
+                dbready();
             }
         }).error(function(error) {
             console.log("[AUTOSYNC] Could Not Sync Database", error.stack);
         });
     } else if (CONFIG.database_auto_migrate) {
         migrate(sequelize);
+        dbready();
+    } else {
+        dbready();
     }
 }
 
