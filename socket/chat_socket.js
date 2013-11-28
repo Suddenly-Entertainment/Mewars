@@ -3,7 +3,7 @@ var auth_users = { };
 var unauth_users = { };
 var all_users = { };
 
-
+//This is the problem
 /*global.db.watcher.add_watcher("ChatMessage", "chatmessages", "AFTER INSERT", function(msg){
     console.log("It was notified!  This is not implemented yet!  the message is ", msg);
 });*/

@@ -1,5 +1,5 @@
 var pieces = { }; //0-7: pawns, 8-15: left->right in pairs from white perspective, 16-31: repeat for black
-var moves = { };
+var moves = { }; // moves[0] = { x: 1, y: 2} = 1 to the right and 2 up
 var enPassantMove; //piece, vulnerable to en passant
 var enPassantATK = 0; //0 = false, 1 = left, 2 = right
 var users = { };
@@ -47,7 +47,7 @@ function selectPiece(/*(mouseObject)*/){
     switch (type) {
       case 0:
       var direct = turn ? -1 : 1;
-      //checking for blocking spieces
+      //checking for blocking pieces
       for (var i = 0; i < 32 && !check; i++){
         if (pieces[i][0] == selectx && pieces[i][1] == selecty + direct){
           check = true;
