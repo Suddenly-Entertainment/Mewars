@@ -3,7 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
 var CONFIG = require("./config");
-
+// GET DUNKED
  passport.use(new LocalStrategy(
       function(username, password, done) {
       global.db.User.find({where: {username: username, confirmed: true}}).success(function(user){
@@ -113,7 +113,8 @@ var auth = {
         text: "Hello, To complete your registration click this link "+link+" Your username is: "+ req.body.username + " Your password is: "+req.body.password, // plaintext body
         html: "<b>Hello,</b> <br/> To complete your registration click this link <a href'"+link+"'>"+link+"</a> <br/> Your username is: "+req.body.username+" <br/> Your password is: "+req.body.password+" <br/> " // html body
       }
-      returnObj.mailOptions = mailOptions;
+
+      returnObj.mailOptions = mailOptions;
       
       this.smtpTransport.sendMail(mailOptions, function(error, response){
          
@@ -138,7 +139,8 @@ var auth = {
             returnObj.sendSuccess = true;
             returnObj.success = true;
                         var returnObj2 = {success: true};
-            res.json(returnObj2);
+            res.json(returnObj2)
+;
           }
       });
     },

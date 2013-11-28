@@ -1,9 +1,10 @@
 var userList = []; //This is just to send to users when the connect so they can have a user list.  Only contains info we want everyone who can connect to chat have.
 var auth_users = { };
+
 var unauth_users = { };
 var all_users = { };
 
-
+//This is the problem
 /*global.db.watcher.add_watcher("ChatMessage", "chatmessages", "AFTER INSERT", function(msg){
     console.log("It was notified!  This is not implemented yet!  the message is ", msg);
 });*/

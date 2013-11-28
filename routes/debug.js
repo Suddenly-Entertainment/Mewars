@@ -1,4 +1,4 @@
-CONFIG = require(global.APP_DIR + '/config');
+var CONFIG = require(global.APP_DIR + '/config');
 var pg = require('pg');
 
 function DebugController(){
@@ -9,7 +9,7 @@ function DebugController(){
       if (CONFIG.debug_enabled) {
         
       } else {
-        req.send(404, "Not Found")
+        req.send(404, "Not Found") //It could not have ever been found... sad.
         
       }
       

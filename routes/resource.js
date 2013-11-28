@@ -1,6 +1,6 @@
 var fs = require('fs');
 var mime = require('mime');
-
+// Control the resources, control the people.
 function ResourceController(){
     var self = this;
     
@@ -17,7 +17,7 @@ function ResourceController(){
           res.send(500, 'Internal Server Error')
         }
         else {
-          etag = stat.size + '-' + Date.parse(stat.mtime);
+          var etag = stat.size + '-' + Date.parse(stat.mtime);
           res.set('Last-Modified', stat.mtime);
 
           if (req.get('if-none-match') === etag) {

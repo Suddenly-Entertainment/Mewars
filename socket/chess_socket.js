@@ -1,24 +1,25 @@
 var pieces = { }; //0-7: pawns, 8-15: left->right in pairs from white perspective, 16-31: repeat for black
-var moves = { };
+var moves = { }; // moves[0] = { x: 1, y: 2} = 1 to the right and 2 up
 var enPassantMove; //piece, vulnerable to en passant
 var enPassantATK = 0; //0 = false, 1 = left, 2 = right
 var users = { };
 var turn = false; //= white
-
+console.log("Yay~");
 function resetGame(){
   //define users
   //reset pieces
-  pieces = new array(32);
+  pieces = { }//new array(32);
   for (var i = 0; i < 32; i++) {
-    pieces[i] = new Array(2);
+    pieces[i] = { };
     if (i % 16 / 7 <= 1) {
-      pieces[i][0] = i % 16
+      pieces[i][0] = i % 16;
     }
     else {
-      pieces[i][0] = i % 2 == 0 ? i % 8 / 2 : 7 - i % 8 / 2;
+      pieces[i][0] = i % 2 == 0 ? i % 8 / 2 : 7.5 - i % 8 / 2;
     }
     pieces[i][1] = i < 16 ? i < 8 ? 1 : 0 : i < 24 ? 6 : 7;
   }
+  console.log("game reset succesfully");
 }
 var selectx; //data for clicks on board
 var selecty;
@@ -38,15 +39,15 @@ function selectPiece(/*(mouseObject)*/){
   if (type = null) //if there was a piece on click
     resetClick();
   else {
-    moves = new array(2);
-    var x = new array();
-    var y = new array();
+    moves = { };
+    var x = { };
+    var y = { };
     //calculate legal moves (needs to account for being blocked by other)
     var check = false;
     switch (type) {
       case 0:
       var direct = turn ? -1 : 1;
-      //checking for blocking spieces
+      //checking for blocking pieces
       for (var i = 0; i < 32 && !check; i++){
         if (pieces[i][0] == selectx && pieces[i][1] == selecty + direct){
           check = true;
@@ -123,7 +124,14 @@ function confirm(){
   //commit move
   turn = false ? true : false;
 }
+function printTable(){
+	for (var i = 0; i < 32; i++){
+		console.log(i+": x-"+pieces[i][0]+" y-"+pieces[i][1]);
+	}
+}
+resetGame();
+printTable();
 
 /*  Robo(Spencer) here, figured I would communcate this way becuase, why not.
   I really like your comments, that stuff is needed on this project, and it
-  seems that is a skill that I lack.  Other then that, it's looking good CaptG *\
+  seems that is a skill that I lack.  Other then that, it's looking good CaptG */
